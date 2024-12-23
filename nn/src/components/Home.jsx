@@ -1,9 +1,13 @@
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import React, { useEffect, useRef, useState } from 'react';
+import { FaBars } from 'react-icons/fa';
+import greenMarker from '../assets/images/green_marker.png';
+import redMarker from '../assets/images/red_marker.png';
 import CompCard from "./CompCard";
 import Footer from "./Footer";
 import Header from "./Header";
+import Sidebar from "./Sidebar";
 import './styles/home.css';
 
 const Home = () => {
@@ -13,6 +17,7 @@ const Home = () => {
     const mapContainerRef = useRef(null); // Ref for the map container
     const relocateBtnRef = useRef(null); // Ref for the relocate button
     const [locations, setLocations] = React.useState([]); // State to hold locations
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State for sidebar visibility
 
     const addMarkers = (filteredLocations) => {
         if (mapRef.current) {
@@ -42,23 +47,13 @@ const Home = () => {
                 }
             });
 
-            mapRef.current.addLayer({
-                id: 'markers',
-                type: 'circle',
-                source: 'markers',
-                paint: {
-                    'circle-radius': 10,
-                    'circle-color': "red"
-                }
-            });
-
             // Add custom markers with popups
             filteredLocations.forEach((location) => {
                 const markerElement = document.createElement('div');
                 markerElement.className = 'marker'; // Add a class for styling
-                markerElement.style.backgroundImage = 'url(/red_marker.png)'; // Use relative path
-                markerElement.style.width = '30px'; // Adjust size
-                markerElement.style.height = '30px'; // Adjust size
+                markerElement.style.backgroundImage = `url(${greenMarker})`; // Use green_marker.png
+                markerElement.style.width = '50px'; // Adjust size
+                markerElement.style.height = '50px'; // Adjust size
                 markerElement.style.backgroundSize = '100%';
 
                 const marker = new mapboxgl.Marker(markerElement)
@@ -67,7 +62,7 @@ const Home = () => {
 
                 // Create a popup for the marker
                 const imagesHtml = location.images
-                    .map(image => `<img src="${image}" style="width: 100px; height: auto;" />`)
+                    .map(image => `<img src="${require(`${image}`)}" style="width: 300px; height: auto;" />`)
                     .join("<br>");
 
                 const popupContent = `<div><strong>${location.name}</strong><br>${location.description}<br>${imagesHtml}</div>`;
@@ -76,14 +71,79 @@ const Home = () => {
                 // Show popup on hover
                 markerElement.addEventListener('mouseenter', () => {
                     popup.addTo(mapRef.current);
+                    popup.setLngLat([location.longitude, location.latitude]); // Position the popup
                 });
 
                 // Hide popup on mouse leave
                 markerElement.addEventListener('mouseleave', () => {
                     popup.remove();
                 });
+
+                // Add click event to show the shortest path and details
+                markerElement.addEventListener('click', () => {
+                    const userLocation = mapRef.current.getCenter().toArray(); // Get user's current location
+                    const destination = [location.longitude, location.latitude];
+
+                    // Fetch directions from Mapbox Directions API
+                    fetch(`https://api.mapbox.com/directions/v5/mapbox/driving/${userLocation[0]},${userLocation[1]};${destination[0]},${destination[1]}?access_token=pk.eyJ1IjoiZGhhbnVzaDIzMTMiLCJhIjoiY2x3cDJ0a2FkMmt3bjJrcnk1dG93djZmdSJ9.DzeHiUjcr3vOYQ_zVtApow`)
+                        .then(response => response.json())
+                        .then(data => {
+                            const route = data.routes[0];
+                            const distance = route.distance / 1000; // Convert to kilometers
+                            const duration = route.duration / 60; // Convert to minutes
+
+                            // Add the route to the map
+                            const routeGeoJSON = {
+                                type: 'Feature',
+                                geometry: {
+                                    type: 'LineString',
+                                    coordinates: route.geometry.coordinates
+                                }
+                            };
+
+                            // Add the route layer
+                            if (mapRef.current.getLayer('route')) {
+                                mapRef.current.removeLayer('route');
+                                mapRef.current.removeSource('route');
+                            }
+
+                            mapRef.current.addSource('route', {
+                                type: 'geojson',
+                                data: routeGeoJSON
+                            });
+
+                            mapRef.current.addLayer({
+                                id: 'route',
+                                type: 'line',
+                                source: 'route',
+                                layout: {
+                                    'line-join': 'round',
+                                    'line-cap': 'round'
+                                },
+                                paint: {
+                                    'line-color': '#888',
+                                    'line-width': 8
+                                }
+                            });
+
+                            // Display distance, duration, and place details on the map
+                            const infoDiv = document.getElementById('route-info');
+                            infoDiv.innerHTML = `
+                                <strong>${location.name}</strong><br>
+                                ${location.description}<br>
+                                Distance: ${distance.toFixed(2)} km<br>
+                                Duration: ${duration.toFixed(2)} minutes
+                            `;
+                            infoDiv.style.display = 'block'; // Show the info div
+                        })
+                        .catch(error => console.error('Error fetching directions:', error));
+                });
             });
         }
+    };
+
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen); // Toggle sidebar state
     };
 
     useEffect(() => {
@@ -236,6 +296,23 @@ const Home = () => {
 
                         mapRef.current.setCenter(userLocation);
                         mapRef.current.setZoom(13);
+
+                        // Add a marker for the user's current location
+                        const userMarkerElement = document.createElement('div');
+                        userMarkerElement.className = 'user-marker'; // Add a class for styling
+                        userMarkerElement.style.backgroundImage = `url(${redMarker})`; // Use the imported image
+                        userMarkerElement.style.width = '50px'; // Adjust size to ensure visibility
+                        userMarkerElement.style.height = '50px'; // Adjust size to ensure visibility
+                        userMarkerElement.style.backgroundSize = 'contain'; // Ensure the image fits within the div
+                        userMarkerElement.style.backgroundRepeat = 'no-repeat'; // Prevent repeating the image
+                        userMarkerElement.style.backgroundPosition = 'center'; // Center the image
+                        userMarkerElement.style.border = 'none'; // Remove any border
+                        userMarkerElement.style.borderRadius = '0'; // Remove border radius
+                        userMarkerElement.style.backgroundColor = 'transparent'; // Ensure no background color
+
+                        new mapboxgl.Marker(userMarkerElement)
+                            .setLngLat(userLocation)
+                            .addTo(mapRef.current);
                     }, () => {
                         console.error('Error getting location.');
                     });
@@ -264,6 +341,16 @@ const Home = () => {
         const filteredLocations = locations.filter(location =>
             location.name.toLowerCase().includes(searchInput)
         );
+
+        // Clear existing markers
+        if (mapRef.current) {
+            if (mapRef.current.getLayer('markers')) {
+                mapRef.current.removeLayer('markers');
+                mapRef.current.removeSource('markers');
+            }
+        }
+
+        // Add markers based on search results
         addMarkers(filteredLocations); // Update markers based on search
     };
 
@@ -279,19 +366,43 @@ const Home = () => {
     return (
         <div className={`Full ${isMobile ? 'mobile' : ''} ${isLaptop ? 'laptop' : ''}`}>
             <Header />
-            <div className={`search-container ${isMobile ? 'mobile-search-container' : ''} ${isLaptop ? 'laptop-search-container' : ''}`}>
+            {isMobile && (
+                <button onClick={toggleSidebar} className="sidebar-icon" style={{ marginLeft: "" }}>
+                    <FaBars />
+                </button>
+            )}
+            <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
+            <div id="route-info" style={{
+                display: 'none',
+                position: 'absolute',
+                background: 'rgba(255, 255, 255, 0.8)', // Slightly transparent white background
+                padding: '15px',
+                borderRadius: '8px',
+                zIndex: 1,
+                fontFamily: 'Arial, sans-serif', // Font family
+                color: '#333', // Text color
+                minWidth: '200px',
+                maxWidth: '300px', // Max width for the info box
+                textAlign: 'center',
+                marginLeft: isMobile ? "" : "10em",
+                marginTop: isMobile ? "" : "10em"
+            }}>
+                {/* Distance, duration, and place details will be displayed here */}
+            </div>
+            <div className={`search-container ${isMobile ? 'mobile-search-container' : ''} ${isLaptop ? 'laptop-search-container' : ''}`} style={{ display: isMobile ? "none" : "" }}>
                 <div className={`search-bar ${isMobile ? 'mobile-search-bar' : ''} ${isLaptop ? 'laptop-search-bar' : ''}`}>
                     <input type="text" id="searchInput" name="text" placeholder="Search Orphanages..." />
                     <button type="submit" id="searchButton" onClick={handleSearch} style={{ width: isMobile ? "" : "", marginLeft: isMobile ? "-1em" : "", marginTop: isMobile ? "-0.5em" : "" }}>Search</button>
                 </div>
             </div>
-            <section id="gps" className={isMobile ? 'mobile-gps' : ''} style={{ marginLeft: isMobile ? "1em" : "" }}>
-                <section ref={mapContainerRef} id="map" className={isMobile ? 'mobile-map' : ''}>
+            <section id="gps" className={isMobile ? 'mobile-gps' : ''} style={{ marginLeft: isMobile ? "" : "", marginTop: isMobile ? "-2em" : "", width: isMobile ? "108%" : "", marginBottom: isMobile ? "-2em" : "" }}>
+                <section ref={mapContainerRef} id="map" className={isMobile ? 'mobile-map' : ''} style={{ height: isMobile ? "40em" : "" }}>
                     <div id="map-element"></div>
                     <button ref={relocateBtnRef} id="relocateBtn" className={isMobile ? 'mobile-relocate-btn' : ''} style={{ width: isMobile ? "40%" : "", marginRight: isMobile ? "-2em" : "" }}><b>Re-Locate</b></button>
                 </section>
             </section>
-            <section id="don" className={`donations ${isMobile ? 'mobile-donations' : ''}`} style={{ width: isMobile ? "100%" : "", marginLeft: isMobile ? "1em" : "" }}>
+            <section id="don" className={`donations ${isMobile ? 'mobile-donations' : ''}`} style={{ width: isMobile ? "100%" : "", marginLeft: isMobile ? "1em" : "", }}>
+                <h2 style={{ color: "#007092" }}>What do you want to Donate?</h2>
                 <div className={`all ${isMobile ? 'mobile-all' : ''}`} style={{ marginLeft: isMobile ? "-10em" : "" }}>
                     {categories.map((category, index) => (
                         <CompCard key={index} title={category.title} items={category.items} />

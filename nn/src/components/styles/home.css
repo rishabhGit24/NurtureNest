@@ -25,7 +25,7 @@ body {
 section#gps {
   background-color: #007092 !important;
   width: 50em;
-  height: 100em;
+  height: 50em;
   position: absolute;
   margin-left: em;
 }
@@ -167,7 +167,6 @@ section#don {
   justify-content: center;
   position: absolute;
   z-index: 2;
-  margin-top: 73em;
   margin-left: 7em;
 }
 
@@ -398,7 +397,7 @@ a#medl {
     margin-bottom: 20px;
   }
   section#don {
-    background-color: #c5a3ed !important;
+    background-color: #fbb03b !important;
     border-radius: 65px;
     max-height: 220em;
     width: 100%;
@@ -423,4 +422,32 @@ a#medl {
     width: 100%;
     margin-bottom: 20px;
   }
+}
+
+.user-marker {
+  background-size: contain; /* Ensure the image fits within the div */
+  background-repeat: no-repeat; /* Prevent repeating the image */
+  background-position: center; /* Center the image */
+  border: none; /* Remove any border */
+  border-radius: 0; /* Remove border radius */
+  background-color: transparent; /* Ensure no background color */
+}
+
+#route-info {
+  display: none;
+  position: absolute;
+  background: rgba(
+    255,
+    255,
+    255,
+    0.9
+  ); /* Slightly transparent white background */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 112, 146); /* Soft shadow for depth */
+  z-index: 1;
+  font-family: Arial, sans-serif; /* Font family */
+  color: #333; /* Text color */
+  max-width: 300px; /* Max width for the info box */
+  text-align: center; /* Center text */
 }

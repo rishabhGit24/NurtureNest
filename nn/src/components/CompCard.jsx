@@ -20,7 +20,7 @@ const CompCard = ({ title, items }) => {
     }, []);
 
     return (
-        <div className={`comp-card ${isMobile ? 'mobile' : ''} ${isLaptop ? 'laptop' : ''}`} style={{ height: isMobile ? "50%" : "", marginRight: isMobile ? "1em" : "" }}>
+        <div className={`comp-card ${isMobile ? 'mobile' : ''} ${isLaptop ? 'laptop' : ''}`} style={{ height: isMobile ? "50%" : "", marginRight: isMobile ? "1em" : "", }}>
             <h1 style={{ fontSize: isMobile ? "2em" : "" }}>{title}</h1>
             <hr />
             <div className='cardLi' style={{ fontSize: isMobile ? "50%" : "", }}>

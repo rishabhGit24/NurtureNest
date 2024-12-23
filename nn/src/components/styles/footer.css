@@ -1,0 +1,11 @@
+.footer {
+  background-color: #007092; /* Background color */
+  color: gold; /* Text color */
+  text-align: center; /* Center text */
+  padding: 20px; /* Padding around the text */
+  position: relative; /* Positioning */
+  bottom: 0; /* Stick to the bottom */
+  height: 6em;
+  width: 100%; /* Full width */
+  margin-top: 148em; /* Push footer to the bottom */
+}

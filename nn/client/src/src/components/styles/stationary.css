@@ -1,0 +1,197 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: #68dbf0;
+}
+
+.container {
+    width: 80%;
+    margin-top: -37em;
+    text-align: center;
+}
+
+.fa-bars {  /* Adjust margin-top for icon positioning */
+    margin-top: -45em; /* Adjust as needed */
+}
+.sidebar {
+    width: 62px; /* Narrow width for collapsed state */
+    background-color: #3db6cb;
+    padding: 0; /* Remove padding for collapsed state */
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    transition: all 0.3s ease-in-out;
+    z-index: 10000;
+}
+
+.sidebar.active { /* Style for expanded sidebar */
+    width: 250px; /* Expand width on activation */
+    padding: 0px;
+}
+
+.sidebar a {
+    color: black;
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+    opacity: 0; /* Initially hidden */
+    margin-top: 10px; /* Add margin-top for spacing */
+    margin-bottom: 0; /* Remove any default bottom margin */
+    transition: transform 0.5s ease;
+}
+
+.fa-solid{
+    margin: 1.3em;
+}
+
+.sidebar:hover a,
+.sidebar.active a,
+.fa-solid {
+    opacity: 1;
+}
+
+.sidebar-header { /* Show only icon initially */
+    margin-top: -4em;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    cursor: pointer;
+    height: 100%; /* Match sidebar height */
+}
+
+a.side:hover{
+    border-radius: 15px;
+    transition: transform 0.5s ease;
+    background-color: #ab6be7;
+    transform: scale(1.05);
+    color: white;
+}
+
+
+nav {
+    background-color: #b884f4;
+    height: 3em;
+    width: 100%;
+    display: flex;
+    border-bottom-left-radius: 55px;
+    border-bottom-right-radius: 55px;
+    position:relative;
+    z-index: 2;
+}
+
+
+.top_logo{
+    height: 8em;
+    margin: 0;
+    padding: 0;
+}
+
+#toplogo {
+    height: 8em;
+    width: 30em;
+}
+
+.navbar {
+    background-color: #68dbf0;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+.input {
+    border: none;
+    padding: 1rem;
+    border-radius: 1rem;
+    background: #e8e8e8;
+    box-shadow: 15px 15px 60px #b080d5,
+            -15px -15px 60px #a07bb7;
+    transition: 0.3s;
+}
+
+.input:focus {
+    outline-color: #e8e8e8;
+    background: #e8e8e8;
+    box-shadow: inset 20px 20px 60px #c5c5c5,
+            inset -20px -20px 60px #ffffff;
+    transition: 0.3s;
+}
+
+.search-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 3em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.search-bar input {
+    padding: 8px;
+    border: 4px solid #3db6cb;
+    background-color: #a7dee7;
+    border-radius: 10px;
+    margin-right: 1em;
+    height: 2.7em;
+    width: 100em;
+    text-align: center;
+}
+
+.search-bar button {
+    padding: 10px 15px;
+    background-color: #b884f4;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+
+#head{
+    font-size: 4em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif ;
+    color: #ab6be7;
+    text-align: center;
+    padding: 0.5em;
+}
+
+
+section#gps {
+    background-color: #68dbf0;
+    width: 100%;
+    height: 90em;
+    position: absolute;
+}
+
+#map {
+    height: 800px;
+    width: 90%;
+    margin: auto; /* Center the map horizontally */
+    margin-top: 0.2em;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center the map vertically */
+    border-radius: 65px;
+    border: solid 5px #3db6cb;
+}
+
+#relocateBtn {
+    position: absolute;
+    height: 4em;
+    width: 9em;
+    top: 2em;
+    right: 3em;
+    z-index: 401; /* Increase the z-index to make the button appear on top */
+    background-color:#5ae2fa;
+    color: #333;
+    padding: 0.5em 1em;
+    border: solid 2px #3db6cb;
+    border-radius: 19px;
+    cursor: pointer;
+}

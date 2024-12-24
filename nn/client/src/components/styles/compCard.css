@@ -1,0 +1,57 @@
+.all {
+  display: flex; /* Use flexbox for layout */
+  flex-wrap: wrap; /* Allow wrapping to the next line */
+  justify-content: space-between; /* Space between cards */
+  padding: 20px; /* Padding around the grid */
+  gap: 5em;
+  width: 75%;
+  padding-left: 10em;
+}
+
+.comp-card {
+  height: 35em;
+  background-color: wheat; /* Match background color with FoodItem */
+  border-radius: 25%; /* Rounded corners similar to FoodItem */
+  padding: 20px; /* Inner padding */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  text-align: center; /* Center text */
+  transition: transform 0.3s ease; /* Add transition for hover effect */
+  flex: 0 0 calc(50% - 10px); /* Set width to 50% minus margin */
+  margin-bottom: 20px; /* Space below each card */
+  margin-right: -15em;
+}
+
+.comp-card:hover {
+  transform: scale(1.05); /* Slightly scale up on hover */
+}
+
+.comp-card h1 {
+  color: #007290; /* Title color matching FoodItem */
+  font-size: 3em;
+  margin-top: 0.5em;
+  margin-bottom: 30px; /* Space below title */
+}
+
+.comp-card hr {
+  margin: 10px 0; /* Space around horizontal line */
+}
+
+.comp-card ul {
+  list-style-type: none; /* Remove bullet points */
+  padding: 0; /* Remove padding */
+  font-size: 1.8em;
+}
+
+.comp-card li {
+  color: #34495e; /* Item color */
+  transition: transform 0.3s ease; /* Smooth transition for scaling */
+  line-height: 0.5px;
+}
+
+.comp-card li:hover {
+  transform: scale(1.2); /* Scale up on hover */
+}
+
+.cardLi {
+  margin-top: -2em;
+}

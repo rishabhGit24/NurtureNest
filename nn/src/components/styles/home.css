@@ -451,3 +451,17 @@ a#medl {
   max-width: 300px; /* Max width for the info box */
   text-align: center; /* Center text */
 }
+
+.logout-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: orange;
+  color: teal;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}

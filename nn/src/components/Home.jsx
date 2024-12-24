@@ -2,6 +2,7 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import React, { useEffect, useRef, useState } from 'react';
 import { FaBars } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import greenMarker from '../assets/images/green_marker.png';
 import redMarker from '../assets/images/red_marker.png';
 import CompCard from "./CompCard";
@@ -11,6 +12,7 @@ import Sidebar from "./Sidebar";
 import './styles/home.css';
 
 const Home = () => {
+    const navigate = useNavigate();
     const [isMobile, setIsMobile] = useState(false); // Hook state for mobile detection
     const [isLaptop, setIsLaptop] = useState(false); // Hook state for laptop detection
     const mapRef = useRef(null); // Ref to store map instance
@@ -24,6 +26,10 @@ const Home = () => {
             // Clear existing markers
             if (mapRef.current.getLayer('markers')) {
                 mapRef.current.removeLayer('markers');
+            }
+
+            // Remove the existing source if it exists
+            if (mapRef.current.getSource('markers')) {
                 mapRef.current.removeSource('markers');
             }
 
@@ -128,8 +134,10 @@ const Home = () => {
 
                             // Display distance, duration, and place details on the map
                             const infoDiv = document.getElementById('route-info');
+                            const imageHtml = location.images.length > 0 ? `<img src="${require(`${location.images[0]}`)}" style="width: 100%; height: auto;" />` : ''; // Get the first image
                             infoDiv.innerHTML = `
                                 <strong>${location.name}</strong><br>
+                                ${imageHtml}
                                 ${location.description}<br>
                                 Distance: ${distance.toFixed(2)} km<br>
                                 Duration: ${duration.toFixed(2)} minutes
@@ -352,6 +360,15 @@ const Home = () => {
 
         // Add markers based on search results
         addMarkers(filteredLocations); // Update markers based on search
+
+        // Optionally, you can adjust the map view to fit the filtered locations
+        if (filteredLocations.length > 0) {
+            const bounds = new mapboxgl.LngLatBounds();
+            filteredLocations.forEach(location => {
+                bounds.extend([location.longitude, location.latitude]);
+            });
+            mapRef.current.fitBounds(bounds, { padding: 20 }); // Adjust the map view to fit the markers
+        }
     };
 
     const categories = [
@@ -363,9 +380,34 @@ const Home = () => {
         { title: 'Hygiene', items: ['Brushing Essentials', 'Soap', 'Skin Care', 'Other Amenities'] },
     ];
 
+    const handleLogout = () => {
+        // Implement your logout logic here
+        console.log("User logged out");
+        navigate('/');
+    };
+
     return (
         <div className={`Full ${isMobile ? 'mobile' : ''} ${isLaptop ? 'laptop' : ''}`}>
             <Header />
+            <button
+                onClick={handleLogout}
+                className="logout-button"
+                style={{
+                    position: 'absolute',
+                    top: '20px',
+                    right: '20px',
+                    backgroundColor: 'orange',
+                    color: 'teal',
+                    border: 'none',
+                    borderRadius: '5px',
+                    padding: '10px 20px',
+                    cursor: 'pointer',
+                    fontSize: '16px',
+                    fontWeight: 'bold',
+                }}
+            >
+                Logout
+            </button>
             {isMobile && (
                 <button onClick={toggleSidebar} className="sidebar-icon" style={{ marginLeft: "" }}>
                     <FaBars />
@@ -389,7 +431,7 @@ const Home = () => {
             }}>
                 {/* Distance, duration, and place details will be displayed here */}
             </div>
-            <div className={`search-container ${isMobile ? 'mobile-search-container' : ''} ${isLaptop ? 'laptop-search-container' : ''}`} style={{ display: isMobile ? "none" : "" }}>
+            <div className={`search-container ${isMobile ? 'mobile-search-container' : ''} ${isLaptop ? 'laptop-search-container' : ''}`} style={{ display: isMobile ? "" : "", paddingBottom: isMobile ? "2em" : "" }}>
                 <div className={`search-bar ${isMobile ? 'mobile-search-bar' : ''} ${isLaptop ? 'laptop-search-bar' : ''}`}>
                     <input type="text" id="searchInput" name="text" placeholder="Search Orphanages..." />
                     <button type="submit" id="searchButton" onClick={handleSearch} style={{ width: isMobile ? "" : "", marginLeft: isMobile ? "-1em" : "", marginTop: isMobile ? "-0.5em" : "" }}>Search</button>

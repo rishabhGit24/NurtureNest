@@ -13,6 +13,7 @@
     "bcrypt": "^5.1.1",
     "bootstrap": "^5.3.3",
     "cors": "^2.8.5",
+    "jsonwebtoken": "^9.0.2",
     "leaflet": "^1.9.4",
     "mapbox-gl": "^3.7.0",
     "mongoose": "^8.7.1",

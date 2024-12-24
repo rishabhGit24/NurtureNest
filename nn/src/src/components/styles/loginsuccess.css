@@ -1,0 +1,24 @@
+body{
+    background-color: #9de0eb;
+}
+.message{
+    height: 17em;
+    width: 25em;
+    background-color: #c387fc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 1.3em;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color:white;
+    border-radius: 10px;
+}
+
+.outer{
+    display: flex;
+    margin-top: 18em;
+    justify-content: center;
+    align-items: center;
+
+}

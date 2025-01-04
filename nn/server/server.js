@@ -5,7 +5,17 @@ const authRoutes = require("./routes/auth");
 const authMiddleware = require("./middleware/auth"); // Import the auth middleware
 const app = express();
 
-app.use(cors({ origin: "http://localhost:3000" }));
+const cookieParser = require("cookie-parser"); // Import cookie-parser
+
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: true, // Allow requests from all origins
+    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // Allow these HTTP methods
+    allowedHeaders: "Content-Type,Authorization", // Allow these headers
+  })
+);
 app.use(express.json());
 
 mongoose
@@ -21,6 +31,6 @@ app.get("/api/home", authMiddleware, (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is running on port ${PORT}`);
 });

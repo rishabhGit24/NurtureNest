@@ -55,11 +55,19 @@ router.post("/login", async (req, res) => {
     expiresIn: "1h",
   }); // Replace with your secret
 
-  res.json({ token });
+  // Set the token as a cookie
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // Set secure to true in production
+    maxAge: 3600000,
+  }); // 1 hour
+
+  res.json({ message: "Login successful" });
 });
 
 router.post("/check", async (req, res) => {
-  const { token } = req.body;
+  const token = req.cookies.token; // Get token from cookies
+  console.log(token);
 
   try {
     const decoded = jwt.verify(token, "your_jwt_secret"); // Replace with your secret
@@ -67,6 +75,10 @@ router.post("/check", async (req, res) => {
   } catch (err) {
     res.status(401).json({ valid: false, error: "Invalid token" });
   }
+});
+
+router.post("/logout", (req, res) => {
+  res.clearCookie("token").json({ message: "Logged out" });
 });
 
 // Protect your routes

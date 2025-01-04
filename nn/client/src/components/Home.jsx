@@ -11,6 +11,7 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 import "./styles/home.css";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -24,16 +25,11 @@ const Home = () => {
 
   useEffect(() => {
     const loginCheck = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        navigate("/");
-        return;
-      }
-
       try {
         const response = await axios.post(
           "http://localhost:5000/api/auth/check",
-          { token }
+          {},
+          { withCredentials: true } // Ensure cookies are included in the request
         );
         if (!response.data.valid) {
           navigate("/");
@@ -429,9 +425,12 @@ const Home = () => {
     },
   ];
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    console.log("User logged out");
+  const handleLogout = async () => {
+    await axios.post(
+      "http://localhost:5000/api/auth/logout",
+      {},
+      { withCredentials: true }
+    );
     navigate("/");
   };
 

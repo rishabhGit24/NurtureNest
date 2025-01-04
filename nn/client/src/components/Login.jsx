@@ -24,11 +24,13 @@ function Login() {
     try {
       const response = await axios.post(
         "http://localhost:5000/api/auth/login",
-        { email, password }
+        { email, password },
+        { withCredentials: true } // Ensure cookies are included in the request
       );
-      const { token } = response.data;
-      localStorage.setItem("token", token);
-      navigate("/home");
+      const { message } = response.data;
+      if (message === "Login successful") {
+        navigate("/home");
+      }
     } catch (error) {
       setError("Invalid credentials"); // Set error state
     }

@@ -1,0 +1,49 @@
+/* NurtureNest/nn/client/src/components/DonationRequestForm.css */
+.donation-form-container {
+  background-color: #007092; /* Adjust as needed */
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+  margin: 20px 0;
+}
+
+.donation-form-container h2 {
+  text-align: center;
+  padding-bottom: 1em;
+  padding-top: 1em;
+}
+
+.donation-form-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.donation-form-container label {
+  margin: 10px 0;
+  color: white;
+  text-align: center;
+}
+
+.donation-form-container input {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  display: flex;
+}
+
+.donation-form-container button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #007092; /* Adjust as needed */
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.donation-form-container button:hover {
+  background-color: #218838; /* Adjust as needed */
+}

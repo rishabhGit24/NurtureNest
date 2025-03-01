@@ -1,24 +1,14 @@
-.all {
-  display: flex; /* Use flexbox for layout */
-  flex-wrap: wrap; /* Allow wrapping to the next line */
-  justify-content: space-between; /* Space between cards */
-  padding: 20px; /* Padding around the grid */
-  gap: 5em;
-  width: 75%;
-  padding-left: 10em;
-}
-
 .comp-card {
   height: 35em;
+  width: 30em;
   background-color: wheat; /* Match background color with FoodItem */
   border-radius: 25%; /* Rounded corners similar to FoodItem */
-  padding: 20px; /* Inner padding */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
   text-align: center; /* Center text */
   transition: transform 0.3s ease; /* Add transition for hover effect */
   flex: 0 0 calc(50% - 10px); /* Set width to 50% minus margin */
-  margin-bottom: 20px; /* Space below each card */
-  margin-right: -15em;
+  margin: 55px 0; /* Space below each card */
+  padding-top: 2em;
 }
 
 .comp-card:hover {

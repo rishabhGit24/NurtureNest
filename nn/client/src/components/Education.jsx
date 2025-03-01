@@ -10,9 +10,9 @@ import DonationRequestForm from './DonationRequestForm';
 import Footer from "./Footer";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-import "./styles/money.css";
+import "./styles/Education.css";
 
-const Money = () => {
+const Education = () => {
     const navigate = useNavigate();
     const [isMobile, setIsMobile] = useState(false); // Hook state for mobile detection
     const [isLaptop, setIsLaptop] = useState(false); // Hook state for laptop detection
@@ -505,7 +505,7 @@ const Money = () => {
                     </button>
                 </div>
             </div>
-            <h1 i style={{ color: "white", fontSize: isMobile ? "2.5em" : "5em", marginBottom: isMobile ? "2em" : "", paddingTop: isMobile ? "" : "0.5em", paddingBottom: isMobile ? "" : "0.5em" }}>MONEY DONATIONS</h1>
+            <h1 i style={{ color: "white", fontSize: isMobile ? "2.5em" : "5em", marginBottom: isMobile ? "2em" : "", paddingTop: isMobile ? "" : "0.5em", paddingBottom: isMobile ? "" : "0.5em" }}>EDUCATION DONATIONS</h1>
             <section
                 id="gps"
                 className={isMobile ? "mobile-gps" : ""}
@@ -553,25 +553,25 @@ const Money = () => {
                         <div className="all">
                             <ul>
                                 <li>
-                                    A survey conducted in 2021 found that a significant number of Indians are willing to donate money, but lack a convenient platform to do so. This NurtureNest web-app aims to bridge this gap by connecting monetary donors with those in need.
+                                    A survey conducted in 2021 found that a significant number of Indians are willing to donate educational materials, but lack a convenient platform to do so. This NurtureNest web-app aims to bridge this gap by connecting educational donors with those in need.
                                 </li><br /><hr id="sep" />
                                 <li>
-                                    The rise of UPI (Unified Payments Interface) payments in India has transformed the way people conduct transactions. UPI offers a secure and easy-to-use platform for transferring money, making it more accessible for individuals to donate. With just a few taps on their smartphones, donors can contribute to various causes, ensuring that their contributions reach those in need quickly and efficiently.
+                                    Educational waste is a pressing issue in India, with many students lacking access to essential learning materials. Many individuals are willing to donate educational resources, but they often face challenges in finding the right channels to do so. Donating educational materials can have a positive impact on both the environment and the community by reducing waste and providing essential items to those in need. There is a growing need for efficient educational donation systems to connect donors with individuals and organizations that can benefit from these contributions.
                                 </li><br /><hr id="sep" />
                                 <li>
-                                    UPI payments are not only convenient but also secure, with multiple layers of authentication to protect users' financial information. This has encouraged more people to participate in charitable donations, knowing that their transactions are safe and reliable.
+                                    A survey conducted by various NGOs found that a large percentage of people believe that donating educational materials is an important social responsibility. Hence, we'd like to enhance the accessibility between potential donors and organizations willing to accept valuable educational donations.
                                 </li><br /><hr id="sep" />
                                 <li>
-                                    MONETARY DONATIONS CAN BE GIVEN AWAY IN FORM OF:<br /><br />
-                                    1. Donations accepted via <strong>UPI</strong>.<br />
-                                    2. Donations accepted through <strong>Bank Transfers</strong>.<br />
-                                    3. Donations accepted via <strong>Mobile Wallets</strong>.
+                                    EDUCATIONAL MATERIALS CAN BE GIVEN AWAY IN FORM OF:<br /><br />
+                                    1. Donations accepted for <strong>Stationery</strong>.<br />
+                                    2. Donations accepted for <strong>Books</strong>.<br />
+                                    3. Donations accepted for <strong>Essentials</strong>.
                                 </li>
                             </ul>
                         </div>
                     </section>
                 </div>
-                <div style={{ marginTop: isMobile ? "" : "100em", }}>
+                <div style={{ marginTop: isMobile ? "" : "120em", }}>
                     <DonationRequestForm />
                 </div>
             </section>
@@ -580,4 +580,4 @@ const Money = () => {
     );
 };
 
-export default Money;
+export default Education;

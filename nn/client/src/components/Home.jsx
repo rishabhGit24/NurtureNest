@@ -1,3 +1,4 @@
+import axios from "axios";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import React, { useEffect, useRef, useState } from "react";
@@ -10,8 +11,6 @@ import Footer from "./Footer";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import "./styles/home.css";
-import axios from "axios";
-import Cookies from "js-cookie";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -489,18 +488,16 @@ const Home = () => {
         {/* Distance, duration, and place details will be displayed here */}
       </div>
       <div
-        className={`search-container ${
-          isMobile ? "mobile-search-container" : ""
-        } ${isLaptop ? "laptop-search-container" : ""}`}
+        className={`search-container ${isMobile ? "mobile-search-container" : ""
+          } ${isLaptop ? "laptop-search-container" : ""}`}
         style={{
           display: isMobile ? "" : "",
           paddingBottom: isMobile ? "2em" : "",
         }}
       >
         <div
-          className={`search-bar ${isMobile ? "mobile-search-bar" : ""} ${
-            isLaptop ? "laptop-search-bar" : ""
-          }`}
+          className={`search-bar ${isMobile ? "mobile-search-bar" : ""} ${isLaptop ? "laptop-search-bar" : ""
+            }`}
         >
           <input
             type="text"
@@ -560,17 +557,19 @@ const Home = () => {
           marginLeft: isMobile ? "1em" : "",
         }}
       >
-        <h2 style={{ color: "#007092" }}>What do you want to Donate?</h2>
+        {/* <h2 style={{ color: "#007092" }}>What do you want to Donate?</h2> */}
         <div
           className={`all ${isMobile ? "mobile-all" : ""}`}
           style={{ marginLeft: isMobile ? "-10em" : "" }}
         >
           {categories.map((category, index) => (
-            <CompCard
-              key={index}
-              title={category.title}
-              items={category.items}
-            />
+            <div className="all1">
+              <CompCard
+                key={index}
+                title={category.title}
+                items={category.items}
+              />
+            </div>
           ))}
         </div>
       </section>

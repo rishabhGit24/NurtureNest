@@ -3,6 +3,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
 import AboutUs from "./components/AboutUS";
 import Clothes from "./components/Clothes";
+import Education from "./components/Education";
 import Feedback from "./components/Feedback";
 import Food from "./components/Food";
 import Header from "./components/Header";
@@ -28,6 +29,7 @@ function App() {
           <Route path="/hygiene" element={<Hyiegine />} />
           <Route path="/medical" element={<Medical />} />
           <Route path="/money" element={<Money />} />
+          <Route path="/education" element={<Education />} />
           <Route path="/clothes" element={<Clothes />} />
         </Routes>
       </div>

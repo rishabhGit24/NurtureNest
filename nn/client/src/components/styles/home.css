@@ -1,3 +1,5 @@
+/* ... (previous CSS unchanged) */
+
 * {
   margin: 0;
   padding: 0;
@@ -28,10 +30,9 @@ section#gps {
 }
 
 #map {
-  height: 1250px;
-  width: 1090em;
-  margin: auto; /* Center the map horizontally */
-  margin-top: 0.2em;
+  height: 900px;
+  width: 140em;
+  margin: auto 10em; /* Restore original desktop margin */
   display: flex;
   justify-content: center;
   align-items: center; /* Center the map vertically */
@@ -75,14 +76,17 @@ section#gps {
 }
 
 #searchInput {
+  height: 2em;
   background-color: #1c92af !important;
   color: white;
 }
+
 ::placeholder {
   color: #fbb03b;
 }
 
 .search-bar {
+  padding: 2em 0;
   background-color: #007290 !important;
   display: flex;
   justify-content: center;
@@ -102,13 +106,16 @@ section#gps {
 }
 
 .search-bar button {
-  padding: 10px 15px;
+  margin-top: -10px;
   background-color: #fbb03b !important;
   color: #42210b !important;
   border: none;
   border-radius: 10px;
   width: 10em;
   cursor: pointer;
+  display: flex; /* Use flex to align text and icon */
+  justify-content: center;
+  align-items: center;
 }
 
 #searchButton {
@@ -138,6 +145,158 @@ section#gps {
   margin-left: 0em;
 }
 
+/* Hide "Search" text on mobile screens */
+@media (max-width: 768px) {
+  .search-bar button .search-text {
+    display: none; /* Hide the "Search" text */
+  }
+
+  .search-bar button {
+    width: auto; /* Adjust width to fit icon */
+    padding: 10px; /* Reduce padding for icon-only */
+  }
+
+  /* Position search bar below map on mobile */
+  .mobile-search-container {
+    position: relative;
+    margin-top: 2em; /* Space below the map */
+    margin-left: 0; /* Center or adjust as needed */
+    width: 100%; /* Full width on mobile */
+  }
+
+  .mobile-search-bar {
+    width: 90%; /* Wider search bar on mobile */
+    padding-left: 0; /* Remove left padding */
+    justify-content: center; /* Center the search bar */
+  }
+
+  /* Position hamburger icon and header on mobile */
+  .Full.mobile {
+    padding-top: 60px; /* Space for header + icon */
+  }
+
+  /* Style for the flex container on mobile */
+  .Full.mobile > div:first-child {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #007092;
+    z-index: 1001; /* Above other elements */
+    padding: 10px;
+    display: flex;
+    align-items: center;
+  }
+
+  .sidebar-icon {
+    margin-right: 10px; /* Space between icon and logo */
+  }
+
+  #map {
+    margin: 0; /* Remove margins on mobile */
+    width: 150%; /* Full width on mobile */
+    height: 35em; /* Match mobile height */
+  }
+
+  section#gps {
+    margin-left: -6.5em; /* Adjust left margin on mobile */
+    margin-top: -2em; /* Adjust top margin on mobile */
+    width: 100%; /* Full width on mobile */
+    margin-bottom: 2em; /* Space for search bar */
+  }
+
+  #relocateBtn {
+    top: 10px; /* Adjust position on mobile */
+    right: 10px; /* Adjust position on mobile */
+    width: 30%; /* Smaller width on mobile */
+    margin-top: -10px; /* Adjust vertical positioning */
+    margin-right: -2.5em; /* Adjust horizontal positioning */
+  }
+}
+
+/* For screens with a width of 480px or less */
+@media only screen and (max-width: 480px) {
+  .all {
+    flex-direction: row;
+    align-items: center;
+  }
+  .food,
+  .cloth,
+  .stat,
+  .money {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  section#don {
+    background-color: #fbb03b !important;
+    border-radius: 65px;
+    max-height: 220em;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    z-index: 2;
+    margin-top: 95em;
+  }
+}
+
+/* For screens with a width of 320px or less */
+@media only screen and (max-width: 320px) {
+  .all {
+    flex-direction: column;
+    align-items: center;
+  }
+  .food,
+  .cloth,
+  .stat,
+  .money {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+.user-marker {
+  background-size: contain; /* Ensure the image fits within the div */
+  background-repeat: no-repeat; /* Prevent repeating the image */
+  background-position: center; /* Center the image */
+  border: none; /* Remove any border */
+  border-radius: 0; /* Remove border radius */
+  background-color: transparent; /* Ensure no background color */
+}
+
+#route-info {
+  display: none;
+  position: absolute;
+  background: rgba(
+    255,
+    255,
+    255,
+    0.9
+  ); /* Slightly transparent white background */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 112, 146); /* Soft shadow for depth */
+  z-index: 1;
+  font-family: Arial, sans-serif; /* Font family */
+  color: #333; /* Text color */
+  max-width: 300px; /* Max width for the info box */
+  text-align: center; /* Center text */
+}
+
+.logout-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: orange;
+  color: teal;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  fontweight: "bold";
+}
+
 #relocateBtn {
   position: absolute;
   text-align: center;
@@ -158,13 +317,14 @@ section#gps {
 section#don {
   background-color: #fbb03b !important;
   border-radius: 95px;
-  max-height: 500em;
+  height: 100em;
   display: flex;
   justify-content: center;
   width: 100em;
   margin-left: 10em;
   margin-top: 60em;
   margin-bottom: -230em;
+  flex-direction: column;
 }
 /*.all {
   display: flex; /* Use flexbox for layout 
@@ -176,11 +336,9 @@ section#don {
 
 .all {
   display: flex;
-  background-color: #fbb03b !important;
   justify-content: space-evenly;
   align-items: flex-start;
   flex-wrap: wrap;
-  gap: 25px;
 }
 
 .food,
@@ -366,102 +524,4 @@ a#hygl {
 a#medl {
   font-size: 1.5em;
   font-family: Arial, Helvetica, sans-serif;
-}
-
-/* For screens with a width of 768px or less */
-@media only screen and (max-width: 768px) {
-  .all {
-    flex-direction: column;
-    align-items: center;
-  }
-  .food,
-  .cloth,
-  .stat,
-  .money {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-}
-
-/* For screens with a width of 480px or less */
-@media only screen and (max-width: 480px) {
-  .all {
-    flex-direction: row;
-    align-items: center;
-  }
-  .food,
-  .cloth,
-  .stat,
-  .money {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-  section#don {
-    background-color: #fbb03b !important;
-    border-radius: 65px;
-    max-height: 220em;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    z-index: 2;
-    margin-top: 95em;
-  }
-}
-
-/* For screens with a width of 320px or less */
-@media only screen and (max-width: 320px) {
-  .all {
-    flex-direction: column;
-    align-items: center;
-  }
-  .food,
-  .cloth,
-  .stat,
-  .money {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-}
-
-.user-marker {
-  background-size: contain; /* Ensure the image fits within the div */
-  background-repeat: no-repeat; /* Prevent repeating the image */
-  background-position: center; /* Center the image */
-  border: none; /* Remove any border */
-  border-radius: 0; /* Remove border radius */
-  background-color: transparent; /* Ensure no background color */
-}
-
-#route-info {
-  display: none;
-  position: absolute;
-  background: rgba(
-    255,
-    255,
-    255,
-    0.9
-  ); /* Slightly transparent white background */
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 112, 146); /* Soft shadow for depth */
-  z-index: 1;
-  font-family: Arial, sans-serif; /* Font family */
-  color: #333; /* Text color */
-  max-width: 300px; /* Max width for the info box */
-  text-align: center; /* Center text */
-}
-
-.logout-button {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: orange;
-  color: teal;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
 }

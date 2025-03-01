@@ -24,7 +24,7 @@ export default function Header() {
         <div className={`header ${isMobile ? 'mobile-header' : ''} ${isLaptop ? 'laptop-header' : ''}`}>
             <div className="navbar" style={{ paddingLeft: isMobile ? "4em" : "" }}>
                 <div className="top_logo">
-                    <img id="toplogo" src={nn3} alt="NurtureNest Logo" style={{ backgroundColor: "#007092", width: isMobile ? "18em" : "20em", height: isMobile ? "18em" : "20em", marginTop: isMobile ? "-2em" : "" }} />
+                    <img id="toplogo" src={nn3} alt="NurtureNest Logo" style={{ backgroundColor: "#007092", width: isMobile ? "100%" : "20%", height: isMobile ? "100%" : "20%", marginTop: isMobile ? "2em" : "", padding: isMobile ? "1em 0" : "2em 0", marginLeft: isMobile ? "-9em" : "", }} />
                 </div>
             </div>
         </div>

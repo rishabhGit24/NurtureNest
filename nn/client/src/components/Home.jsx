@@ -1,3 +1,5 @@
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Correct import
 import axios from "axios";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -14,13 +16,14 @@ import "./styles/home.css";
 
 const Home = () => {
   const navigate = useNavigate();
-  const [isMobile, setIsMobile] = useState(false); // Hook state for mobile detection
-  const [isLaptop, setIsLaptop] = useState(false); // Hook state for laptop detection
-  const mapRef = useRef(null); // Ref to store map instance
-  const mapContainerRef = useRef(null); // Ref for the map container
-  const relocateBtnRef = useRef(null); // Ref for the relocate button
-  const [locations, setLocations] = React.useState([]); // State to hold locations
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State for sidebar visibility
+  const [isMobile, setIsMobile] = useState(false);
+  const [isLaptop, setIsLaptop] = useState(false);
+  const mapRef = useRef(null);
+  const mapContainerRef = useRef(null);
+  const relocateBtnRef = useRef(null);
+  const [locations, setLocations] = React.useState([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const sidebarRef = useRef(null); // Ref to track sidebar element
 
   useEffect(() => {
     const loginCheck = async () => {
@@ -28,7 +31,7 @@ const Home = () => {
         const response = await axios.post(
           "http://localhost:5000/api/auth/check",
           {},
-          { withCredentials: true } // Ensure cookies are included in the request
+          { withCredentials: true }
         );
         if (!response.data.valid) {
           navigate("/");
@@ -44,17 +47,13 @@ const Home = () => {
 
   const addMarkers = (filteredLocations) => {
     if (mapRef.current) {
-      // Clear existing markers
       if (mapRef.current.getLayer("markers")) {
         mapRef.current.removeLayer("markers");
       }
-
-      // Remove the existing source if it exists
       if (mapRef.current.getSource("markers")) {
         mapRef.current.removeSource("markers");
       }
 
-      // Add markers
       mapRef.current.addSource("markers", {
         type: "geojson",
         data: {
@@ -74,20 +73,18 @@ const Home = () => {
         },
       });
 
-      // Add custom markers with popups
       filteredLocations.forEach((location) => {
         const markerElement = document.createElement("div");
-        markerElement.className = "marker"; // Add a class for styling
-        markerElement.style.backgroundImage = `url(${greenMarker})`; // Use green_marker.png
-        markerElement.style.width = "50px"; // Adjust size
-        markerElement.style.height = "50px"; // Adjust size
+        markerElement.className = "marker";
+        markerElement.style.backgroundImage = `url(${greenMarker})`;
+        markerElement.style.width = "50px";
+        markerElement.style.height = "50px";
         markerElement.style.backgroundSize = "100%";
 
         const marker = new mapboxgl.Marker(markerElement)
           .setLngLat([location.longitude, location.latitude])
           .addTo(mapRef.current);
 
-        // Create a popup for the marker
         const imagesHtml = location.images
           .map(
             (image) =>
@@ -98,33 +95,28 @@ const Home = () => {
         const popupContent = `<div><strong>${location.name}</strong><br>${location.description}<br>${imagesHtml}</div>`;
         const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupContent);
 
-        // Show popup on hover
         markerElement.addEventListener("mouseenter", () => {
           popup.addTo(mapRef.current);
-          popup.setLngLat([location.longitude, location.latitude]); // Position the popup
+          popup.setLngLat([location.longitude, location.latitude]);
         });
 
-        // Hide popup on mouse leave
         markerElement.addEventListener("mouseleave", () => {
           popup.remove();
         });
 
-        // Add click event to show the shortest path and details
         markerElement.addEventListener("click", () => {
-          const userLocation = mapRef.current.getCenter().toArray(); // Get user's current location
+          const userLocation = mapRef.current.getCenter().toArray();
           const destination = [location.longitude, location.latitude];
 
-          // Fetch directions from Mapbox Directions API
           fetch(
             `https://api.mapbox.com/directions/v5/mapbox/driving/${userLocation[0]},${userLocation[1]};${destination[0]},${destination[1]}?access_token=pk.eyJ1IjoiZGhhbnVzaDIzMTMiLCJhIjoiY2x3cDJ0a2FkMmt3bjJrcnk1dG93djZmdSJ9.DzeHiUjcr3vOYQ_zVtApow`
           )
             .then((response) => response.json())
             .then((data) => {
               const route = data.routes[0];
-              const distance = route.distance / 1000; // Convert to kilometers
-              const duration = route.duration / 60; // Convert to minutes
+              const distance = route.distance / 1000;
+              const duration = route.duration / 60;
 
-              // Add the route to the map
               const routeGeoJSON = {
                 type: "Feature",
                 geometry: {
@@ -133,7 +125,6 @@ const Home = () => {
                 },
               };
 
-              // Add the route layer
               if (mapRef.current.getLayer("route")) {
                 mapRef.current.removeLayer("route");
                 mapRef.current.removeSource("route");
@@ -158,12 +149,11 @@ const Home = () => {
                 },
               });
 
-              // Display distance, duration, and place details on the map
               const infoDiv = document.getElementById("route-info");
               const imageHtml =
                 location.images.length > 0
                   ? `<img src="${require(`${location.images[0]}`)}" style="width: 100%; height: auto;" />`
-                  : ""; // Get the first image
+                  : "";
               infoDiv.innerHTML = `
                                 <strong>${location.name}</strong><br>
                                 ${imageHtml}
@@ -171,7 +161,7 @@ const Home = () => {
                                 Distance: ${distance.toFixed(2)} km<br>
                                 Duration: ${duration.toFixed(2)} minutes
                             `;
-              infoDiv.style.display = "block"; // Show the info div
+              infoDiv.style.display = "block";
             })
             .catch((error) =>
               console.error("Error fetching directions:", error)
@@ -182,37 +172,56 @@ const Home = () => {
   };
 
   const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen); // Toggle sidebar state
+    setIsSidebarOpen(!isSidebarOpen);
   };
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768); // Set mobile state based on window width
-      setIsLaptop(window.innerWidth >= 768); // Set laptop state
+      setIsMobile(window.innerWidth < 768);
+      setIsLaptop(window.innerWidth >= 768);
     };
 
     window.addEventListener("resize", handleResize);
-    handleResize(); // Initial check
+    handleResize();
 
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
+  // New useEffect for closing sidebar on outside click
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (
+        isMobile && // Only on mobile
+        isSidebarOpen && // Sidebar is open
+        sidebarRef.current && // Sidebar ref exists
+        !sidebarRef.current.contains(event.target) && // Click is outside sidebar
+        !event.target.closest('.sidebar-icon') // Click is not on hamburger icon
+      ) {
+        setIsSidebarOpen(false); // Close sidebar
+      }
+    };
+
+    document.addEventListener('click', handleOutsideClick);
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, [isMobile, isSidebarOpen]);
+
   useEffect(() => {
     if (!mapRef.current && mapContainerRef.current) {
       mapboxgl.accessToken =
-        "pk.eyJ1IjoiZGhhbnVzaDIzMTMiLCJhIjoiY2x3cDJ0a2FkMmt3bjJrcnk1dG93djZmdSJ9.DzeHiUjcr3vOYQ_zVtApow"; // Replace with your Mapbox access token
+        "pk.eyJ1IjoiZGhhbnVzaDIzMTMiLCJhIjoiY2x3cDJ0a2FkMmt3bjJrcnk1dG93djZmdSJ9.DzeHiUjcr3vOYQ_zVtApow";
       const map = new mapboxgl.Map({
-        container: mapContainerRef.current, // container ID
-        style: "mapbox://styles/mapbox/streets-v11", // Keep the street-v11 style
-        center: [0, 0], // starting position [lng, lat]
-        zoom: 2, // starting zoom
+        container: mapContainerRef.current,
+        style: "mapbox://styles/mapbox/streets-v11",
+        center: [0, 0],
+        zoom: 2,
       });
 
       mapRef.current = map;
 
-      // Define locations
       const initialLocations = [
         {
           name: "VATSALYAPURAM TRUST NGO",
@@ -237,7 +246,7 @@ const Home = () => {
         },
         {
           name: "Need Base India-Rainbow Home",
-          latitude: 12.0461353, // Corrected latitude
+          latitude: 12.0461353,
           longitude: 77.54949548,
           description: "This is Need Base India-Rainbow Home",
           images: ["./images/3_2_1.jpg"],
@@ -322,10 +331,9 @@ const Home = () => {
         },
       ];
 
-      setLocations(initialLocations); // Set locations in state
+      setLocations(initialLocations);
 
       map.on("load", () => {
-        // Call addMarkers only after the map has loaded
         addMarkers(initialLocations);
       });
 
@@ -339,18 +347,17 @@ const Home = () => {
               mapRef.current.setCenter(userLocation);
               mapRef.current.setZoom(13);
 
-              // Add a marker for the user's current location
               const userMarkerElement = document.createElement("div");
-              userMarkerElement.className = "user-marker"; // Add a class for styling
-              userMarkerElement.style.backgroundImage = `url(${redMarker})`; // Use the imported image
-              userMarkerElement.style.width = "50px"; // Adjust size to ensure visibility
-              userMarkerElement.style.height = "50px"; // Adjust size to ensure visibility
-              userMarkerElement.style.backgroundSize = "contain"; // Ensure the image fits within the div
-              userMarkerElement.style.backgroundRepeat = "no-repeat"; // Prevent repeating the image
-              userMarkerElement.style.backgroundPosition = "center"; // Center the image
-              userMarkerElement.style.border = "none"; // Remove any border
-              userMarkerElement.style.borderRadius = "0"; // Remove border radius
-              userMarkerElement.style.backgroundColor = "transparent"; // Ensure no background color
+              userMarkerElement.className = "user-marker";
+              userMarkerElement.style.backgroundImage = `url(${redMarker})`;
+              userMarkerElement.style.width = "50px";
+              userMarkerElement.style.height = "50px";
+              userMarkerElement.style.backgroundSize = "contain";
+              userMarkerElement.style.backgroundRepeat = "no-repeat";
+              userMarkerElement.style.backgroundPosition = "center";
+              userMarkerElement.style.border = "none";
+              userMarkerElement.style.borderRadius = "0";
+              userMarkerElement.style.backgroundColor = "transparent";
 
               new mapboxgl.Marker(userMarkerElement)
                 .setLngLat(userLocation)
@@ -365,7 +372,6 @@ const Home = () => {
         }
       };
 
-      // Add event listener to the relocate button
       relocateBtnRef.current.addEventListener("click", getUserLocation);
 
       getUserLocation();
@@ -379,7 +385,6 @@ const Home = () => {
     }
   }, []);
 
-  // Search functionality
   const handleSearch = () => {
     const searchInput = document
       .getElementById("searchInput")
@@ -388,7 +393,6 @@ const Home = () => {
       location.name.toLowerCase().includes(searchInput)
     );
 
-    // Clear existing markers
     if (mapRef.current) {
       if (mapRef.current.getLayer("markers")) {
         mapRef.current.removeLayer("markers");
@@ -396,16 +400,14 @@ const Home = () => {
       }
     }
 
-    // Add markers based on search results
-    addMarkers(filteredLocations); // Update markers based on search
+    addMarkers(filteredLocations);
 
-    // Optionally, you can adjust the map view to fit the filtered locations
     if (filteredLocations.length > 0) {
       const bounds = new mapboxgl.LngLatBounds();
       filteredLocations.forEach((location) => {
         bounds.extend([location.longitude, location.latitude]);
       });
-      mapRef.current.fitBounds(bounds, { padding: 20 }); // Adjust the map view to fit the markers
+      mapRef.current.fitBounds(bounds, { padding: 20 });
     }
   };
 
@@ -437,13 +439,26 @@ const Home = () => {
     <div
       className={`Full ${isMobile ? "mobile" : ""} ${isLaptop ? "laptop" : ""}`}
     >
-      <Header />
+      {isMobile ? (
+        <div style={{ display: "flex", alignItems: "center", backgroundColor: "#007092", padding: "10px" }}>
+          <button
+            onClick={toggleSidebar}
+            className="sidebar-icon"
+            style={{ marginRight: "10px" }} // Space between icon and logo
+          >
+            <FaBars />
+          </button>
+          <Header />
+        </div>
+      ) : (
+        <Header />
+      )}
       <button
         onClick={handleLogout}
         className="logout-button"
         style={{
           position: "absolute",
-          top: "20px",
+          top: isMobile ? "110px" : "40px",
           right: "20px",
           backgroundColor: "orange",
           color: "teal",
@@ -457,29 +472,22 @@ const Home = () => {
       >
         Logout
       </button>
-      {isMobile && (
-        <button
-          onClick={toggleSidebar}
-          className="sidebar-icon"
-          style={{ marginLeft: "" }}
-        >
-          <FaBars />
-        </button>
-      )}
-      <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
+      <div className="side" ref={sidebarRef} style={{ marginLeft: isMobile ? "" : "2em" }}>
+        <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
+      </div>
       <div
         id="route-info"
         style={{
           display: "none",
           position: "absolute",
-          background: "rgba(255, 255, 255, 0.8)", // Slightly transparent white background
+          background: "rgba(255, 255, 255, 0.8)",
           padding: "15px",
           borderRadius: "8px",
           zIndex: 1,
-          fontFamily: "Arial, sans-serif", // Font family
-          color: "#333", // Text color
+          fontFamily: "Arial, sans-serif",
+          color: "#333",
           minWidth: "200px",
-          maxWidth: "300px", // Max width for the info box
+          maxWidth: "300px",
           textAlign: "center",
           marginLeft: isMobile ? "" : "10em",
           marginTop: isMobile ? "" : "10em",
@@ -487,23 +495,56 @@ const Home = () => {
       >
         {/* Distance, duration, and place details will be displayed here */}
       </div>
+      <section
+        id="gps"
+        className={isMobile ? "mobile-gps" : ""}
+        style={{
+          marginLeft: isMobile ? "11em" : "",
+          marginTop: isMobile ? "6em" : "6em",
+          width: isMobile ? "17em" : "105em",
+          marginBottom: isMobile ? "2em" : "",
+        }}
+      >
+        <section
+          ref={mapContainerRef}
+          id="map"
+          className={isMobile ? "mobile-map" : ""}
+          style={{ height: isMobile ? "35em" : "900px", width: isMobile ? "150%" : "100%", }}
+        >
+          <div id="map-element"></div>
+          <button
+            ref={relocateBtnRef}
+            id="relocateBtn"
+            className={isMobile ? "mobile-relocate-btn" : ""}
+            style={{
+              width: isMobile ? "30%" : "",
+              marginRight: isMobile ? "-2.5em" : "",
+              marginTop: isMobile ? "-10px" : "60em",
+            }}
+          >
+            <b>Re-Locate</b>
+          </button>
+        </section>
+      </section>
       <div
-        className={`search-container ${isMobile ? "mobile-search-container" : ""
-          } ${isLaptop ? "laptop-search-container" : ""}`}
+        className={`search-container ${isMobile ? "mobile-search-container" : ""} ${isLaptop ? "laptop-search-container" : ""}`}
         style={{
           display: isMobile ? "" : "",
           paddingBottom: isMobile ? "2em" : "",
+          marginLeft: isMobile ? "23em" : "-2em",
+          width: isMobile ? "25em" : "",
+          marginTop: isMobile ? "34em" : "",
         }}
       >
         <div
-          className={`search-bar ${isMobile ? "mobile-search-bar" : ""} ${isLaptop ? "laptop-search-bar" : ""
-            }`}
+          className={`search-bar ${isMobile ? "mobile-search-bar" : ""} ${isLaptop ? "laptop-search-bar" : ""}`}
         >
           <input
             type="text"
             id="searchInput"
             name="text"
             placeholder="Search Orphanages..."
+            style={{ width: isMobile ? "100%" : "75%" }}
           />
           <button
             type="submit"
@@ -515,52 +556,23 @@ const Home = () => {
               marginTop: isMobile ? "-0.5em" : "",
             }}
           >
-            Search
+            <span className="search-text">Search</span>
+            <FontAwesomeIcon icon={faMagnifyingGlass} style={{ marginLeft: "5px" }} />
           </button>
         </div>
       </div>
-      <section
-        id="gps"
-        className={isMobile ? "mobile-gps" : ""}
-        style={{
-          marginLeft: isMobile ? "" : "",
-          marginTop: isMobile ? "-2em" : "",
-          width: isMobile ? "108%" : "",
-          marginBottom: isMobile ? "-2em" : "",
-        }}
-      >
-        <section
-          ref={mapContainerRef}
-          id="map"
-          className={isMobile ? "mobile-map" : ""}
-          style={{ height: isMobile ? "40em" : "" }}
-        >
-          <div id="map-element"></div>
-          <button
-            ref={relocateBtnRef}
-            id="relocateBtn"
-            className={isMobile ? "mobile-relocate-btn" : ""}
-            style={{
-              width: isMobile ? "40%" : "",
-              marginRight: isMobile ? "-2em" : "",
-            }}
-          >
-            <b>Re-Locate</b>
-          </button>
-        </section>
-      </section>
       <section
         id="don"
         className={`donations ${isMobile ? "mobile-donations" : ""}`}
         style={{
           width: isMobile ? "100%" : "",
-          marginLeft: isMobile ? "1em" : "",
+          marginLeft: isMobile ? "11em" : "",
+          marginTop: isMobile ? "-1em" : "",
         }}
       >
-        {/* <h2 style={{ color: "#007092" }}>What do you want to Donate?</h2> */}
         <div
           className={`all ${isMobile ? "mobile-all" : ""}`}
-          style={{ marginLeft: isMobile ? "-10em" : "" }}
+          style={{ marginLeft: isMobile ? "" : "", }}
         >
           {categories.map((category, index) => (
             <div className="all1">

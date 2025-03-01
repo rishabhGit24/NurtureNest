@@ -1,78 +1,108 @@
-.sidebar-icon {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 24px;
-  color: #333;
-  z-index: 2;
-}
-
 .sidebar {
   position: fixed;
   top: 0;
-  left: -250px;
-  width: 250px;
+  left: 0;
+  width: 60px;
   height: 100%;
   background: #fbb03b;
-  transition: left 0.3s ease;
-  z-index: 1;
-  display: none;
+  transition: width 0.3s ease;
+  overflow: hidden;
+  z-index: 1000;
 }
 
-.sidebar.open {
-  left: 0;
-  display: block;
+.sidebar:hover {
+  width: 250px;
 }
 
 .sidebar-header {
-  padding: 10px;
+  padding: 20px 0;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: center;
 }
 
-.container {
-  padding: 20px;
+#sidebar-toggle {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.sidebar:hover #sidebar-toggle {
+  transform: rotate(90deg);
+}
+
+.sidebar-content {
+  height: calc(100% - 60px);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-links {
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
 }
 
 .sidebar-link {
   display: flex;
   align-items: center;
-  margin: 10px 0;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
 }
 
-.sidebar-link a {
-  margin-left: 10px;
+.sidebar-link:hover {
+  background-color: #53aec6;
+}
+
+.sidebar-link i {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 2em;
+}
+
+.side {
+  /* Changed from .link-text to match your JSX */
   color: #007092;
-  text-decoration: none;
+  margin-left: 15px;
+  font-weight: 500;
+  transition: opacity 0.3s ease;
 }
 
-.sidebar:hover {
+.sidebar:not(.open) .side {
+  /* Changed to hide text only when not open */
+  opacity: 0;
+}
+
+.sidebar.active {
   width: 250px;
   padding: 0px;
 }
 
 .sidebar a {
   color: black;
-  display: inline-block;
+  display: block;
   padding: 10px;
   text-decoration: none;
   transition: all 0.3s ease-in-out;
-  opacity: 0;
+  opacity: 1; /* Always visible when sidebar is styled */
   margin-top: 10px;
   margin-bottom: 0;
   transition: transform 0.5s ease;
 }
 
-.sidebar:hover a {
+.fa-solid {
+  margin: 1.3em;
+}
+
+.sidebar:hover a,
+.sidebar.active a,
+.fa-solid {
   opacity: 1;
 }
 
 .sidebar-header {
-  margin-top: 10em;
+  margin-top: -4em;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -80,103 +110,19 @@
   height: 100%;
 }
 
-.sidebar-link {
-  display: flex;
-  align-items: center;
-  padding: 10px;
-}
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .sidebar {
+    left: -60px; /* Starts fully hidden */
+  }
 
-.sidebar-link i {
-  margin-right: 10px;
-}
+  .sidebar.open {
+    left: 0;
+    width: 300px; /* Opens to full width with text visible */
+  }
 
-.sidebar-link:hover {
-  background-color: #007290 !important;
-  transform: scale(1.05);
-}
-
-.sidebar-link:hover a {
-  color: white !important;
-  background-color: #007290 !important;
-}
-
-#sidebar-toggle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transition: all 0.3s ease-in-out;
-}
-
-.sidebar:hover #sidebar-toggle {
-  left: 20px;
-  transform: translate(0, -50%);
-}
-
-.navbar,
-.top_logo {
-  background-color: #007092 !important;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#searchInput {
-  background-color: #1c92af !important;
-  color: white;
-}
-::placeholder {
-  color: #fbb03b;
-}
-
-.search-bar {
-  background-color: #007290 !important;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: -1em;
-  margin-bottom: -1em;
-}
-
-.search-bar input {
-  padding: 8px;
-  border: 4px solid #007290 !important;
-  background-color: #007290 !important;
-  border-radius: 10px;
-  margin-right: 1em;
-  height: 10em;
-  text-align: center;
-}
-
-.search-bar button {
-  padding: 10px 15px;
-  background-color: #fbb03b !important;
-  color: #42210b !important;
-  border: none;
-  border-radius: 10px;
-  width: 10em;
-  cursor: pointer;
-}
-
-#searchButton {
-  background-color: #007290;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-#searchButton:hover {
-  background-color: #00698f;
-}
-
-.container {
-  background-color: #fbb03b;
-}
-
-.fa-house :hover {
-  width: 4em;
-  height: 5em;
+  .sidebar.open .side {
+    /* Text visible immediately when open */
+    opacity: 1;
+  }
 }

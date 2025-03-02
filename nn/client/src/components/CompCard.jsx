@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './styles/compCard.css'; // Ensure you have a CSS file for styling
 
-const CompCard = ({ title, items }) => {
+const CompCard = ({ title, items, onTitleClick, onItemClick }) => {
     const [isMobile, setIsMobile] = useState(false); // Hook state for mobile detection
     const [isLaptop, setIsLaptop] = useState(false); // Hook state for laptop detection
 
@@ -21,12 +21,12 @@ const CompCard = ({ title, items }) => {
 
     return (
         <div className={`comp-card ${isMobile ? 'mobile' : ''} ${isLaptop ? 'laptop' : ''}`} style={{ height: isMobile ? "20em" : "", marginRight: isMobile ? "1em" : "", width: isMobile ? "" : "30em", }}>
-            <h1 style={{ fontSize: isMobile ? "2em" : "" }}>{title}</h1>
+            <h1 onClick={onTitleClick} style={{ fontSize: isMobile ? "2em" : "", cursor: "pointer", color: "#007092" }}>{title}</h1>
             <hr />
             <div className='cardLi' style={{ fontSize: isMobile ? "50%" : "", }}>
                 <ul style={{ minWidth: isMobile ? "12em" : "" }}>
                     {items.map((item, index) => (
-                        <li key={index} className={isMobile ? 'mobile-list-item' : ''}>{item}</li>
+                        <li key={index} onClick={() => onItemClick(item)} className={isMobile ? 'mobile-list-item' : ''} style={{ cursor: "pointer", color: "#007092" }}>{item}</li>
                     ))}
                 </ul>
             </div>
@@ -34,4 +34,4 @@ const CompCard = ({ title, items }) => {
     );
 };
 
-export default CompCard; 
+export default CompCard;

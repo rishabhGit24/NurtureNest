@@ -1,12 +1,27 @@
 .footer {
-  background-color: #007092; /* Background color */
-  color: gold; /* Text color */
-  text-align: center; /* Center text */
-  padding: 20px; /* Padding around the text */
-  position: relative; /* Positioning */
-  bottom: 0; /* Stick to the bottom */
-  height: 6em;
-  width: 90%;
-  margin-left: 5em;
-  overflow-x: hidden;
+  background-color: #007092 !important;
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.footer.mobile {
+  height: 8em; /* Smaller height on mobile, adjust as needed */
+  margin-top: 103em; /* Adjust margin for mobile */
+  padding-top: 3em;
+}
+
+.footer.laptop {
+  height: 7em; /* Default height for desktop/laptop */
+  margin-top: 10em; /* Default margin for desktop/laptop */
+}
+
+.footer p {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1em;
+  padding-left: 1.2em;
+  margin-top: 5sem;
+  color: white; /* Ensure text is visible against #007092 */
 }

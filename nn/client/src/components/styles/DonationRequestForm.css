@@ -4,7 +4,7 @@
   padding: 20px;
   border-radius: 10px;
   color: white;
-  margin: 20px 0;
+  margin-left: -15em;
 }
 
 .donation-form-container h2 {
@@ -24,26 +24,32 @@
   text-align: center;
 }
 
-.donation-form-container input {
+.form-input {
   padding: 10px;
   border-radius: 5px;
   border: none;
-  display: flex;
+  width: 100%; /* Ensure full width within label */
+  background-color: #fff; /* White background for inputs */
+  color: #333; /* Dark text for readability */
+  display: block; /* Ensure inputs stack correctly */
+  margin-top: 5px; /* Space between label and input */
 }
 
-.donation-form-container button {
+.form-button {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  background-color: #007092; /* Adjust as needed */
+  background-color: #007092; /* Match container background for consistency */
   color: white;
   padding: 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  width: 100px; /* Fixed width for button to match input width visually */
+  margin-top: 10px; /* Space above button */
 }
 
-.donation-form-container button:hover {
-  background-color: #218838; /* Adjust as needed */
+.form-button:hover {
+  background-color: #218838; /* Adjust as needed for hover state */
 }

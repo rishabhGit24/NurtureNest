@@ -1,5 +1,5 @@
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Correct import
+import { faMagnifyingGlass, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -435,6 +435,38 @@ const Home = () => {
     navigate("/");
   };
 
+  // Function to handle category title and item clicks and navigate to respective routes
+  const handleCategoryClick = (value) => {
+    const routeMap = {
+      "Food": "/food",
+      "Clothes": "/clothes",
+      "Education": "/education",
+      "Medical": "/medical",
+      "Money": "/money",
+      "Hygiene": "/hygiene",
+      "Plate Meals": "/food",
+      "Bulk Items": "/food",
+      "Raw Items": "/food",
+      "Processed Items": "/food",
+      "Men": "/clothes",
+      "Women": "/clothes",
+      "Kids": "/clothes",
+      "Stationary": "/education",
+      "Bags": "/education",
+      "Essentials": "/education",
+      "Cotton": "/medical",
+      "Tapes": "/medical",
+      "Scissor": "/medical",
+      "Dettol": "/medical",
+      "UPI": "/money",
+      "Brushing Essentials": "/hygiene",
+      "Soap": "/hygiene",
+      "Skin Care": "/hygiene",
+      "Other Amenities": "/hygiene",
+    };
+    navigate(routeMap[value]);
+  };
+
   return (
     <div
       className={`Full ${isMobile ? "mobile" : ""} ${isLaptop ? "laptop" : ""}`}
@@ -455,22 +487,28 @@ const Home = () => {
       )}
       <button
         onClick={handleLogout}
-        className="logout-button"
+        className={`logout-button ${isMobile ? "mobile" : ""}`}
         style={{
           position: "absolute",
-          top: isMobile ? "110px" : "40px",
-          right: "20px",
+          zIndex: isMobile ? "1001" : "",
+          top: isMobile ? "0px" : "20px",
+          right: isMobile ? "5px" : "40px",
           backgroundColor: "orange",
-          color: "teal",
+          color: isMobile ? "transparent" : "teal", // Hide text on mobile
           border: "none",
           borderRadius: "5px",
-          padding: "10px 20px",
+          padding: isMobile ? "10px" : "10px 20px", // Adjust padding for icon-only on mobile
           cursor: "pointer",
           fontSize: "16px",
           fontWeight: "bold",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: isMobile ? "8%" : "",
         }}
       >
-        Logout
+        <span className="logout-text">Logout</span> {/* Wrap text in a span for styling */}
+        <FontAwesomeIcon icon={faRightFromBracket} style={{ marginLeft: isMobile ? "0" : "5px", fontSize: isMobile ? "20px" : "16px" }} />
       </button>
       <div className="side" ref={sidebarRef} style={{ marginLeft: isMobile ? "" : "2em" }}>
         <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
@@ -499,10 +537,10 @@ const Home = () => {
         id="gps"
         className={isMobile ? "mobile-gps" : ""}
         style={{
-          marginLeft: isMobile ? "11em" : "",
-          marginTop: isMobile ? "6em" : "6em",
+          marginLeft: isMobile ? "-7.5em" : "7em",
+          marginTop: isMobile ? "1em" : "6em",
           width: isMobile ? "17em" : "105em",
-          marginBottom: isMobile ? "2em" : "",
+          marginBottom: isMobile ? "2em" : ""
         }}
       >
         <section
@@ -531,9 +569,9 @@ const Home = () => {
         style={{
           display: isMobile ? "" : "",
           paddingBottom: isMobile ? "2em" : "",
-          marginLeft: isMobile ? "23em" : "-2em",
+          marginLeft: isMobile ? "1px" : "4em",
           width: isMobile ? "25em" : "",
-          marginTop: isMobile ? "34em" : "",
+          marginTop: isMobile ? "28em" : "",
         }}
       >
         <div
@@ -566,7 +604,7 @@ const Home = () => {
         className={`donations ${isMobile ? "mobile-donations" : ""}`}
         style={{
           width: isMobile ? "100%" : "",
-          marginLeft: isMobile ? "11em" : "",
+          marginLeft: isMobile ? "0em" : "14.5em",
           marginTop: isMobile ? "-1em" : "",
         }}
       >
@@ -575,17 +613,20 @@ const Home = () => {
           style={{ marginLeft: isMobile ? "" : "", }}
         >
           {categories.map((category, index) => (
-            <div className="all1">
+            <div className="all1" key={index}>
               <CompCard
-                key={index}
                 title={category.title}
                 items={category.items}
+                onTitleClick={() => handleCategoryClick(category.title)} // Navigate on title click
+                onItemClick={(item) => handleCategoryClick(item)} // Navigate on item click
               />
             </div>
           ))}
         </div>
       </section>
-      <Footer />
+      <div style={{ marginTop: isMobile ? "120em" : "" }}>
+        <Footer />
+      </div>
     </div>
   );
 };

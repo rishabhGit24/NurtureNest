@@ -1,3 +1,5 @@
+import { faMagnifyingGlass, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -409,21 +411,6 @@ const Food = () => {
         }
     };
 
-    const categories = [
-        {
-            title: "Food",
-            items: ["Plate Meals", "Bulk Items", "Raw Items", "Processed Items"],
-        },
-        { title: "Clothes", items: ["Men", "Women", "Kids"] },
-        { title: "Education", items: ["Stationary", "Bags", "Essentials"] },
-        { title: "Medical", items: ["Cotton", "Tapes", "Scissor", "Dettol"] },
-        { title: "Money", items: ["UPI"] },
-        {
-            title: "Hygiene",
-            items: ["Brushing Essentials", "Soap", "Skin Care", "Other Amenities"],
-        },
-    ];
-
     const handleLogout = async () => {
         await axios.post(
             "http://localhost:5000/api/auth/logout",
@@ -455,7 +442,8 @@ const Food = () => {
                     fontWeight: "bold",
                 }}
             >
-                Logout
+                <span className="logout-text">Logout</span> {/* Wrap text in a span for styling */}
+                <FontAwesomeIcon icon={faRightFromBracket} style={{ marginLeft: isMobile ? "0" : "5px", fontSize: isMobile ? "20px" : "16px" }} />
             </button>
             {isMobile && (
                 <button
@@ -487,6 +475,7 @@ const Food = () => {
             >
                 {/* Distance, duration, and place details will be displayed here */}
             </div>
+            <h1 i style={{ color: "white", fontSize: isMobile ? "2.5em" : "5em", marginBottom: isMobile ? "2em" : "", paddingTop: isMobile ? "" : "0.5em", paddingBottom: isMobile ? "" : "0.5em" }}>FOOD DONATIONS</h1>
             <div
                 className={`search-container ${isMobile ? "mobile-search-container" : ""
                     } ${isLaptop ? "laptop-search-container" : ""}`}
@@ -516,10 +505,10 @@ const Food = () => {
                         }}
                     >
                         Search
+                        <FontAwesomeIcon icon={faMagnifyingGlass} style={{ marginLeft: "5px" }} />
                     </button>
                 </div>
             </div>
-            <h1 i style={{ color: "white", fontSize: isMobile ? "2.5em" : "5em", marginBottom: isMobile ? "2em" : "", paddingTop: isMobile ? "" : "0.5em", paddingBottom: isMobile ? "" : "0.5em" }}>FOOD DONATIONS</h1>
             <section
                 id="gps"
                 className={isMobile ? "mobile-gps" : ""}
@@ -554,17 +543,19 @@ const Food = () => {
                 className={`donations ${isMobile ? "mobile-donations" : ""}`}
                 style={{
                     width: isMobile ? "100%" : "",
-                    marginLeft: isMobile ? "1em" : "",
+                    marginLeft: isMobile ? "" : "",
+                    marginTop: isMobile ? "" : "15em",
+                    height: isMobile ? "" : "",
                 }}
             >
-                <h2 style={{ color: "#007092" }}>What do you want to Donate?</h2>
+                <h2 style={{ color: "#007092", paddingTop: isMobile ? "" : "", }}>What do you want to Donate?</h2>
                 <div
                     className={`all ${isMobile ? "mobile-all" : ""}`}
                     style={{ marginLeft: isMobile ? "-10em" : "" }}
                 >
-                    <section id="don" style={{ marginLeft: isMobile ? "" : "-12em", marginTop: isMobile ? "" : "130em", fontSize: isMobile ? "" : "7px" }}>
+                    <section id="don1" style={{ marginLeft: isMobile ? "" : "-35em", marginTop: isMobile ? "" : "135em", fontSize: isMobile ? "" : "7px" }}>
                         <div className="inner1"></div>
-                        <div className="all">
+                        <div className="all" style={{ height: isMobile ? "" : "", marginTop: isMobile ? "" : "", paddingLeft:isMobile?"":"13em", paddingRight:isMobile?"":"13em" }}>
                             <ul>
                                 <li>
                                     A survey conducted in 2021 found that 75% of Indians are willing to donate food, but lack a convenient platform to do so. This NurtureNest web-app aims to bridge this gap by connecting food donors with those in need.

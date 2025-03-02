@@ -45,7 +45,7 @@ function SignUp() {
     setErrorMessage('');
 
     // Send the data to the server for registration
-    fetch('http://localhost:5000/api/auth/signup', {
+    fetch('https://nurturenest34561.onrender.com/api/auth/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

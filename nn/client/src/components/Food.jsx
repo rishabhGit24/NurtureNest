@@ -28,7 +28,7 @@ const Food = () => {
         const loginCheck = async () => {
             try {
                 const response = await axios.post(
-                    "http://localhost:5000/api/auth/check",
+                    "https://nurturenest34561.onrender.com/api/auth/check",
                     {},
                     { withCredentials: true } // Ensure cookies are included in the request
                 );
@@ -413,7 +413,7 @@ const Food = () => {
 
     const handleLogout = async () => {
         await axios.post(
-            "http://localhost:5000/api/auth/logout",
+            "https://nurturenest34561.onrender.com/api/auth/logout",
             {},
             { withCredentials: true }
         );

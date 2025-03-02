@@ -66,11 +66,15 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/check", async (req, res) => {
-  const token = req.cookies.token; // Get token from cookies
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(401).json({ valid: false, error: "No token provided" });
+  }
 
+  const token = authHeader.split(" ")[1];
   try {
     const decoded = jwt.verify(token, "your_jwt_secret"); // Replace with your secret
-    res.json({ valid: true, email: decoded.user.email });
+    res.json({ valid: true, email: decoded.userId });
   } catch (err) {
     res.status(401).json({ valid: false, error: "Invalid token" });
   }

@@ -27,11 +27,17 @@ const Home = () => {
 
   useEffect(() => {
     const loginCheck = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        navigate("/");
+        return;
+      }
+
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/auth/check",
+          "https://nurturenest34561.onrender.com/api/auth/check",
           {},
-          { withCredentials: true }
+          { headers: { Authorization: `Bearer ${token}` } }
         );
         if (!response.data.valid) {
           navigate("/");
@@ -427,11 +433,7 @@ const Home = () => {
   ];
 
   const handleLogout = async () => {
-    await axios.post(
-      "http://localhost:5000/api/auth/logout",
-      {},
-      { withCredentials: true }
-    );
+    localStorage.removeItem("token"); // Remove token from localStorage
     navigate("/");
   };
 

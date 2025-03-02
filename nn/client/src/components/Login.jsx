@@ -23,16 +23,20 @@ function Login() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        { email, password },
-        { withCredentials: true } // Ensure cookies are included in the request
+        "https://nurturenest34561.onrender.com/api/auth/login", // Replace with your local machine's IP address
+        { email, password }
       );
-      const { message } = response.data;
+      const { message, token } = response.data;
       if (message === "Login successful") {
+        localStorage.setItem("token", token); // Store token in localStorage
         navigate("/home");
       }
     } catch (error) {
-      setError("Invalid credentials"); // Set error state
+      if (error.response && error.response.data && error.response.data.error) {
+        setError(error.response.data.error); // Set error state with response error
+      } else {
+        setError("An error occurred. Please try again."); // Fallback error message
+      }
     }
   };
 

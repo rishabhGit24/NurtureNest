@@ -54,18 +54,11 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ error: "Invalid credentials, wrong password" });
     }
 
-    const token = jwt.sign({ user, password }, "your_jwt_secret", {
+    const token = jwt.sign({ userId: user._id }, "your_jwt_secret", {
       expiresIn: "1h",
     }); // Replace with your secret
 
-    // Set the token as a cookie
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // Set secure to true in production
-      maxAge: 3600000,
-    }); // 1 hour
-
-    res.json({ message: "Login successful" });
+    res.json({ message: "Login successful", token });
   } catch (err) {
     console.error("Internal server error:", err); // Add logging
     res.status(500).json({ error: "Internal server error" });
@@ -74,7 +67,6 @@ router.post("/login", async (req, res) => {
 
 router.post("/check", async (req, res) => {
   const token = req.cookies.token; // Get token from cookies
-
 
   try {
     const decoded = jwt.verify(token, "your_jwt_secret"); // Replace with your secret

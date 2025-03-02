@@ -472,7 +472,7 @@ const Home = () => {
       className={`Full ${isMobile ? "mobile" : ""} ${isLaptop ? "laptop" : ""}`}
     >
       {isMobile ? (
-        <div style={{ display: "flex", alignItems: "center", backgroundColor: "#007092", padding: "10px" }}>
+        <div style={{ display: "flex", alignItems: "center", backgroundColor: "#007290", padding: "10px" }}>
           <button
             onClick={toggleSidebar}
             className="sidebar-icon"

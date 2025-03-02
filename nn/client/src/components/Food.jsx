@@ -550,7 +550,7 @@ const Food = () => {
                     marginLeft: isMobile ? "-7.1em" : "7em",
                     marginTop: isMobile ? "-36em" : "1em",
                     width: isMobile ? "17em" : "105em",
-                    marginBottom: isMobile ? "2em" : ""
+                    marginBottom: isMobile ? "2em" : "",
                 }}
             >
                 <section

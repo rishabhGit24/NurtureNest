@@ -9,9 +9,11 @@ import Food from "./components/Food";
 import Header from "./components/Header";
 import Home from "./components/Home";
 import Hyiegine from "./components/Hygiene";
+import Location from "./components/Location"; // You’ll need to create or provide this component
 import Login from "./components/Login";
 import Medical from "./components/Medical";
 import Money from "./components/Money";
+import Profile from "./components/Profile"; // You’ll need to create or provide this component
 import SignUp from "./components/SignUp";
 
 function App() {
@@ -22,8 +24,12 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/location" element={<Location />} />{" "}
+          {/* Placeholder route */}
+          <Route path="/profile" element={<Profile />} />{" "}
+          {/* Placeholder route */}
           <Route path="/feedback" element={<Feedback />} />
+          <Route path="/about-us" element={<AboutUs />} />
           <Route path="/food" element={<Food />} />
           <Route path="/header" element={<Header />} />
           <Route path="/hygiene" element={<Hyiegine />} />

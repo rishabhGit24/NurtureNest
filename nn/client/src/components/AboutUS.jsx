@@ -1,11 +1,34 @@
-import React, { useState } from 'react';
+import { Box, Grid, Paper, Typography } from "@mui/material";
+import React, { useEffect, useRef, useState } from "react"; // Already has useRef, useState, useEffect
 import { FaBars } from 'react-icons/fa'; // Assuming FaBars is from react-icons
+import Footer from './Footer'; // Adjust the path if Footer is in a different file
 import Header from './Header'; // Adjust the path if Header is in a different file
-import Sidebar from './Sidebar'; // Adjust the path if Sidebar is in a different directory
+import RishabhImage from "./images/Rishabh.jpg";
+import ShashankImage from "./images/Shashank.jpg";
+import Sidebar from './Sidebar'; // Import Sidebar without applying CSS
+import "./styles/aboutus.css";
 
-function AboutUs() {
+const AboutUs = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State for sidebar
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768); // Detect mobile view
+  const sidebarRef = useRef(null); // Ref to track sidebar element for outside click
+
+  const cofounders = [
+    {
+      name: "RISHABH B R",
+      role: "CEO and Co-Founder",
+      description:
+        "Rishabh is a committed problem solver and software developer with a strong foundation in back-end technologies and systems design. He thrives on building efficient, scalable applications and ensuring seamless functionality. Rishabh's collaborative spirit and technical skills make him an integral part of the team. Rishabh continuously explores new technologies to enhance performance and optimize solutions, making him a valuable asset to any project.",
+      image: RishabhImage,
+    },
+    {
+      name: "SHASHANK B R",
+      role: "Co-Founder",
+      description:
+        "Shashank is a passionate front-end developer and machine learning enthusiast, always eager to explore and implement innovative technologies. With expertise in the MERN stack and a flair for designing user-centric applications, Shashank consistently delivers impactful solutions. His journey reflects a dedication to learning and making a difference through technology. His creativity enhances user engagement and improves overall user experience.",
+      image: ShashankImage,
+    },
+  ];
 
   // Toggle sidebar visibility
   const toggleSidebar = () => {
@@ -17,6 +40,26 @@ function AboutUs() {
     // Add your logout logic here (e.g., clear auth token, redirect)
     console.log("Logged out");
   };
+
+  // Handle outside click to close sidebar on mobile
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (
+        isMobile && // Only on mobile
+        isSidebarOpen && // Sidebar is open
+        sidebarRef.current && // Sidebar ref exists
+        !sidebarRef.current.contains(event.target) && // Click is outside sidebar
+        !event.target.closest('.sidebar-icon') // Click is not on hamburger icon
+      ) {
+        setIsSidebarOpen(false); // Close sidebar
+      }
+    };
+
+    document.addEventListener('click', handleOutsideClick);
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, [isMobile, isSidebarOpen]);
 
   return (
     <>
@@ -50,21 +93,40 @@ function AboutUs() {
         </button>
       )}
       <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
-      <div className="about-us">
-        <div className="co-founder">
-          <img src="path_to_image" alt="Co-founder 1" />
-          <h3>Co-founder 1 Name</h3>
-          <p>Co-founder 1 Description</p>
-        </div>
-
-        <div className="co-founder">
-          <img src="path_to_image" alt="Co-founder 2" />
-          <h3>Co-founder 2 Name</h3>
-          <p>Co-founder 2 Description</p>
-        </div>
+      <Box sx={{ p: 4, bgcolor: "#f5f5f5" }}>
+        <Typography variant="h4" align="center" gutterBottom sx={{ color: "#007290", fontWeight: "bold" }}>
+          About Us
+        </Typography>
+        <Box sx={{ p: 3, mb: 4, borderRadius: 2, bgcolor: "#FBB03B", boxShadow: 2, margin: "0 6em" }}>
+          <Typography variant="body1" align="center" sx={{ fontSize: "18px", fontWeight: 500, color: "#000", textAlign: "center", }}>
+            NurtureNest is committed to providing innovative solutions to enhance your experience.
+            Our dedicated team of professionals works tirelessly to deliver cutting-edge technology
+            and exceptional service. Together, we aim to nurture growth and inspire change.
+          </Typography>
+        </Box>
+        <Typography variant="h5" align="center" gutterBottom sx={{ color: "#007290", fontWeight: "bold" }}>
+          Meet Our Co-Founders
+        </Typography>
+        <Grid container spacing={4} justifyContent="center">
+          {cofounders.map((cofounder, index) => (
+            <Grid item xs={12} sm={6} md={4} key={index}>
+              <Paper elevation={3} sx={{ p: 3, bgcolor: "#007290", color: "#fff", borderRadius: 2, textAlign: "center" }}>
+                <img src={cofounder.image} alt={cofounder.name} className="team-image" />
+                <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                  {cofounder.name}
+                </Typography>
+                <Typography variant="subtitle1">{cofounder.role}</Typography>
+                <Typography variant="body2" sx={{ mt: 2, textAlign: "justify" }}>{cofounder.description}</Typography>
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+      <div style={{ marginTop: isMobile ? "" : "-2em" }}>
+        <Footer />
       </div>
     </>
   );
-}
+};
 
 export default AboutUs;

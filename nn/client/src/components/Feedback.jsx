@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaBars } from 'react-icons/fa'; // Assuming FaBars is from react-icons
+import Footer from "./Footer";
 import Header from './Header'; // Adjust the path if Header is in a different file
 import Sidebar from './Sidebar'; // Adjust the path if Sidebar is in a different directory
 
@@ -63,6 +64,9 @@ function Feedback() {
 
         <button type="submit">Submit Feedback</button>
       </form>
+      <div style={{ marginTop: isMobile ? "" : "-10em" }}>
+        <Footer />
+      </div>
     </>
   );
 }

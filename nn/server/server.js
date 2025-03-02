@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // Add this to parse URL-encoded bodies for Twilio webhooks
 
 mongoose
-  .connect("mongodb://localhost:27017/my_database")
+  .connect("mongodb+srv://bruhistg:b7iujgWky5C0GbWU@cluster0try.mipvwi4.mongodb.net/nurturenest?retryWrites=true&w=majority&appName=Cluster0try")
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("Failed to connect to MongoDB", err));
 
@@ -70,7 +70,7 @@ app.post("/api/donations/response", async (req, res) => {
     }
 
     // Find the latest donation request for this organization (simplified logic)
-    const FoodDonation = require("./models/foodDonation");
+    const FoodDonation = require("./models/FoodDonation");
     const donation = await FoodDonation.findOne({
       donorOrganization: organization.name,
     }).sort({ createdAt: -1 });

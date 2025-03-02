@@ -624,7 +624,7 @@ const Home = () => {
           ))}
         </div>
       </section>
-      <div style={{ marginTop: isMobile ? "120em" : "" }}>
+      <div style={{ marginTop: isMobile ? "120em" : "230em" }}>
         <Footer />
       </div>
     </div>

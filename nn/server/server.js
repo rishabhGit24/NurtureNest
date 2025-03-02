@@ -2,9 +2,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const authRoutes = require("./routes/auth");
-const donationRoutes = require("./routes/donationRoutes"); // Import new donation routes
+const donationRoutes = require("./routes/donationRoutes.js"); // Import new donation routes
 const authMiddleware = require("./middleware/auth"); // Import the auth middleware
 const app = express();
+const path = require("path");
+const fs = require("fs");
 
 const cookieParser = require("cookie-parser"); // Import cookie-parser
 
@@ -36,7 +38,7 @@ app.get("/api/home", authMiddleware, (req, res) => {
 // New route for Twilio WhatsApp webhook
 app.post("/api/donations/response", async (req, res) => {
   const { Body, From } = req.body; // Twilio webhook payload: message body and sender number
-  console.log("Received WhatsApp response:", { Body, From });
+  console.log("Received WhatsApp response from Twilio:", { Body, From }); // Enhanced logging
 
   try {
     const phoneNumber = From.replace("whatsapp:", ""); // Extract the phone number (e.g., +919108678540)
@@ -69,21 +71,33 @@ app.post("/api/donations/response", async (req, res) => {
       return res.status(404).send("Organization not found.");
     }
 
-    // Find the latest donation request for this organization (simplified logic)
+    // Find the latest pending donation request for this organization
     const FoodDonation = require("./models/foodDonation");
     const donation = await FoodDonation.findOne({
       donorOrganization: organization.name,
+      status: "pending",
     }).sort({ createdAt: -1 });
 
     if (!donation) {
-      console.warn(`No donation found for organization: ${organization.name}`);
-      return res.status(404).send("No donation request found.");
+      console.warn(
+        `No pending donation found for organization: ${organization.name}`
+      );
+      return res.status(404).send("No pending donation request found.");
     }
 
     let responseMessage;
     if (response === "CONFIRM") {
       donation.status = "confirmed";
       responseMessage = `The order for ${donation.quantity} is confirmed. Thank you for your response! If you need assistance, contact us at support@nurturenest.org or +91-9876543210.`;
+
+      // Send confirmation to the user's phone number
+      const userPhoneNumber = `whatsapp:+91${donation.donorPhone.replace(
+        /^0/,
+        ""
+      )}`; // Format for WhatsApp (Indian numbers, remove leading 0 if present)
+      const userConfirmationMessage = `${organization.name} has accepted the request for ${donation.quantity}. Thank you for your donation request. If you have questions, contact us at support@nurturenest.org or +91-9876543210.`;
+      const sendWhatsAppMessage = require("./services/twilioService");
+      await sendWhatsAppMessage(userPhoneNumber, userConfirmationMessage);
     } else if (response === "CANCEL") {
       donation.status = "canceled";
       responseMessage = `The order for ${donation.quantity} has been canceled. If you have questions, contact us at support@nurturenest.org or +91-9876543210.`;
@@ -93,7 +107,7 @@ app.post("/api/donations/response", async (req, res) => {
 
     await donation.save(); // Update the donation status in MongoDB
 
-    // Send custom response via WhatsApp
+    // Send custom response via WhatsApp to the organization
     const sendWhatsAppMessage = require("./services/twilioService");
     await sendWhatsAppMessage(From, responseMessage);
 

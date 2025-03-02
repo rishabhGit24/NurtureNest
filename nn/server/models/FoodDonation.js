@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
-const foodDonationSchema = new mongoose.Schema({
+const donationSchema = new mongoose.Schema({
+  category: {
+    type: String,
+    required: true,
+    enum: ["food", "clothes", "education", "medical", "money"], // Valid categories
+  },
   quantity: {
     type: String,
     required: true,
@@ -23,15 +28,17 @@ const foodDonationSchema = new mongoose.Schema({
     lowercase: true,
   },
   donorOrganization: {
-    // Updated from donorNumber to donorOrganization
-    type: String, // Storing organization name
+    type: String,
+    required: true,
+  },
+  donorPhone: {
+    type: String,
     required: true,
   },
   status: {
-    // Add status field
     type: String,
-    default: "pending", // Default to 'pending' until confirmed or canceled
-    enum: ["pending", "confirmed", "canceled"], // Valid status values
+    default: "pending",
+    enum: ["pending", "confirmed", "canceled"],
   },
   createdAt: {
     type: Date,
@@ -39,4 +46,4 @@ const foodDonationSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("FoodDonation", foodDonationSchema);
+module.exports = mongoose.model("Donation", donationSchema);

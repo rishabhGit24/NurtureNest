@@ -68,7 +68,6 @@ router.post("/login", async (req, res) => {
 router.post("/check", async (req, res) => {
   const token = req.cookies.token; // Get token from cookies
 
-
   try {
     const decoded = jwt.verify(token, "your_jwt_secret"); // Replace with your secret
     res.json({ valid: true, email: decoded.user.email });

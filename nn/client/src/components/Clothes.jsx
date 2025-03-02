@@ -1,3 +1,5 @@
+import { faMagnifyingGlass, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -21,6 +23,7 @@ const Clothes = () => {
     const relocateBtnRef = useRef(null); // Ref for the relocate button
     const [locations, setLocations] = React.useState([]); // State to hold locations
     const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State for sidebar visibility
+    const sidebarRef = useRef(null); // Ref to track sidebar element
 
     useEffect(() => {
         const loginCheck = async () => {
@@ -198,6 +201,26 @@ const Clothes = () => {
             window.removeEventListener("resize", handleResize);
         };
     }, []);
+
+    // New useEffect for closing sidebar on outside click (from Home.jsx)
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+            if (
+                isMobile && // Only on mobile
+                isSidebarOpen && // Sidebar is open
+                sidebarRef.current && // Sidebar ref exists
+                !sidebarRef.current.contains(event.target) && // Click is outside sidebar
+                !event.target.closest('.sidebar-icon') // Click is not on hamburger icon
+            ) {
+                setIsSidebarOpen(false); // Close sidebar
+            }
+        };
+
+        document.addEventListener('click', handleOutsideClick);
+        return () => {
+            document.removeEventListener('click', handleOutsideClick);
+        };
+    }, [isMobile, isSidebarOpen]);
 
     useEffect(() => {
         if (!mapRef.current && mapContainerRef.current) {
@@ -409,7 +432,6 @@ const Clothes = () => {
         }
     };
 
-
     const handleLogout = async () => {
         await axios.post(
             "http://localhost:5000/api/auth/logout",
@@ -423,49 +445,61 @@ const Clothes = () => {
         <div
             className={`Full ${isMobile ? "mobile" : ""} ${isLaptop ? "laptop" : ""}`}
         >
-            <Header />
+            {isMobile ? (
+                <div style={{ display: "flex", alignItems: "center", backgroundColor: "#007092", padding: "10px", marginLeft: isMobile ? "1px" : "" }}>
+                    <button
+                        onClick={toggleSidebar}
+                        className="sidebar-icon"
+                        style={{ marginRight: "10px" }} // Space between icon and logo
+                    >
+                        <FaBars />
+                    </button>
+                    <Header />
+                </div>
+            ) : (
+                <Header />
+            )}
             <button
                 onClick={handleLogout}
-                className="logout-button"
+                className={`logout-button ${isMobile ? "mobile" : ""}`}
                 style={{
                     position: "absolute",
-                    top: "20px",
-                    right: "20px",
+                    zIndex: isMobile ? "1001" : "",
+                    top: isMobile ? "0px" : "20px",
+                    right: isMobile ? "5px" : "40px",
                     backgroundColor: "orange",
-                    color: "teal",
+                    color: isMobile ? "transparent" : "teal", // Hide text on mobile
                     border: "none",
                     borderRadius: "5px",
-                    padding: "10px 20px",
+                    padding: isMobile ? "10px" : "10px 20px", // Adjust padding for icon-only on mobile
                     cursor: "pointer",
                     fontSize: "16px",
                     fontWeight: "bold",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: isMobile ? "8%" : "",
                 }}
             >
-                Logout
+                <span className="logout-text">Logout</span> {/* Wrap text in a span for styling */}
+                <FontAwesomeIcon icon={faRightFromBracket} style={{ marginLeft: isMobile ? "0" : "5px", fontSize: isMobile ? "20px" : "16px" }} />
             </button>
-            {isMobile && (
-                <button
-                    onClick={toggleSidebar}
-                    className="sidebar-icon"
-                    style={{ marginLeft: "" }}
-                >
-                    <FaBars />
-                </button>
-            )}
-            <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
+            <div className="side" ref={sidebarRef} style={{ marginLeft: isMobile ? "" : "2em" }}>
+                <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
+            </div>
             <div
                 id="route-info"
                 style={{
                     display: "none",
                     position: "absolute",
-                    background: "rgba(255, 255, 255, 0.8)", // Slightly transparent white background
+                    background: "rgba(255, 255, 255, 0.8)",
                     padding: "15px",
                     borderRadius: "8px",
                     zIndex: 1,
-                    fontFamily: "Arial, sans-serif", // Font family
-                    color: "#333", // Text color
+                    fontFamily: "Arial, sans-serif",
+                    color: "#333",
                     minWidth: "200px",
-                    maxWidth: "300px", // Max width for the info box
+                    maxWidth: "300px",
                     textAlign: "center",
                     marginLeft: isMobile ? "" : "10em",
                     marginTop: isMobile ? "" : "10em",
@@ -473,23 +507,26 @@ const Clothes = () => {
             >
                 {/* Distance, duration, and place details will be displayed here */}
             </div>
+            <h1 style={{ color: "white", fontSize: isMobile ? "2.5em" : "5em", marginBottom: isMobile ? "2em" : "", paddingTop: isMobile ? "" : "0.5em", paddingBottom: isMobile ? "20px" : "0.5em", marginTop: isMobile ? "-8px" : "-1em" }}>CLOTHES DONATIONS</h1>
             <div
-                className={`search-container ${isMobile ? "mobile-search-container" : ""
-                    } ${isLaptop ? "laptop-search-container" : ""}`}
+                className={`search-container ${isMobile ? "mobile-search-container" : ""} ${isLaptop ? "laptop-search-container" : ""}`}
                 style={{
                     display: isMobile ? "" : "",
                     paddingBottom: isMobile ? "2em" : "",
+                    marginLeft: isMobile ? "1px" : "-4em",
+                    width: isMobile ? "25em" : "",
+                    marginTop: isMobile ? "28em" : "",
                 }}
             >
                 <div
-                    className={`search-bar ${isMobile ? "mobile-search-bar" : ""} ${isLaptop ? "laptop-search-bar" : ""
-                        }`}
+                    className={`search-bar ${isMobile ? "mobile-search-bar" : ""} ${isLaptop ? "laptop-search-bar" : ""}`}
                 >
                     <input
                         type="text"
                         id="searchInput"
                         name="text"
                         placeholder="Search Orphanages..."
+                        style={{ width: isMobile ? "100%" : "65%", marginTop: isMobile ? "" : "-1.5em" }}
                     />
                     <button
                         type="submit"
@@ -498,29 +535,29 @@ const Clothes = () => {
                         style={{
                             width: isMobile ? "" : "",
                             marginLeft: isMobile ? "-1em" : "",
-                            marginTop: isMobile ? "-0.5em" : "",
+                            marginTop: isMobile ? "-0.5em" : "-2em",
                         }}
                     >
-                        Search
+                        <span className="search-text">Search</span>
+                        <FontAwesomeIcon icon={faMagnifyingGlass} style={{ marginLeft: "5px" }} />
                     </button>
                 </div>
             </div>
-            <h1 i style={{ color: "white", fontSize: isMobile ? "2.5em" : "5em", marginBottom: isMobile ? "2em" : "", paddingTop: isMobile ? "" : "0.5em", paddingBottom: isMobile ? "" : "0.5em" }}>CLOTHES DONATIONS</h1>
             <section
                 id="gps"
                 className={isMobile ? "mobile-gps" : ""}
                 style={{
-                    marginLeft: isMobile ? "" : "",
-                    marginTop: isMobile ? "-2em" : "",
-                    width: isMobile ? "108%" : "",
-                    marginBottom: isMobile ? "-2em" : "",
+                    marginLeft: isMobile ? "-7.1em" : "7em",
+                    marginTop: isMobile ? "-36em" : "1em",
+                    width: isMobile ? "17em" : "105em",
+                    marginBottom: isMobile ? "2em" : ""
                 }}
             >
                 <section
                     ref={mapContainerRef}
                     id="map"
                     className={isMobile ? "mobile-map" : ""}
-                    style={{ height: isMobile ? "40em" : "" }}
+                    style={{ height: isMobile ? "35em" : "900px", width: isMobile ? "150%" : "100%", }}
                 >
                     <div id="map-element"></div>
                     <button
@@ -528,8 +565,9 @@ const Clothes = () => {
                         id="relocateBtn"
                         className={isMobile ? "mobile-relocate-btn" : ""}
                         style={{
-                            width: isMobile ? "40%" : "",
-                            marginRight: isMobile ? "-2em" : "",
+                            width: isMobile ? "30%" : "",
+                            marginRight: isMobile ? "-2.5em" : "",
+                            marginTop: isMobile ? "-10px" : "60em",
                         }}
                     >
                         <b>Re-Locate</b>
@@ -540,17 +578,18 @@ const Clothes = () => {
                 className={`donations ${isMobile ? "mobile-donations" : ""}`}
                 style={{
                     width: isMobile ? "100%" : "",
-                    marginLeft: isMobile ? "1em" : "",
+                    marginLeft: isMobile ? "0em" : "16em",
+                    marginTop: isMobile ? "-1em" : "10em",
                 }}
             >
-                <h2 style={{ color: "#007092" }}>What do you want to Donate?</h2>
+                <h2 style={{ color: "#007092", paddingTop: isMobile ? "" : "", }}>What do you want to Donate?</h2>
                 <div
                     className={`all ${isMobile ? "mobile-all" : ""}`}
                     style={{ marginLeft: isMobile ? "-10em" : "" }}
                 >
-                    <section id="don" style={{ marginLeft: isMobile ? "" : "-12em", marginTop: isMobile ? "" : "130em", fontSize: isMobile ? "" : "7px" }}>
+                    <section id="don1" style={{ marginLeft: isMobile ? "29em" : "-35em", marginTop: isMobile ? "-5em" : "120em", fontSize: isMobile ? "5.5px" : "7px", width: isMobile ? "72%" : "", height: isMobile ? "163em" : "" }}>
                         <div className="inner1"></div>
-                        <div className="all">
+                        <div className="all" style={{ height: isMobile ? "" : "", marginTop: isMobile ? "-10em" : "", paddingLeft: isMobile ? "3em" : "13em", paddingRight: isMobile ? "3em" : "13em" }}>
                             <ul>
                                 <li>
                                     A survey conducted in 2021 found that a significant number of Indians are willing to donate clothes, but lack a convenient platform to do so. This NurtureNest web-app aims to bridge this gap by connecting clothing donors with those in need.
@@ -571,11 +610,13 @@ const Clothes = () => {
                         </div>
                     </section>
                 </div>
-                <div style={{ marginTop: isMobile ? "" : "120em", }}>
+                <div style={{ marginTop: isMobile ? "55em" : "108em", }}>
                     <DonationRequestForm />
                 </div>
             </section>
-            <Footer />
+            <div style={{ marginTop: isMobile ? "" : "-6em" }}>
+                <Footer />
+            </div>
         </div>
     );
 };

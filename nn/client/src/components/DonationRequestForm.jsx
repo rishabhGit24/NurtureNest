@@ -1,9 +1,11 @@
 import { useMediaQuery } from '@mui/material';
-import React, { useState } from 'react';
 import axios from 'axios'; // Ensure axios is installed: npm install axios
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom'; // Import useParams for dynamic routing
 import './styles/DonationRequestForm.css'; // Ensure you have a CSS file for styling
 
 const DonationRequestForm = () => {
+    const { category } = useParams(); // Get the category from the URL (e.g., /food, /clothes)
     const [formData, setFormData] = useState({
         quantity: '',
         type: '', // New field for the type of donation
@@ -11,6 +13,7 @@ const DonationRequestForm = () => {
         donorName: '',
         email: '',
         donorOrganization: '', // Updated from donorNumber to donorOrganization
+        donorPhone: '', // New field for user’s phone number
     });
 
     const isMobile = useMediaQuery('(max-width:600px)');
@@ -23,7 +26,10 @@ const DonationRequestForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/api/donations/food', formData, {
+            // Dynamically set the endpoint based on the category, default to 'food' if undefined
+            const safeCategory = category ? category.toLowerCase() : 'food';
+            const endpoint = `/api/donations/${safeCategory}`;
+            const response = await axios.post(`http://localhost:5000${endpoint}`, formData, {
                 withCredentials: true, // If your backend requires credentials
             });
             console.log('Form submitted successfully:', response.data);
@@ -36,12 +42,30 @@ const DonationRequestForm = () => {
                 donorName: '',
                 email: '',
                 donorOrganization: '', // Updated from donorNumber to donorOrganization
+                donorPhone: '', // Reset new phone number field
             });
         } catch (error) {
             console.error('Error submitting donation request:', error);
             alert('Failed to submit donation request. Please try again.');
         }
     };
+
+    // Define all donation categories and their items
+    const categories = [
+        {
+            title: "Food",
+            items: ["Plate Meals", "Bulk Items", "Raw Items", "Processed Items"],
+        },
+        { title: "Clothes", items: ["Men", "Women", "Kids"] },
+        { title: "Education", items: ["Stationary", "Bags", "Essentials"] },
+        { title: "Medical", items: ["Cotton", "Tapes", "Scissor", "Dettol"] },
+        { title: "Money", items: ["UPI"] },
+    ];
+
+    // Determine the current category and its items, with fallback to 'Food' if category is undefined
+    const safeCategory = category ? category.toLowerCase() : 'food';
+    const currentCategory = categories.find(cat => cat.title.toLowerCase() === safeCategory);
+    const donationTypes = currentCategory ? currentCategory.items : []; // Default to empty if category not found
 
     // List of donation organizations from initialLocations
     const donationOrganizations = [
@@ -62,13 +86,10 @@ const DonationRequestForm = () => {
         "Auxilium Navajeevana",
     ];
 
-    // List of types for the dropdown (from Food items)
-    const donationTypes = ["Plate Meals", "Bulk Items", "Raw Items", "Processed Items"];
-
     return (
-        <div className="donation-form-container" style={{ textAlign: "center", marginTop: isMobile ? "" : "-5em" }}>
-            <h2>Request a Donation</h2>
-            <form onSubmit={handleSubmit} className='form' style={{ backgroundColor: "#04546d", marginTop: "-0.5px", padding: isMobile ? "" : "5em" }}>
+        <div className="donation-form-container" style={{ textAlign: "center", marginTop: isMobile ? "" : "-5em", marginLeft: isMobile ? "-1em" : "" }}>
+            <h2>Request a Donation - {currentCategory?.title || 'Food'}</h2> {/* Default to 'Food' if no category */}
+            <form onSubmit={handleSubmit} className='form' style={{ backgroundColor: "#04546d", marginTop: "-0.5px", padding: isMobile ? "" : "5em", width: isMobile ? "94%" : "", }}>
                 <div style={{ display: "flex", flexDirection: "column", marginRight: "-1em" }}>
                     <label>
                         Quantity:
@@ -131,6 +152,17 @@ const DonationRequestForm = () => {
                         />
                     </label>
                     <label>
+                        Donor Phone Number:
+                        <input
+                            type="tel"
+                            name="donorPhone"
+                            value={formData.donorPhone}
+                            onChange={handleChange}
+                            required
+                            className="form-input" // Add class for uniform styling
+                        />
+                    </label>
+                    <label>
                         Donation Organization:
                         <select
                             name="donorOrganization" // Updated from donorNumber to donorOrganization
@@ -147,7 +179,7 @@ const DonationRequestForm = () => {
                         </select>
                     </label>
                 </div>
-                <div style={{ display: "flex", marginLeft: "11em", marginTop: isMobile ? "" : "2em" }}>
+                <div style={{ display: "flex", marginLeft: isMobile ? "8em" : "11em", marginTop: isMobile ? "" : "2em" }}>
                     <button type="submit" className="form-button">Submit</button> {/* Add class for uniform styling */}
                 </div>
             </form>

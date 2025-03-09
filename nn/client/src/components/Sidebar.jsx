@@ -35,10 +35,10 @@ const Sidebar = ({ isOpen, onClose }) => {
 
     return (
         <div className={`sidebar ${isOpen || !isMobile ? 'open' : ''}`}>
-            <div className="sidebar-header" style={{ backgroundColor: "#fbb03b" }}>
+            <div className="sidebar-header" style={{ backgroundColor: "#53AEC6" }}>
                 <i className="fa fa-bars" id="sidebar-toggle" style={{ color: '#007092', fontSize: "1.5em" }} onClick={onClose}></i>
             </div>
-            <div className="container" style={{ backgroundColor: "#fbb03b" }}>
+            <div className="container" style={{ backgroundColor: "#53AEC6" }}>
                 <div className={`sidebar-link ${activeLink === 'HOME' ? 'active' : ''}`}>
                     <i className="fa fa-house" style={{ color: '#007092', height: "2em", width: "2em" }}></i>
                     <Link className="side" to="/home" onClick={() => handleLinkClick('HOME')}>HOME</Link>

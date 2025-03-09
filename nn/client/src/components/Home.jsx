@@ -472,7 +472,7 @@ const Home = () => {
       className={`Full ${isMobile ? "mobile" : ""} ${isLaptop ? "laptop" : ""}`}
     >
       {isMobile ? (
-        <div style={{ display: "flex", alignItems: "center", backgroundColor: "#007290", padding: "10px" }}>
+        <div style={{ display: "flex", alignItems: "center", backgroundColor: "#53AEC6", padding: "10px" }}>
           <button
             onClick={toggleSidebar}
             className="sidebar-icon"
@@ -493,8 +493,8 @@ const Home = () => {
           zIndex: isMobile ? "1001" : "",
           top: isMobile ? "0px" : "20px",
           right: isMobile ? "5px" : "40px",
-          backgroundColor: "orange",
-          color: isMobile ? "transparent" : "teal", // Hide text on mobile
+          backgroundColor: "#19849E",
+          color: isMobile ? "transparent" : "white", // Hide text on mobile
           border: "none",
           borderRadius: "5px",
           padding: isMobile ? "10px" : "10px 20px", // Adjust padding for icon-only on mobile

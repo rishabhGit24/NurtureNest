@@ -1,6 +1,6 @@
 /* NurtureNest/nn/client/src/components/DonationRequestForm.css */
 .donation-form-container {
-  background-color: #007092; /* Adjust as needed */
+  background-color: #c5e3ea; /* Adjust as needed */
   padding: 20px;
   border-radius: 10px;
   color: white;
@@ -40,7 +40,7 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  background-color: #007092; /* Match container background for consistency */
+  background-color: #53aec6; /* Match container background for consistency */
   color: white;
   padding: 10px;
   border: none;

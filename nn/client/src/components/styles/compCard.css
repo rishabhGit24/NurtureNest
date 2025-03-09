@@ -1,6 +1,6 @@
 .comp-card {
   height: 35em;
-  background-color: wheat; /* Match background color with FoodItem */
+  background-color: #ade2ed; /* Match background color with FoodItem */
   border-radius: 25%; /* Rounded corners similar to FoodItem */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
   text-align: center; /* Center text */

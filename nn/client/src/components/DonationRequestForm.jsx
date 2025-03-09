@@ -89,7 +89,7 @@ const DonationRequestForm = () => {
     return (
         <div className="donation-form-container" style={{ textAlign: "center", marginTop: isMobile ? "" : "-5em", marginLeft: isMobile ? "-1em" : "" }}>
             <h2>Request a Donation - {currentCategory?.title || 'Food'}</h2> {/* Default to 'Food' if no category */}
-            <form onSubmit={handleSubmit} className='form' style={{ backgroundColor: "#04546d", marginTop: "-0.5px", padding: isMobile ? "" : "5em", width: isMobile ? "94%" : "", }}>
+            <form onSubmit={handleSubmit} className='form' style={{ backgroundColor: "#53AEC6", marginTop: "-0.5px", padding: isMobile ? "" : "5em", width: isMobile ? "94%" : "", }}>
                 <div style={{ display: "flex", flexDirection: "column", marginRight: "-1em" }}>
                     <label>
                         Quantity:

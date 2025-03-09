@@ -507,7 +507,7 @@ const Food = () => {
             >
                 {/* Distance, duration, and place details will be displayed here */}
             </div>
-            <h1 style={{ color: "white", fontSize: isMobile ? "2.5em" : "5em", marginBottom: isMobile ? "2em" : "", paddingTop: isMobile ? "" : "0.5em", paddingBottom: isMobile ? "20px" : "0.5em", marginTop: isMobile ? "-8px" : "-1em" }}>FOOD DONATIONS</h1>
+            <h1 style={{ color: "#53AEC6", fontSize: isMobile ? "2.5em" : "5em", marginBottom: isMobile ? "2em" : "", paddingTop: isMobile ? "" : "0.5em", paddingBottom: isMobile ? "20px" : "0.5em", marginTop: isMobile ? "-8px" : "-1em" }}>FOOD DONATIONS</h1>
             <div
                 className={`search-container ${isMobile ? "mobile-search-container" : ""} ${isLaptop ? "laptop-search-container" : ""}`}
                 style={{

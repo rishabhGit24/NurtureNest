@@ -4,7 +4,7 @@
 }
 
 body {
-  background-color: #007290 !important;
+  background-color: #c5e3ea !important;
 }
 
 .container {
@@ -18,12 +18,12 @@ body {
   margin-top: -45em; /* Adjust as needed */
 }
 
-/* blue:#007290
+/* blue:#C5E3EA
   orange: #fbb03b
   light orange: #f7a11e
   brown: #42210b */
 section#gps {
-  background-color: #007290 !important;
+  background-color: #c5e3ea !important;
   position: absolute;
 }
 
@@ -35,19 +35,19 @@ section#gps {
   justify-content: center;
   align-items: center; /* Center the map vertically */
   border-radius: 65px;
-  border: solid 5px #007290 !important;
+  border: solid 5px #c5e3ea !important;
 }
 
 .mapboxgl-map {
   border-radius: 65px;
-  border: solid 5px #007290 !important;
+  border: solid 5px #c5e3ea !important;
 }
 
 .mapboxgl-marker {
   border-radius: 50%;
   width: 20px;
   height: 20px;
-  background-color: #007290;
+  background-color: #c5e3ea;
   border: 2px solid #fff;
 }
 
@@ -75,17 +75,17 @@ section#gps {
 
 #searchInput {
   height: 2em;
-  background-color: #1c92af !important;
+  background-color: #53aec6 !important;
   color: white;
 }
 
 ::placeholder {
-  color: #fbb03b;
+  color: #00698f;
 }
 
 .search-bar {
   padding: 2em 0;
-  background-color: #007290 !important;
+  background-color: #c5e3ea !important;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -95,8 +95,7 @@ section#gps {
 
 .search-bar input {
   padding: 8px;
-  border: 4px solid #007290 !important;
-  background-color: #007290 !important;
+  border: 4px solid #53aec6 !important;
   border-radius: 10px;
   margin-right: 1em;
   height: 10em;
@@ -105,8 +104,8 @@ section#gps {
 
 .search-bar button {
   margin-top: -10px;
-  background-color: #fbb03b !important;
-  color: #42210b !important;
+  background-color: #19849e !important;
+  color: white !important;
   border: none;
   border-radius: 10px;
   width: 10em;
@@ -117,7 +116,7 @@ section#gps {
 }
 
 #searchButton {
-  background-color: #007290;
+  background-color: #c5e3ea;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -200,7 +199,7 @@ section#gps {
   top: 2em;
   right: 3em;
   z-index: 401; /* Increase the z-index to make the button appear on top */
-  background-color: #007290 !important;
+  background-color: #c5e3ea !important;
   color: #fbb03b !important;
   padding: 0.5em 1em;
   border: solid 2px #3db6cb !important;
@@ -209,7 +208,7 @@ section#gps {
 }
 
 section#don {
-  background-color: #fbb03b !important;
+  background-color: #53aec6 !important;
   border-radius: 95px;
   height: 100em;
   display: flex;
@@ -286,7 +285,7 @@ ul {
   font-size: 2.5em;
   padding-top: 2em;
   flex-direction: column;
-  color: #007290 !important;
+  color: #c5e3ea !important;
   text-decoration: none;
   list-style-type: none;
 }
@@ -300,7 +299,7 @@ ul {
 }
 
 p#mon {
-  color: #007290 !important;
+  color: #c5e3ea !important;
   width: 20em;
   padding-top: 1em;
   margin-left: 5em;
@@ -328,7 +327,7 @@ h1#edu,
 #stath,
 #hygh,
 #medh {
-  color: #007290 !important;
+  color: #c5e3ea !important;
   background-color: wheat !important;
   font-family: Arial, Helvetica, sans-serif;
   text-align: center;
@@ -336,7 +335,7 @@ h1#edu,
 }
 
 footer {
-  background-color: #007290 !important;
+  background-color: #c5e3ea !important;
   height: 12em;
   width: 100%;
   position: absolute;

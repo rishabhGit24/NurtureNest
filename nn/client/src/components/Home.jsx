@@ -547,7 +547,7 @@ const Home = () => {
           ref={mapContainerRef}
           id="map"
           className={isMobile ? "mobile-map" : ""}
-          style={{ height: isMobile ? "35em" : "900px", width: isMobile ? "150%" : "100%", }}
+          style={{ height: isMobile ? "35em" : "900px", width: isMobile ? "150%" : "", }}
         >
           <div id="map-element"></div>
           <button

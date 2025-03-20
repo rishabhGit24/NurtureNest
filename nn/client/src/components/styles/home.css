@@ -29,7 +29,7 @@ section#gps {
 
 #map {
   height: 900px;
-  width: 140em;
+  width: 100%;
   margin: auto 10em; /* Restore original desktop margin */
   display: flex;
   justify-content: center;
@@ -199,8 +199,7 @@ section#gps {
   top: 2em;
   right: 3em;
   z-index: 401; /* Increase the z-index to make the button appear on top */
-  background-color: #c5e3ea !important;
-  color: #fbb03b !important;
+  background-color: #00698f !important;
   padding: 0.5em 1em;
   border: solid 2px #3db6cb !important;
   border-radius: 19px;
@@ -210,11 +209,10 @@ section#gps {
 section#don {
   background-color: #53aec6 !important;
   border-radius: 95px;
-  height: 100em;
+  height: 100%;
   display: flex;
   justify-content: center;
-  width: 105em;
-  margin-left: 10em;
+  width: 90%;
   margin-top: 60em;
   margin-bottom: -230em;
   flex-direction: column;
@@ -421,39 +419,8 @@ a#medl {
 
 /* Mobile styles */
 
-@media (max-width: 1980px) and (min-width: 1779px){
-  #map{
-    width: 90%;
-  }
-}
-@media (max-width: 1780px) and (min-width: 1580px){
-  #map{
-    width: 75%;
-  }
-}
-@media (max-width: 1580px) and (min-width: 1479px){
-  #map{
-    width: 70%;
-  }
-}
 
-@media (max-width: 1480px) and (min-width: 1380px){
-  #map{
-    width: 65%;
-  }
-}
-@media (max-width: 1379px) and (min-width: 1280px){
-  #map{
-    width: 60%;
-  }
-}
-@media (max-width: 1280px){
-  #map{
-    width: 55%;
-  }
-}
-
-@media (max-width: 767px) {
+@media (max-width: 768px) {
   .Full.mobile {
     flex-direction: column;
     align-items: flex-start;
@@ -469,7 +436,7 @@ a#medl {
   }
 
   #gps.mobile-gps {
-    margin-left: 0;
+    margin-left: 1.5rem;
     margin-top: 6em;
     width: 17em;
     margin-bottom: 2em;
@@ -499,6 +466,9 @@ a#medl {
     margin-left: 0;
     margin-top: -1em;
   }
+  section#don{
+    height: 100%;
+  }
 }
 
 /* Tablet styles */
@@ -523,10 +493,6 @@ a#medl {
     width: 50em;
   }
 
-  #map {
-    height: 700px;
-  }
-
   .search-container {
     margin-left: 3em;
     width: 30em;
@@ -543,6 +509,55 @@ a#medl {
 }
 
 /* Laptop styles */
+@media (min-width: 1980px){
+  section#don{
+    width: 70%;
+  }
+  #map{
+    margin-left: -1em;
+  }
+}
+@media (max-width: 1980px) and (min-width: 1779px){
+  #map{
+    width: 90%;
+    margin-left: -2em;
+  }
+  section#don{
+    width: 79%;
+  }
+  
+}
+@media (max-width: 1780px) and (min-width: 1580px){
+  #map{
+    width: 75%;
+    margin-left: -2em;
+  }
+}
+@media (max-width: 1580px) and (min-width: 1479px){
+  #map{
+    width: 70%;
+    margin-left: -1em;
+  }
+}
+
+@media (max-width: 1480px) and (min-width: 1380px){
+  #map{
+    width: 65%;
+  }
+}
+@media (max-width: 1379px) and (min-width: 1280px){
+  #map{
+    width: 60%;
+  }
+}
+@media (max-width: 1280px){
+  #map{
+    width: 55%;
+    margin-left: -2em;
+  }
+}
+
+
 @media (min-width: 1025px) and (max-width: 1440px) {
   .Full.laptop {
     flex-direction: row;
@@ -564,9 +579,6 @@ a#medl {
     width: 105em;
   }
 
-  #map {
-    height: 900px;
-  }
 
   .search-container.laptop-search-container {
     margin-left: 4em;
@@ -602,10 +614,6 @@ a#medl {
     margin-left: 10em;
     margin-top: 6em;
     width: 120em;
-  }
-
-  #map {
-    height: 1000px;
   }
 
   .search-container {

@@ -472,7 +472,7 @@ const Home = () => {
       className={`Full ${isMobile ? "mobile" : ""} ${isLaptop ? "laptop" : ""}`}
     >
       {isMobile ? (
-        <div style={{ display: "flex", alignItems: "center", backgroundColor: "#53AEC6", padding: "10px" }}>
+        <div style={{ display: "flex", alignItems: "center", backgroundColor: "#C5E3EA", padding: "10px" }}>
           <button
             onClick={toggleSidebar}
             className="sidebar-icon"
@@ -510,7 +510,7 @@ const Home = () => {
         <span className="logout-text">Logout</span> {/* Wrap text in a span for styling */}
         <FontAwesomeIcon icon={faRightFromBracket} style={{ marginLeft: isMobile ? "0" : "5px", fontSize: isMobile ? "20px" : "16px" }} />
       </button>
-      <div className="side" ref={sidebarRef} style={{ marginLeft: isMobile ? "" : "2em" }}>
+      <div className="side" ref={sidebarRef} style={{ marginLeft: isMobile ? "" : "" }}>
         <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
       </div>
       <div
@@ -537,9 +537,9 @@ const Home = () => {
         id="gps"
         className={isMobile ? "mobile-gps" : ""}
         style={{
-          marginLeft: isMobile ? "-7.5em" : "7em",
+          marginLeft: isMobile ? "" : "",
           marginTop: isMobile ? "1em" : "6em",
-          width: isMobile ? "17em" : "105em",
+          width: isMobile ? "17em" : "",
           marginBottom: isMobile ? "2em" : ""
         }}
       >
@@ -557,7 +557,7 @@ const Home = () => {
             style={{
               width: isMobile ? "30%" : "",
               marginRight: isMobile ? "-2.5em" : "",
-              marginTop: isMobile ? "-10px" : "60em",
+              marginTop: isMobile ? "-10px" : "",
             }}
           >
             <b>Re-Locate</b>

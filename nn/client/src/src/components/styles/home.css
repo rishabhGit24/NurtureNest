@@ -4,7 +4,7 @@
 }
 
 body {
-  background-color: #007092 !important;
+  background-color: #c5e3ea !important;
 }
 
 .container {
@@ -18,40 +18,36 @@ body {
   margin-top: -45em; /* Adjust as needed */
 }
 
-/* blue:#007092
+/* blue:#C5E3EA
   orange: #fbb03b
   light orange: #f7a11e
   brown: #42210b */
 section#gps {
-  background-color: #007092 !important;
-  width: 50em;
-  height: 100em;
+  background-color: #c5e3ea !important;
   position: absolute;
-  margin-left: em;
 }
 
 #map {
-  height: 1250px;
-  width: 1090em;
-  margin: auto; /* Center the map horizontally */
-  margin-top: 0.2em;
+  height: 900px;
+  width: 100%;
+  margin: auto 10em; /* Restore original desktop margin */
   display: flex;
   justify-content: center;
   align-items: center; /* Center the map vertically */
   border-radius: 65px;
-  border: solid 5px #007092 !important;
+  border: solid 5px #c5e3ea !important;
 }
 
 .mapboxgl-map {
   border-radius: 65px;
-  border: solid 5px #007092 !important;
+  border: solid 5px #c5e3ea !important;
 }
 
 .mapboxgl-marker {
   border-radius: 50%;
   width: 20px;
   height: 20px;
-  background-color: #007092;
+  background-color: #c5e3ea;
   border: 2px solid #fff;
 }
 
@@ -78,15 +74,18 @@ section#gps {
 }
 
 #searchInput {
-  background-color: #1c92af !important;
+  height: 2em;
+  background-color: #53aec6 !important;
   color: white;
 }
+
 ::placeholder {
-  color: #fbb03b;
+  color: #00698f;
 }
 
 .search-bar {
-  background-color: #007290 !important;
+  padding: 2em 0;
+  background-color: #c5e3ea !important;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -96,8 +95,7 @@ section#gps {
 
 .search-bar input {
   padding: 8px;
-  border: 4px solid #007290 !important;
-  background-color: #007290 !important;
+  border: 4px solid #53aec6 !important;
   border-radius: 10px;
   margin-right: 1em;
   height: 10em;
@@ -105,17 +103,20 @@ section#gps {
 }
 
 .search-bar button {
-  padding: 10px 15px;
-  background-color: #fbb03b !important;
-  color: #42210b !important;
+  margin-top: -10px;
+  background-color: #19849e !important;
+  color: white !important;
   border: none;
   border-radius: 10px;
   width: 10em;
   cursor: pointer;
+  display: flex; /* Use flex to align text and icon */
+  justify-content: center;
+  align-items: center;
 }
 
 #searchButton {
-  background-color: #007290;
+  background-color: #c5e3ea;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -133,12 +134,60 @@ section#gps {
 }
 
 .mobile-search-bar {
-  width: 10%;
   padding-left: 12em;
 }
 
 .mobile-donations {
   margin-left: 0em;
+}
+
+.user-marker {
+  background-size: contain; /* Ensure the image fits within the div */
+  background-repeat: no-repeat; /* Prevent repeating the image */
+  background-position: center; /* Center the image */
+  border: none; /* Remove any border */
+  border-radius: 0; /* Remove border radius */
+  background-color: transparent; /* Ensure no background color */
+}
+
+#route-info {
+  display: none;
+  position: absolute;
+  background: rgba(
+    255,
+    255,
+    255,
+    0.9
+  ); /* Slightly transparent white background */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 112, 146); /* Soft shadow for depth */
+  z-index: 1;
+  font-family: Arial, sans-serif; /* Font family */
+  color: #333; /* Text color */
+  max-width: 300px; /* Max width for the info box */
+  text-align: center; /* Center text */
+}
+
+.logout-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: orange;
+  color: teal;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logout-button:hover {
+  background-color: #ff8c00; /* Darken orange on hover */
 }
 
 #relocateBtn {
@@ -150,8 +199,7 @@ section#gps {
   top: 2em;
   right: 3em;
   z-index: 401; /* Increase the z-index to make the button appear on top */
-  background-color: #007092 !important;
-  color: #fbb03b !important;
+  background-color: #00698f !important;
   padding: 0.5em 1em;
   border: solid 2px #3db6cb !important;
   border-radius: 19px;
@@ -159,30 +207,30 @@ section#gps {
 }
 
 section#don {
-  background-color: #fbb03b !important;
+  background-color: #53aec6 !important;
   border-radius: 95px;
-  max-height: 500em;
-  width: 93%;
+  height: 100%;
   display: flex;
   justify-content: center;
-  position: absolute;
-  z-index: 2;
-  margin-top: 73em;
-  margin-left: 7em;
+  width: 90%;
+  margin-top: 60em;
+  margin-bottom: -230em;
+  flex-direction: column;
 }
+/*.all {
+  display: flex; /* Use flexbox for layout 
+  flex-wrap: wrap; /* Allow wrapping to the next line 
+  justify-content: space-around; /* Space between cards 
+  padding: 20px; /* Padding around the grid 
+  width: 100%;
+}*/
 
-/* .all {
+.all {
   display: flex;
-  background-color: #fbb03b !important;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: flex-start;
   flex-wrap: wrap;
-  margin-top: -em;
-  margin-bottom: 8em;
-  margin-left: 9.5em;
-  margin-right: 10em;
-  gap: 25px;
-} */
+}
 
 .food,
 .cloth,
@@ -213,7 +261,7 @@ section#don {
 
 a {
   text-decoration: none;
-  color: #007092 !important;
+  color: #007290 !important;
 }
 
 a:hover {
@@ -225,7 +273,7 @@ li {
   font-size: 1.3em;
   padding-top: 2em;
   flex-direction: column;
-  color: #007092 !important;
+  color: #007290 !important;
   text-decoration: none;
   list-style-type: none;
 }
@@ -235,7 +283,7 @@ ul {
   font-size: 2.5em;
   padding-top: 2em;
   flex-direction: column;
-  color: #007092 !important;
+  color: #c5e3ea !important;
   text-decoration: none;
   list-style-type: none;
 }
@@ -249,7 +297,7 @@ ul {
 }
 
 p#mon {
-  color: #007092 !important;
+  color: #c5e3ea !important;
   width: 20em;
   padding-top: 1em;
   margin-left: 5em;
@@ -277,7 +325,7 @@ h1#edu,
 #stath,
 #hygh,
 #medh {
-  color: #007092 !important;
+  color: #c5e3ea !important;
   background-color: wheat !important;
   font-family: Arial, Helvetica, sans-serif;
   text-align: center;
@@ -285,7 +333,7 @@ h1#edu,
 }
 
 footer {
-  background-color: #007092 !important;
+  background-color: #c5e3ea !important;
   height: 12em;
   width: 100%;
   position: absolute;
@@ -369,58 +417,215 @@ a#medl {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* For screens with a width of 768px or less */
-@media only screen and (max-width: 768px) {
-  .all {
+/* Mobile styles */
+
+
+@media (max-width: 768px) {
+  .Full.mobile {
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
   }
-  .food,
-  .cloth,
-  .stat,
-  .money {
+
+  .side {
+    margin-left: 0;
+  }
+
+  #route-info {
+    margin-left: 0;
+    margin-top: 0;
+  }
+
+  #gps.mobile-gps {
+    margin-left: 1.5rem;
+    margin-top: 6em;
+    width: 17em;
+    margin-bottom: 2em;
+  }
+
+  #map.mobile-map {
+    height: 35em;
+    width: 150%;
+  }
+
+  .search-container.mobile-search-container {
+    margin-left: 12em;
+    width: 25em;
+    margin-top: 34em;
+  }
+
+  .search-bar.mobile-search-bar input {
     width: 100%;
-    margin-bottom: 20px;
+  }
+
+  .search-bar.mobile-search-bar button {
+    margin-left: -1em;
+    margin-top: -0.5em;
+  }
+
+  .donations.mobile-donations {
+    margin-left: 0;
+    margin-top: -1em;
+  }
+  section#don{
+    height: 100%;
   }
 }
 
-/* For screens with a width of 480px or less */
-@media only screen and (max-width: 480px) {
-  .all {
+/* Tablet styles */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .Full.tablet {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .side {
+    margin-left: 1em;
+  }
+
+  #route-info {
+    margin-left: 5em;
+    margin-top: 5em;
+  }
+
+  #gps {
+    margin-left: 5em;
+    margin-top: 5em;
+    width: 50em;
+  }
+
+  .search-container {
+    margin-left: 3em;
+    width: 30em;
+    margin-top: 2em;
+  }
+
+  .search-bar input {
+    width: 60%;
+  }
+
+  .donations {
+    margin-left: 5em;
+  }
+}
+
+/* Laptop styles */
+@media (min-width: 1980px){
+  section#don{
+    width: 70%;
+  }
+  #map{
+    margin-left: -1em;
+  }
+}
+@media (max-width: 1980px) and (min-width: 1779px){
+  #map{
+    width: 90%;
+    margin-left: -2em;
+  }
+  section#don{
+    width: 79%;
+  }
+  
+}
+@media (max-width: 1780px) and (min-width: 1580px){
+  #map{
+    width: 75%;
+    margin-left: -2em;
+  }
+}
+@media (max-width: 1580px) and (min-width: 1479px){
+  #map{
+    width: 70%;
+    margin-left: -1em;
+  }
+}
+
+@media (max-width: 1480px) and (min-width: 1380px){
+  #map{
+    width: 65%;
+  }
+}
+@media (max-width: 1379px) and (min-width: 1280px){
+  #map{
+    width: 60%;
+  }
+}
+@media (max-width: 1280px){
+  #map{
+    width: 55%;
+    margin-left: -2em;
+  }
+}
+
+
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .Full.laptop {
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
   }
-  .food,
-  .cloth,
-  .stat,
-  .money {
-    width: 100%;
-    margin-bottom: 20px;
+
+  .side {
+    margin-left: 2em;
   }
-  section#don {
-    background-color: #c5a3ed !important;
-    border-radius: 65px;
-    max-height: 220em;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    z-index: 2;
-    margin-top: 95em;
+
+  #route-info {
+    margin-left: 10em;
+    margin-top: 10em;
+  }
+
+  #gps {
+    margin-left: 7em;
+    margin-top: 6em;
+    width: 105em;
+  }
+
+
+  .search-container.laptop-search-container {
+    margin-left: 4em;
+    width: auto;
+  }
+
+  .search-bar.laptop-search-bar input {
+    width: 75%;
+  }
+
+  .donations {
+    margin-left: 14.5em;
   }
 }
 
-/* For screens with a width of 320px or less */
-@media only screen and (max-width: 320px) {
-  .all {
-    flex-direction: column;
-    align-items: center;
+/* Desktop styles */
+@media (min-width: 1441px) {
+  .Full.desktop {
+    flex-direction: row;
+    align-items: flex-start;
   }
-  .food,
-  .cloth,
-  .stat,
-  .money {
-    width: 100%;
-    margin-bottom: 20px;
+
+  .side {
+    margin-left: 3em;
+  }
+
+  #route-info {
+    margin-left: 15em;
+    margin-top: 15em;
+  }
+
+  #gps {
+    margin-left: 10em;
+    margin-top: 6em;
+    width: 120em;
+  }
+
+  .search-container {
+    margin-left: 5em;
+    width: auto;
+  }
+
+  .search-bar input {
+    width: 80%;
+  }
+
+  .donations {
+    margin-left: 20em;
   }
 }

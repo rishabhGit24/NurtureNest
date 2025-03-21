@@ -41,36 +41,40 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
-  // Generate a token
-  const user = await User.findOne({ email });
-  if (!user) {
-    return res.status(400).json({ error: "Invalid credentials" });
+  try {
+    // Generate a token
+    const user = await User.findOne({ email });
+    if (!user) {
+      console.error("User not found with email:", email); // Add logging
+      return res.status(400).json({ error: "Invalid credentials, couldn't find user with this email" });
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      console.error("Invalid password for user:", email); // Add logging
+      return res.status(400).json({ error: "Invalid credentials, wrong password" });
+    }
+
+    const token = jwt.sign({ userId: user._id }, "your_jwt_secret", {
+      expiresIn: "1h",
+    }); // Replace with your secret
+
+    res.json({ message: "Login successful", token });
+  } catch (err) {
+    console.error("Internal server error:", err); // Add logging
+    res.status(500).json({ error: "Internal server error" });
   }
-  const isPasswordValid = await bcrypt.compare(password, user.password);
-  if (!isPasswordValid) {
-    return res.status(400).json({ error: "Invalid credentials" });
-  }
-
-  const token = jwt.sign({ user, password }, "your_jwt_secret", {
-    expiresIn: "1h",
-  }); // Replace with your secret
-
-  // Set the token as a cookie
-  res.cookie("token", token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // Set secure to true in production
-    maxAge: 3600000,
-  }); // 1 hour
-
-  res.json({ message: "Login successful" });
 });
 
 router.post("/check", async (req, res) => {
-  const token = req.cookies.token; // Get token from cookies
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(401).json({ valid: false, error: "No token provided" });
+  }
 
+  const token = authHeader.split(" ")[1];
   try {
     const decoded = jwt.verify(token, "your_jwt_secret"); // Replace with your secret
-    res.json({ valid: true, email: decoded.user.email });
+    res.json({ valid: true, email: decoded.userId });
   } catch (err) {
     res.status(401).json({ valid: false, error: "Invalid token" });
   }

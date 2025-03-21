@@ -27,11 +27,17 @@ const Home = () => {
 
   useEffect(() => {
     const loginCheck = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        navigate("/");
+        return;
+      }
+
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/auth/check",
+          "http://192.168.29.7:4000/api/auth/check",
           {},
-          { withCredentials: true }
+          { headers: { Authorization: `Bearer ${token}` } }
         );
         if (!response.data.valid) {
           navigate("/");
@@ -43,7 +49,7 @@ const Home = () => {
     };
 
     loginCheck();
-  }, []);
+  }, [navigate]);
 
   const addMarkers = (filteredLocations) => {
     if (mapRef.current) {
@@ -427,11 +433,7 @@ const Home = () => {
   ];
 
   const handleLogout = async () => {
-    await axios.post(
-      "http://localhost:5000/api/auth/logout",
-      {},
-      { withCredentials: true }
-    );
+    localStorage.removeItem("token"); // Remove token from local storage
     navigate("/");
   };
 

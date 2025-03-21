@@ -1,81 +1,55 @@
-import axios from "axios"; // Ensure axios is imported correctly
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Add useNavigate for redirection
-import styled from "styled-components";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import "./styles/login.css";
 
-const Container = styled.div`
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(to right, #007290 50%, #fbb03b 50%);
-  color: white;
-`;
-
-function Login() {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate(); // For redirection after login
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        { email, password },
-        { withCredentials: true } // Ensure cookies are included in the request
-      );
-      const { message } = response.data;
-      if (message === "Login successful") {
-        navigate("/home");
-      }
-    } catch (error) {
-      setError("Invalid credentials"); // Set error state
+      const response = await axios.post("http://192.168.29.7:4000/api/auth/login", {
+        email,
+        password,
+      });
+      localStorage.setItem("token", response.data.token); // Store token in local storage
+      navigate("/home");
+    } catch (err) {
+      setError("Invalid credentials. Please try again.");
     }
   };
 
   return (
-    <Container>
-      <form onSubmit={handleSubmit}>
-        <h1>Welcome to NurtureNest</h1>
-
-        <label>Email:</label>
-        <input
-          type="email"
-          placeholder="Enter your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-
-        <label>Password:</label>
-        <input
-          type="password"
-          placeholder="Enter your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-
-        <div className="footbox">
-          <button type="submit" style={{ marginBottom: "13px" }}>
-            Login
-          </button>
-          <a href="/forgot-password" style={{ paddingLeft: "13px" }}>
-            Forgot password?
-          </a>
+    <div className="login-container">
+      <form onSubmit={handleLogin} className="login-form">
+        <h2>Login</h2>
+        {error && <p className="error">{error}</p>}
+        <div className="form-group">
+          <label>Email:</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
         </div>
-
-        {error && <p style={{ color: "red" }}>{error}</p>}
-
-        <p>
-          <a href="/signup">Don't have an account? Signup</a>
-        </p>
+        <div className="form-group">
+          <label>Password:</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit" className="login-button">Login</button>
       </form>
-    </Container>
+    </div>
   );
-}
+};
 
 export default Login;

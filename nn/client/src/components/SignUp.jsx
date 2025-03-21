@@ -45,7 +45,7 @@ function SignUp() {
     setErrorMessage('');
 
     // Send the data to the server for registration
-    fetch('http://localhost:5000/api/auth/signup', {
+    fetch('http://192.168.29.7:4000/api/auth/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

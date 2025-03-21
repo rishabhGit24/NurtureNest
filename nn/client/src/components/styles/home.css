@@ -29,8 +29,8 @@ section#gps {
 
 #map {
   height: 900px;
-  width: 100%;
-  margin: auto 10em; /* Restore original desktop margin */
+  width: 90%;
+  margin: auto; /* Restore original desktop margin */
   display: flex;
   justify-content: center;
   align-items: center; /* Center the map vertically */
@@ -74,13 +74,13 @@ section#gps {
 }
 
 #searchInput {
-  height: 2em;
+  height: 3em;
   background-color: #53aec6 !important;
   color: white;
 }
 
 ::placeholder {
-  color: #00698f;
+  color: white;
 }
 
 .search-bar {
@@ -104,7 +104,7 @@ section#gps {
 
 .search-bar button {
   margin-top: -10px;
-  background-color: #19849e !important;
+  background-color: #53aec6 !important;
   color: white !important;
   border: none;
   border-radius: 10px;
@@ -116,6 +116,7 @@ section#gps {
 }
 
 #searchButton {
+  height: 3em;
   background-color: #c5e3ea;
   color: white;
   padding: 10px 20px;
@@ -187,7 +188,7 @@ section#gps {
 }
 
 .logout-button:hover {
-  background-color: #53aec6   ; /* Darken orange on hover */
+  background-color: #53aec6; /* Darken orange on hover */
 }
 
 #relocateBtn {
@@ -199,9 +200,8 @@ section#gps {
   top: 2em;
   right: 3em;
   z-index: 401; /* Increase the z-index to make the button appear on top */
-  background-color: #00698f !important;
+  background-color: #53aec6 !important;
   padding: 0.5em 1em;
-  border: solid 2px #3db6cb !important;
   border-radius: 19px;
   cursor: pointer;
 }
@@ -217,6 +217,7 @@ section#don {
   margin-bottom: -230em;
   flex-direction: column;
 }
+
 /*.all {
   display: flex; /* Use flexbox for layout 
   flex-wrap: wrap; /* Allow wrapping to the next line 

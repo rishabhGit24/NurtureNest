@@ -29,7 +29,7 @@ const DonationRequestForm = () => {
             // Dynamically set the endpoint based on the category, default to 'food' if undefined
             const safeCategory = category ? category.toLowerCase() : 'food';
             const endpoint = `/api/donations/${safeCategory}`;
-            const response = await axios.post(`http://192.168.29.7:4000${endpoint}`, formData, {
+            const response = await axios.post(`http://192.168.1.109:4000${endpoint}`, formData, {
                 withCredentials: true, // If your backend requires credentials
             });
             console.log('Form submitted successfully:', response.data);

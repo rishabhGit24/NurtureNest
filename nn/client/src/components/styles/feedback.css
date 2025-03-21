@@ -1,0 +1,251 @@
+/* General Page Styling */
+.feedback-page {
+  background-color: #c5e3ea; /* Match the background color from other pages */
+  min-height: 100vh; /* Ensure full height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* Form Styling */
+.feedback-form {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Title Styling */
+.feedback-title {
+  font-size: 2.5rem;
+  color: #007290;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* Label Styling */
+.feedback-label {
+  display: block;
+  font-size: 1rem;
+  color: #007290;
+  margin-bottom: 8px;
+  font-weight: 500;
+  text-align: left;
+}
+
+/* Input Styling */
+.feedback-input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #007290;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+/* Textarea Styling */
+.feedback-textarea {
+  width: 90%;
+  height: 150px;
+  padding: 12px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+/* Submit Button Styling */
+.feedback-submit {
+  width: 35%;
+  padding: 12px;
+  background-color: #007290;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.feedback-submit:hover {
+  background-color: #53aec6;
+}
+
+/* Logout Button */
+.logout-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #19849e;
+  color: teal;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logout-button:hover {
+  background-color: #53aec6; /* Darken on hover */
+}
+
+.logout-button.mobile {
+  padding: 0.5rem;
+}
+
+.logout-button.mobile .logout-text {
+  display: none;
+}
+
+/* Sidebar Icon */
+.sidebar-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #007290;
+}
+
+/* Responsive Styles */
+
+/* Mobile (≤ 768px) */
+@media (max-width: 768px) {
+  .feedback-page {
+    padding: 20px 10px; /* Reduce padding on mobile */
+  }
+
+  .feedback-form {
+    padding: 20px; /* Reduce padding on mobile */
+    max-width: 100%; /* Full width on mobile */
+  }
+
+  .feedback-title {
+    font-size: 1.5rem; /* Smaller title on mobile */
+    margin-bottom: 15px;
+  }
+
+  .feedback-label {
+    font-size: 0.9rem; /* Smaller labels on mobile */
+    margin-bottom: 5px;
+  }
+
+  .feedback-input,
+  .feedback-textarea {
+    padding: 10px; /* Reduce padding */
+    font-size: 0.9rem; /* Smaller font size */
+    margin-bottom: 15px;
+  }
+
+  .feedback-textarea {
+    height: 120px; /* Reduce height on mobile */
+  }
+
+  .feedback-submit {
+    width: 100%; /* Full width button on mobile */
+    padding: 10px;
+    font-size: 1rem; /* Smaller font size */
+  }
+
+  .logout-button.mobile {
+    padding: 0.5rem;
+  }
+
+  .sidebar-icon {
+    font-size: 20px; /* Slightly smaller icon on mobile */
+  }
+}
+
+/* Small Mobile (≤ 480px) */
+@media (max-width: 480px) {
+  .feedback-page {
+    padding: 15px 8px; /* Further reduce padding */
+  }
+
+  .feedback-form {
+    padding: 15px; /* Further reduce padding */
+  }
+
+  .feedback-title {
+    font-size: 1.25rem; /* Even smaller title */
+    margin-bottom: 10px;
+  }
+
+  .feedback-label {
+    font-size: 0.8rem; /* Even smaller labels */
+  }
+
+  .feedback-input,
+  .feedback-textarea {
+    padding: 8px; /* Further reduce padding */
+    font-size: 0.8rem; /* Even smaller font size */
+    margin-bottom: 10px;
+  }
+
+  .feedback-textarea {
+    height: 100px; /* Further reduce height */
+  }
+
+  .feedback-submit {
+    padding: 8px;
+    font-size: 0.9rem; /* Even smaller font size */
+  }
+
+  .logout-button.mobile {
+    padding: 0.4rem;
+  }
+
+  .sidebar-icon {
+    font-size: 18px; /* Further reduce icon size */
+  }
+}
+
+/* Tablet (768px–1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .feedback-page {
+    padding: 30px 15px; /* Slightly reduced padding for tablets */
+  }
+
+  .feedback-form {
+    padding: 30px; /* Slightly reduced padding */
+    max-width: 90%; /* Slightly narrower on tablets */
+  }
+
+  .feedback-title {
+    font-size: 2rem; /* Slightly smaller title */
+  }
+
+  .feedback-label {
+    font-size: 0.95rem; /* Slightly smaller labels */
+  }
+
+  .feedback-input,
+  .feedback-textarea {
+    padding: 10px;
+    font-size: 0.95rem; /* Slightly smaller font size */
+  }
+
+  .feedback-submit {
+    width: 50%; /* Slightly wider button */
+    padding: 10px;
+    font-size: 1rem; /* Slightly smaller font size */
+  }
+}
+form {
+  background-color: #53aec6;
+}
+label {
+  color: white;
+  font-weight: bold;
+  padding-left: 1em;
+}

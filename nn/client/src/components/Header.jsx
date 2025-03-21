@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import nn3 from '../assets/images/small_nn1.jpg';
+import nn3 from '../assets/images/small_nn1.png';
 import "./styles/header.css";
 
 export default function Header() {
@@ -24,7 +24,7 @@ export default function Header() {
         <div className={`header ${isMobile ? 'mobile-header' : ''} ${isLaptop ? 'laptop-header' : ''}`}>
             <div className="navbar" style={{ paddingLeft: isMobile ? "4em" : "" }}>
                 <div className="top_logo">
-                    <img id="toplogo" src={nn3} alt="NurtureNest Logo" style={{ backgroundColor: "#C5E3EA", width: isMobile ? "90%" : "20%", height: isMobile ? "100%" : "", marginTop: isMobile ? "2em" : "", padding: isMobile ? "1em 0" : "", marginLeft: isMobile ? "-9em" : "", position: isMobile ? "relative" : "", }} />
+                    <img id="toplogo" src={nn3} alt="NurtureNest Logo" style={{ backgroundColor: "#C5E3EA", width: isMobile ? "100%" : "20%", height: isMobile ? "100%" : "", marginTop: isMobile ? "3em" : "", padding: isMobile ? "1em 0" : "2em 0", marginLeft: isMobile ? "-3em" : "", position: isMobile ? "relative" : "", }} />
                 </div>
             </div>
         </div>

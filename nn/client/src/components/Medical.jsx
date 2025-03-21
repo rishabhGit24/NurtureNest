@@ -29,7 +29,7 @@ const Medical = () => {
         const loginCheck = async () => {
             try {
                 const response = await axios.post(
-                    "http://192.168.29.7:4000/api/auth/check",
+                    "http://192.168.1.109:4000/api/auth/check",
                     {},
                     { withCredentials: true } // Ensure cookies are included in the request
                 );
@@ -434,7 +434,7 @@ const Medical = () => {
 
     const handleLogout = async () => {
         await axios.post(
-            "http://192.168.29.7:4000/api/auth/logout",
+            "http://192.168.1.109:4000/api/auth/logout",
             {},
             { withCredentials: true }
         );

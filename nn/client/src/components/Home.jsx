@@ -35,7 +35,7 @@ const Home = () => {
 
       try {
         const response = await axios.post(
-          "http://192.168.29.7:4000/api/auth/check",
+          "http://192.168.1.109:4000/api/auth/check",
           {},
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -474,11 +474,11 @@ const Home = () => {
       className={`Full ${isMobile ? "mobile" : ""} ${isLaptop ? "laptop" : ""}`}
     >
       {isMobile ? (
-        <div style={{ display: "flex", alignItems: "center", backgroundColor: "#C5E3EA", padding: "10px" }}>
+        <div style={{ display: "flex", alignItems: "center", backgroundColor: "#C5E3EA", padding: "5px" }}>
           <button
             onClick={toggleSidebar}
             className="sidebar-icon"
-            style={{ marginRight: "10px" }} // Space between icon and logo
+            style={{ marginTop: "-5em", marginLeft: isMobile ? "-2px" : "", width: isMobile ? "15%" : "", position: isMobile ? "absolute" : "" }} // Space between icon and logo
           >
             <FaBars />
           </button>
@@ -493,8 +493,8 @@ const Home = () => {
         style={{
           position: "absolute",
           zIndex: isMobile ? "1001" : "",
-          top: isMobile ? "0px" : "20px",
-          right: isMobile ? "5px" : "40px",
+          top: isMobile ? "1px" : "20px",
+          right: isMobile ? "10px" : "40px",
           backgroundColor: "#19849E",
           color: isMobile ? "transparent" : "white", // Hide text on mobile
           border: "none",
@@ -506,11 +506,18 @@ const Home = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          width: isMobile ? "8%" : "",
+          width: isMobile ? "10%" : "",
         }}
       >
         <span className="logout-text">Logout</span> {/* Wrap text in a span for styling */}
-        <FontAwesomeIcon icon={faRightFromBracket} style={{ marginLeft: isMobile ? "0" : "5px", fontSize: isMobile ? "20px" : "16px" }} />
+        <FontAwesomeIcon
+          icon={faRightFromBracket}
+          style={{
+            marginLeft: isMobile ? "" : "5px",
+            fontSize: isMobile ? "20px" : "16px",
+            color: isMobile ? "white" : "white", // Ensure icon is visible on mobile
+          }}
+        />
       </button>
       <div className="side" ref={sidebarRef} style={{ marginLeft: isMobile ? "" : "" }}>
         <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
@@ -539,7 +546,7 @@ const Home = () => {
         id="gps"
         className={isMobile ? "mobile-gps" : ""}
         style={{
-          marginLeft: isMobile ? "" : "",
+          marginLeft: isMobile ? "" : "17em",
           marginTop: isMobile ? "1em" : "6em",
           width: isMobile ? "17em" : "",
           marginBottom: isMobile ? "2em" : ""
@@ -549,7 +556,7 @@ const Home = () => {
           ref={mapContainerRef}
           id="map"
           className={isMobile ? "mobile-map" : ""}
-          style={{ height: isMobile ? "35em" : "900px", width: isMobile ? "150%" : "", }}
+          style={{ height: isMobile ? "35em" : "900px", width: isMobile ? "130%" : "", }}
         >
           <div id="map-element"></div>
           <button
@@ -557,9 +564,10 @@ const Home = () => {
             id="relocateBtn"
             className={isMobile ? "mobile-relocate-btn" : ""}
             style={{
-              width: isMobile ? "30%" : "",
-              marginRight: isMobile ? "-2.5em" : "",
-              marginTop: isMobile ? "-10px" : "",
+              fontSize: isMobile ? "12px" : "",
+              width: isMobile ? "20%" : "",
+              marginRight: isMobile ? "-2em" : "",
+              marginTop: isMobile ? "-1px" : "",
             }}
           >
             <b>Re-Locate</b>
@@ -571,8 +579,8 @@ const Home = () => {
         style={{
           display: isMobile ? "" : "",
           paddingBottom: isMobile ? "2em" : "",
-          marginLeft: isMobile ? "1px" : "4em",
-          width: isMobile ? "25em" : "",
+          marginLeft: isMobile ? "-1em" : "4em",
+          width: isMobile ? "23em" : "",
           marginTop: isMobile ? "28em" : "",
         }}
       >
@@ -592,8 +600,9 @@ const Home = () => {
             onClick={handleSearch}
             style={{
               width: isMobile ? "" : "",
-              marginLeft: isMobile ? "-1em" : "",
-              marginTop: isMobile ? "-0.5em" : "",
+              marginLeft: isMobile ? "1px" : "",
+              marginTop: isMobile ? "-0.7em" : "",
+              padding: isMobile ? "0" : "",
             }}
           >
             <span className="search-text">Search</span>
@@ -626,7 +635,7 @@ const Home = () => {
           ))}
         </div>
       </section>
-      <div style={{ marginTop: isMobile ? "120em" : "230em" }}>
+      <div style={{ marginTop: isMobile ? "127em" : "230em", position: isMobile ? "relative" : "" }}>
         <Footer />
       </div>
     </div>

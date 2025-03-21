@@ -20,7 +20,7 @@ const Footer = () => {
     }, []); // Empty dependency array ensures it runs once on mount
 
     return (
-        <footer className={`footer ${isMobile ? 'mobile' : ''} ${isLaptop ? 'laptop' : ''}`}>
+        <footer className={`footer ${isMobile ? 'mobile' : ''} ${isLaptop ? 'laptop' : ''}`} >
             <p>@ 2024 NURTURENEST</p>
         </footer>
     );

@@ -1,3 +1,5 @@
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { default as React, useEffect, useRef, useState } from "react";
 import { FaBars, FaTimes } from 'react-icons/fa';
 import Footer from './Footer';
@@ -264,16 +266,46 @@ const Locations = () => {
             <Header />
             <button
                 onClick={handleLogout}
-                className="logout-button"
-                style={{ position: 'absolute', top: '20px', right: '20px' }}
+                className={`logout-button ${isMobile ? "mobile" : ""}`}
+                style={{
+                    position: "absolute",
+                    zIndex: isMobile ? "1001" : "",
+                    top: isMobile ? "1px" : "20px",
+                    right: isMobile ? "10px" : "40px",
+                    backgroundColor: "#19849E",
+                    color: isMobile ? "transparent" : "white", // Hide text on mobile
+                    border: "none",
+                    borderRadius: "5px",
+                    padding: isMobile ? "10px" : "10px 20px", // Adjust padding for icon-only on mobile
+                    cursor: "pointer",
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: isMobile ? "10%" : "",
+                }}
             >
-                Logout
+                <span className="logout-text">Logout</span> {/* Wrap text in a span for styling */}
+                <FontAwesomeIcon
+                    icon={faRightFromBracket}
+                    style={{
+                        marginLeft: isMobile ? "" : "5px",
+                        fontSize: isMobile ? "20px" : "16px",
+                        color: isMobile ? "white" : "white", // Ensure icon is visible on mobile
+                    }}
+                />
             </button>
             {isMobile && (
                 <button
                     onClick={toggleSidebar}
                     className="sidebar-icon"
-                    aria-label="Toggle sidebar"
+                    style={{
+                        marginTop: "-7.3em",
+                        marginLeft: isMobile ? "-10em" : "",
+                        width: isMobile ? "15%" : "",
+                        position: isMobile ? "absolute" : "",
+                    }}
                 >
                     <FaBars />
                 </button>
@@ -284,7 +316,7 @@ const Locations = () => {
             >
                 <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
             </div>
-            <div className="locations-container">
+            <div className="locations-container" style={{ marginTop: isMobile ? "2em" : "" }}>
                 <h1 className="title">NGOs & Orphanages</h1>
                 <div className={`locations-grid ${selectedCard !== null ? 'blur-background' : ''}`}>
                     {initialLocations.map((location, index) => (
@@ -339,7 +371,9 @@ const Locations = () => {
                     </div>
                 )}
             </div>
-            <Footer />
+            <div style={{ marginTop: isMobile ? "-102em" : "" }}>
+                <Footer />
+            </div>
         </>
     );
 };

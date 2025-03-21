@@ -1,3 +1,5 @@
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     Button,
     Dialog,
@@ -9,7 +11,6 @@ import {
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react"; // Added useRef to the import
 import { FaBars } from 'react-icons/fa'; // Assuming FaBars is from react-icons
-import Footer from './Footer'; // Adjust the path if Footer is in a different file
 import Header from './Header'; // Adjust the path if Header is in a different file
 import Sidebar from './Sidebar'; // Adjust the path if Sidebar is in a different directory
 import "./styles/Profile.css"; // Import the CSS file
@@ -99,28 +100,46 @@ const Profile = () => {
             <Header />
             <button
                 onClick={handleLogout}
-                className="logout-button"
+                className={`logout-button ${isMobile ? "mobile" : ""}`}
                 style={{
                     position: "absolute",
-                    top: "20px",
-                    right: "20px",
-                    backgroundColor: "orange",
-                    color: "teal",
+                    zIndex: isMobile ? "1001" : "",
+                    top: isMobile ? "1px" : "20px",
+                    right: isMobile ? "10px" : "40px",
+                    backgroundColor: "#19849E",
+                    color: isMobile ? "transparent" : "white", // Hide text on mobile
                     border: "none",
                     borderRadius: "5px",
-                    padding: "10px 20px",
+                    padding: isMobile ? "10px" : "10px 20px", // Adjust padding for icon-only on mobile
                     cursor: "pointer",
                     fontSize: "16px",
                     fontWeight: "bold",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: isMobile ? "10%" : "",
                 }}
             >
-                Logout
+                <span className="logout-text">Logout</span> {/* Wrap text in a span for styling */}
+                <FontAwesomeIcon
+                    icon={faRightFromBracket}
+                    style={{
+                        marginLeft: isMobile ? "" : "5px",
+                        fontSize: isMobile ? "20px" : "16px",
+                        color: isMobile ? "white" : "white", // Ensure icon is visible on mobile
+                    }}
+                />
             </button>
             {isMobile && (
                 <button
                     onClick={toggleSidebar}
                     className="sidebar-icon"
-                    style={{ marginLeft: "" }}
+                    style={{
+                        marginTop: "-7.5em",
+                        marginLeft: isMobile ? "-10em" : "",
+                        width: isMobile ? "15%" : "",
+                        position: isMobile ? "absolute" : "",
+                    }}
                 >
                     <FaBars />
                 </button>
@@ -232,7 +251,6 @@ const Profile = () => {
                     </DialogActions>
                 </Dialog>
             </div>
-            <Footer />
         </>
     );
 };

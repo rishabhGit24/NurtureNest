@@ -20,7 +20,7 @@ const CompCard = ({ title, items, onTitleClick, onItemClick }) => {
     }, []);
 
     return (
-        <div className={`comp-card ${isMobile ? 'mobile' : ''} ${isLaptop ? 'laptop' : ''}`} style={{ height: isMobile ? "20em" : "", marginRight: isMobile ? "1em" : "", width: isMobile ? "" : "30em", }}>
+        <div className={`comp-card ${isMobile ? 'mobile' : ''} ${isLaptop ? 'laptop' : ''}`} style={{ height: isMobile ? "20em" : "", marginRight: isMobile ? "1em" : "", width: isMobile ? "18em" : "30em", }}>
             <h1 onClick={onTitleClick} style={{ fontSize: isMobile ? "2em" : "", cursor: "pointer", color: "#007092" }}>{title}</h1>
             <hr />
             <div className='cardLi' style={{ fontSize: isMobile ? "50%" : "", }}>

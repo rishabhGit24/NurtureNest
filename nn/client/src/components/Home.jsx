@@ -603,8 +603,8 @@ const Home = () => {
         id="don"
         className={`donations ${isMobile ? "mobile-donations" : ""}`}
         style={{
-          width: isMobile ? "100%" : "",
-          marginLeft: isMobile ? "0em" : "14.5em",
+          width: isMobile ? "100%" : "110em",
+          marginLeft: isMobile ? "0em" : "15em",
           marginTop: isMobile ? "-1em" : "",
         }}
       >

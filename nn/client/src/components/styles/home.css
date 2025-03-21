@@ -173,7 +173,7 @@ section#gps {
   position: absolute;
   top: 20px;
   right: 20px;
-  background-color: orange;
+  background-color: #19849e;
   color: teal;
   border: none;
   border-radius: 5px;
@@ -187,7 +187,7 @@ section#gps {
 }
 
 .logout-button:hover {
-  background-color: #ff8c00; /* Darken orange on hover */
+  background-color: #53aec6   ; /* Darken orange on hover */
 }
 
 #relocateBtn {
@@ -212,7 +212,7 @@ section#don {
   height: 100%;
   display: flex;
   justify-content: center;
-  width: 90%;
+  width: 100%;
   margin-top: 60em;
   margin-bottom: -230em;
   flex-direction: column;
@@ -419,7 +419,6 @@ a#medl {
 
 /* Mobile styles */
 
-
 @media (max-width: 768px) {
   .Full.mobile {
     flex-direction: column;
@@ -466,7 +465,7 @@ a#medl {
     margin-left: 0;
     margin-top: -1em;
   }
-  section#don{
+  section#don {
     height: 100%;
   }
 }
@@ -509,54 +508,52 @@ a#medl {
 }
 
 /* Laptop styles */
-@media (min-width: 1980px){
-  section#don{
+@media (min-width: 1980px) {
+  section#don {
     width: 70%;
   }
-  #map{
+  #map {
     margin-left: -1em;
   }
 }
-@media (max-width: 1980px) and (min-width: 1779px){
-  #map{
+@media (max-width: 1980px) and (min-width: 1779px) {
+  #map {
     width: 90%;
     margin-left: -2em;
   }
-  section#don{
+  section#don {
     width: 79%;
   }
-  
 }
-@media (max-width: 1780px) and (min-width: 1580px){
-  #map{
+@media (max-width: 1780px) and (min-width: 1580px) {
+  #map {
     width: 75%;
     margin-left: -2em;
   }
 }
-@media (max-width: 1580px) and (min-width: 1479px){
-  #map{
+@media (max-width: 1580px) and (min-width: 1479px) {
+  #map {
     width: 70%;
     margin-left: -1em;
   }
 }
 
-@media (max-width: 1480px) and (min-width: 1380px){
-  #map{
+@media (max-width: 1480px) and (min-width: 1380px) {
+  #map {
     width: 65%;
   }
 }
-@media (max-width: 1379px) and (min-width: 1280px){
-  #map{
+@media (max-width: 1379px) and (min-width: 1280px) {
+  #map {
     width: 60%;
   }
 }
-@media (max-width: 1280px){
-  #map{
+@media (max-width: 1280px) {
+  #map {
     width: 55%;
     margin-left: -2em;
   }
 }
-
 
 @media (min-width: 1025px) and (max-width: 1440px) {
   .Full.laptop {
@@ -578,7 +575,6 @@ a#medl {
     margin-top: 6em;
     width: 105em;
   }
-
 
   .search-container.laptop-search-container {
     margin-left: 4em;

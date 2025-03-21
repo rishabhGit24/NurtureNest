@@ -1,7 +1,7 @@
+import axios from "axios"; // Ensure axios is imported correctly
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Add useNavigate for redirection
 import styled from "styled-components";
-import axios from "axios"; // Ensure axios is imported correctly
 
 const Container = styled.div`
   height: 100vh;

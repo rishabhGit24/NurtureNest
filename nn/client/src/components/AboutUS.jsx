@@ -71,8 +71,8 @@ const AboutUs = () => {
           position: "absolute",
           top: "20px",
           right: "20px",
-          backgroundColor: "orange",
-          color: "teal",
+          backgroundColor: "#19849E",
+          color: "white",
           border: "none",
           borderRadius: "5px",
           padding: "10px 20px",
@@ -93,36 +93,36 @@ const AboutUs = () => {
         </button>
       )}
       <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
-      <Box sx={{ p: 4, bgcolor: "#f5f5f5" }}>
+      <Box sx={{ p: 4, bgcolor: "#C5E3E" }}>
         <Typography variant="h4" align="center" gutterBottom sx={{ color: "#007290", fontWeight: "bold" }}>
           About Us
         </Typography>
-        <Box sx={{ p: 3, mb: 4, borderRadius: 2, bgcolor: "#FBB03B", boxShadow: 2, margin: "0 6em" }}>
-          <Typography variant="body1" align="center" sx={{ fontSize: "18px", fontWeight: 500, color: "#000", textAlign: "center", }}>
+        <Box sx={{ width: "65%", p: 4, mb: 4, borderRadius: 2, bgcolor: "#53AEC6", boxShadow: 2, margin: "auto" }}>
+          <Typography variant="body1" align="center" sx={{ fontWeight: "bold", fontSize: "18px", fontWeight: 500, color: "white", textAlign: "center", }}>
             NurtureNest is committed to providing innovative solutions to enhance your experience.
             Our dedicated team of professionals works tirelessly to deliver cutting-edge technology
             and exceptional service. Together, we aim to nurture growth and inspire change.
           </Typography>
         </Box>
-        <Typography variant="h5" align="center" gutterBottom sx={{ color: "#007290", fontWeight: "bold" }}>
+        <Typography variant="h5" align="center" gutterBottom sx={{ color: "#007290", fontWeight: "bold", padding: "1em 1em" }}>
           Meet Our Co-Founders
         </Typography>
         <Grid container spacing={4} justifyContent="center">
           {cofounders.map((cofounder, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <Paper elevation={3} sx={{ p: 3, bgcolor: "#007290", color: "#fff", borderRadius: 2, textAlign: "center" }}>
+            <Grid item xs={12} sm={1} md={4} key={index}>
+              <Paper elevation={16} sx={{ p: 6, bgcolor: "#53AEC6", color: "#fff", borderRadius: 2, textAlign: "center" }}>
                 <img src={cofounder.image} alt={cofounder.name} className="team-image" />
-                <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                <Typography variant="h6" sx={{ fontWeight: "bold", fontSize: "24px", mt: 2 }}>
                   {cofounder.name}
                 </Typography>
                 <Typography variant="subtitle1">{cofounder.role}</Typography>
-                <Typography variant="body2" sx={{ mt: 2, textAlign: "justify" }}>{cofounder.description}</Typography>
+                <Typography variant="body2" sx={{ mt: 2, textAlign: "justify", fontSize: "18px" }}>{cofounder.description}</Typography>
               </Paper>
             </Grid>
           ))}
         </Grid>
-      </Box>
-      <div style={{ marginTop: isMobile ? "" : "-2em" }}>
+      </Box >
+      <div style={{ marginTop: isMobile ? "" : "-6em" }}>
         <Footer />
       </div>
     </>

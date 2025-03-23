@@ -1,114 +1,96 @@
+import { animated, useSpring } from "@react-spring/web";
 import axios from "axios";
-import React, { useCallback, useState } from "react";
-import Particles from "react-particles";
+import $ from "jquery";
+import "jquery.ripples";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Tilt } from "react-tilt";
 import styled, { keyframes } from "styled-components";
-import { loadSlim } from "tsparticles-slim";
 import "./styles/login.css";
 
-// Keyframes for animations
+// Keyframes definitions (unchanged)
 const pulse = keyframes`
-  0% {
-    box-shadow: 0 0 0 0 rgba(83, 174, 198, 0.7);
-  }
-  70% {
-    box-shadow: 0 0 0 20px rgba(83, 174, 198, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(83, 174, 198, 0);
-  }
+  0% { box-shadow: 0 0 0 0 rgba(83, 174, 198, 0.7); }
+  70% { box-shadow: 0 0 0 20px rgba(83, 174, 198, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(83, 174, 198, 0); }
 `;
 
 const glow = keyframes`
-  0% {
-    text-shadow: 0 0 5px #53AEC6, 0 0 10px #53AEC6, 0 0 15px #53AEC6;
-  }
-  50% {
-    text-shadow: 0 0 10px #53AEC6, 0 0 20px #53AEC6, 0 0 30px #53AEC6;
-  }
-  100% {
-    text-shadow: 0 0 5px #53AEC6, 0 0 10px #53AEC6, 0 0 15px #53AEC6;
-  }
+  0% { text-shadow: 0 0 5px #53AEC6, 0 0 10px #53AEC6, 0 0 15px #53AEC6; }
+  50% { text-shadow: 0 0 10px #53AEC6, 0 0 20px #53AEC6, 0 0 30px #53AEC6; }
+  100% { text-shadow: 0 0 5px #53AEC6, 0 0 10px #53AEC6, 0 0 15px #53AEC6; }
 `;
 
+// Styled components with responsive adjustments
 const Container = styled.div`
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   background: linear-gradient(135deg, #1A6A7D 40%, #A3D5E0 60%);
   position: relative;
   overflow: hidden;
-
-  /* Ensure the container takes full height on smaller screens */
-  @media (max-width: 768px) {
-    padding: 20px;
-  }
+  padding: 20px;
 `;
 
-const ParticlesWrapper = styled.div`
+const RippleBackground = styled.div`
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   z-index: 0;
+  background: url("https://www.transparenttextures.com/patterns/water.jpg") repeat;
+  background-size: 150px 150px; // Reduced for mobile
+  opacity: 0.3;
 
-  /* Adjust particle density on smaller screens */
   @media (max-width: 768px) {
-    & > canvas {
-      transform: scale(0.8); /* Slightly scale down particles for better performance */
-    }
+    background-size: 100px 100px;
   }
 `;
 
-const FormWrapper = styled.div`
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(15px);
-  border-radius: 20px;
-  padding: 40px;
-  width: 450px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(83, 174, 198, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+const FormWrapper = styled(animated.div)`
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  padding: 50px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 25px rgba(83, 174, 198, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   text-align: center;
   position: relative;
   z-index: 1;
-  animation: ${pulse} 2s infinite;
+  animation: ${pulse} 2.5s infinite;
 
-  /* Responsive styles */
   @media (max-width: 768px) {
-    width: 90%;
-    max-width: 350px;
-    padding: 20px;
+    padding: 30px;
     border-radius: 15px;
   }
 
   @media (max-width: 480px) {
-    width: 100%;
-    max-width: 300px;
-    padding: 15px;
+    padding: 20px;
+    margin: 10px;
   }
 `;
 
 const Title = styled.h1`
-  font-family: "Orbitron", sans-serif;
-  font-size: 2.5rem;
+  font-family: "Playfair Display", serif;
+  font-size: 2.8rem;
   color: #fff;
-  margin-bottom: 30px;
-  text-shadow: 0 0 10px #53AEC6;
-  animation: ${glow} 2s infinite;
-  letter-spacing: 2px;
+  margin-bottom: 35px;
+  text-shadow: 0 0 12px #53AEC6;
+  animation: ${glow} 2.5s infinite;
+  letter-spacing: 3px;
 
-  /* Responsive font sizes */
   @media (max-width: 768px) {
-    font-size: 2rem;
-    margin-bottom: 20px;
+    font-size: 2.2rem;
+    margin-bottom: 25px;
   }
 
   @media (max-width: 480px) {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
   }
 `;
 
@@ -120,127 +102,66 @@ const Form = styled.form`
 `;
 
 const InputGroup = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   text-align: left;
   width: 100%;
   position: relative;
 
-  @media (max-width: 768px) {
-    margin-bottom: 15px;
+  @media (max-width: 480px) {
+    margin-bottom: 20px;
   }
 `;
 
 const Label = styled.label`
   font-family: "Roboto", sans-serif;
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #fff;
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   font-weight: 500;
-  text-shadow: 0 0 5px rgba(83, 174, 198, 0.5);
-
-  @media (max-width: 768px) {
-    font-size: 0.9rem;
-    margin-bottom: 5px;
-  }
 
   @media (max-width: 480px) {
-    font-size: 0.8rem;
+    font-size: 1rem;
+    margin-bottom: 8px;
   }
 `;
 
 const Input = styled.input`
   width: 100%;
-  padding: 12px;
-  border: 1px solid rgba(83, 174, 198, 0.5);
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.1);
+  padding: 14px;
+  border: 1px solid rgba(83, 174, 198, 0.6);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.15);
   color: #fff;
-  font-size: 1rem;
-  font-family: "Roboto", sans-serif;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 10px rgba(83, 174, 198, 0.3);
-
-  &::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  &:focus {
-    outline: none;
-    border-color: #53AEC6;
-    box-shadow: 0 0 15px rgba(83, 174, 198, 0.7);
-    background: rgba(255, 255, 255, 0.2);
-  }
-
-  @media (max-width: 768px) {
-    padding: 10px;
-    font-size: 0.9rem;
-  }
+  font-size: 1.1rem;
+  box-sizing: border-box;
 
   @media (max-width: 480px) {
-    padding: 8px;
-    font-size: 0.8rem;
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 8px;
   }
 `;
 
 const Button = styled.button`
   width: 100%;
-  padding: 12px;
-  background: #53AEC6;
+  padding: 14px;
+  background: linear-gradient(45deg, #468FA5, #53AEC6);
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   color: #fff;
-  font-size: 1.1rem;
-  font-family: "Orbitron", sans-serif;
-  font-weight: 600;
+  font-size: 1.2rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 15px rgba(83, 174, 198, 0.5);
-  position: relative;
-  overflow: hidden;
-
+  transition: all 0.4s ease;
+  
   &:hover {
-    background: linear-gradient(45deg, #468FA5, #53AEC6);
-    box-shadow: 0 0 25px rgba(83, 174, 198, 0.8);
-    transform: scale(1.05);
-  }
-
-  &:active {
-    transform: scale(0.95);
-  }
-
-  @media (max-width: 768px) {
-    padding: 10px;
-    font-size: 1rem;
+    background: linear-gradient(45deg, #53AEC6, #468FA5);
   }
 
   @media (max-width: 480px) {
-    padding: 8px;
-    font-size: 0.9rem;
-  }
-`;
-
-const Link = styled.a`
-  color: #fff;
-  font-family: "Roboto", sans-serif;
-  font-size: 0.9rem;
-  text-decoration: none;
-  margin: 0 5px;
-  transition: all 0.3s ease;
-  text-shadow: 0 0 5px rgba(83, 174, 198, 0.5);
-
-  &:hover {
-    color: #53AEC6;
-    text-shadow: 0 0 10px #53AEC6;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 0.8rem;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 0.7rem;
-    margin: 0 3px;
+    padding: 12px;
+    font-size: 1.1rem;
+    border-radius: 8px;
   }
 `;
 
@@ -248,32 +169,40 @@ const Footbox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 25px;
   width: 100%;
+  flex-wrap: wrap;
+  gap: 10px;
 
-  @media (max-width: 768px) {
-    margin-top: 15px;
+  @media (max-width: 480px) {
     flex-direction: column;
-    gap: 10px;
+    margin-top: 20px;
+  }
+`;
+
+const Link = styled.a`
+  color: #fff;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.95rem;
+  text-decoration: none;
+  margin: 0 5px;
+
+  @media (max-width: 480px) {
+    font-size: 0.9rem;
   }
 `;
 
 const ErrorMessage = styled.p`
   color: #ff6b6b;
   font-family: "Roboto", sans-serif;
-  font-size: 0.9rem;
-  margin: 10px 0;
+  font-size: 0.95rem;
+  margin: 12px 0;
   width: 100%;
   text-align: center;
-  text-shadow: 0 0 5px rgba(255, 107, 107, 0.5);
-
-  @media (max-width: 768px) {
-    font-size: 0.8rem;
-    margin: 8px 0;
-  }
 
   @media (max-width: 480px) {
-    font-size: 0.7rem;
+    font-size: 0.85rem;
+    margin: 10px 0;
   }
 `;
 
@@ -282,74 +211,62 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const rippleRef = useRef(null);
 
-  const particlesInit = useCallback(async (engine) => {
-    await loadSlim(engine);
-  }, []);
+  const [springProps, setSpring] = useSpring(() => ({
+    transform: "perspective(600px) rotateX(0deg) rotateY(0deg) scale(1)",
+    config: { mass: 5, tension: 350, friction: 40 },
+  }));
 
-  const particlesOptions = {
-    particles: {
-      number: {
-        value: 80,
-        density: {
-          enable: true,
-          value_area: 800,
-        },
-      },
-      color: {
-        value: "#53AEC6",
-      },
-      shape: {
-        type: "circle",
-      },
-      opacity: {
-        value: 0.5,
-        random: true,
-      },
-      size: {
-        value: 3,
-        random: true,
-      },
-      move: {
-        enable: true,
-        speed: 2,
-        direction: "none",
-        random: false,
-        straight: false,
-        out_mode: "out",
-        bounce: false,
-      },
-      links: {
-        enable: true,
-        distance: 150,
-        color: "#53AEC6",
-        opacity: 0.4,
-        width: 1,
-      },
-    },
-    interactivity: {
-      events: {
-        onhover: {
-          enable: true,
-          mode: "repulse",
-        },
-        onclick: {
-          enable: true,
-          mode: "push",
-        },
-      },
-      modes: {
-        repulse: {
-          distance: 100,
-          duration: 0.4,
-        },
-        push: {
-          quantity: 4,
-        },
-      },
-    },
-    retina_detect: true,
+  const handleMouseMove = (e) => {
+    const { clientX, clientY, currentTarget } = e;
+    const { width, height, left, top } = currentTarget.getBoundingClientRect();
+    const x = clientX - left;
+    const y = clientY - top;
+    const centerX = width / 2;
+    const centerY = height / 2;
+    const rotateX = (y - centerY) / centerY * 20;
+    const rotateY = (centerX - x) / centerX * 20;
+
+    setSpring({
+      transform: `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`,
+    });
   };
+
+  const handleMouseLeave = () => {
+    setSpring({
+      transform: "perspective(600px) rotateX(0deg) rotateY(0deg) scale(1)",
+    });
+  };
+
+  useEffect(() => {
+    if (rippleRef.current) {
+      $(rippleRef.current).ripples({
+        resolution: 512, // Reduced for better mobile performance
+        dropRadius: 25,
+        perturbance: 0.08,
+        interactive: true,
+        color: "rgba(199, 230, 239, 0.5)",
+      });
+
+      const addRandomRipple = () => {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const x = Math.random() * width;
+        const y = Math.random() * height;
+        $(rippleRef.current).ripples("drop", x, y, 15, 0.03);
+      };
+
+      const interval = setInterval(addRandomRipple, Math.random() * 2000 + 2000);
+
+      return () => {
+        clearInterval(interval);
+        if (rippleRef.current) {
+          $(rippleRef.current).ripples("destroy");
+        }
+      };
+    }
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -358,7 +275,7 @@ const Login = () => {
         email,
         password,
       });
-      localStorage.setItem("token", response.data.token); // Store token in local storage
+      localStorage.setItem("token", response.data.token);
       navigate("/home");
     } catch (err) {
       setError("Invalid credentials. Please try again.");
@@ -367,52 +284,47 @@ const Login = () => {
 
   return (
     <Container>
-      <ParticlesWrapper>
-        <Particles
-          id="tsparticles"
-          init={particlesInit}
-          options={particlesOptions}
-        />
-      </ParticlesWrapper>
+      <RippleBackground ref={rippleRef} />
+      <FormWrapper
+        style={springProps}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+      >
+        <Title>Welcome to NurtureNest</Title>
+        <Form onSubmit={handleLogin} style={{ backgroundColor: "rgba(255, 255, 255, 0.05)" }}>
+          <InputGroup>
+            <Title style={{ textAlign: "center", fontSize: "2rem" }}>LOGIN</Title>
+            <Label>Email:</Label>
+            <Input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </InputGroup>
 
-      <Tilt options={{ max: 25, scale: 1.05, speed: 400 }}>
-        <FormWrapper>
-          <Title>Welcome to NurtureNest</Title>
-          <Form onSubmit={handleLogin} style={{ backgroundColor: "rgba(255, 255, 255, 0.05)" }}>
-            <InputGroup>
-              <Title style={{ textAlign: "center" }}>LOGIN</Title>
-              <Label>Email:</Label>
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </InputGroup>
+          <InputGroup>
+            <Label>Password:</Label>
+            <Input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </InputGroup>
 
-            <InputGroup>
-              <Label>Password:</Label>
-              <Input
-                type="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </InputGroup>
+          <Button type="submit">Login</Button>
 
-            <Button type="submit">Login</Button>
+          <Footbox>
+            <Link href="/forgot-password">Forgot password?</Link>
+            <Link href="/signup">Don't have an account? Signup</Link>
+          </Footbox>
 
-            <Footbox>
-              <Link href="/forgot-password">Forgot password?</Link>
-              <Link href="/signup">Don't have an account? Signup</Link>
-            </Footbox>
-
-            {error && <ErrorMessage>{error}</ErrorMessage>}
-          </Form>
-        </FormWrapper>
-      </Tilt>
+          {error && <ErrorMessage>{error}</ErrorMessage>}
+        </Form>
+      </FormWrapper>
     </Container>
   );
 };

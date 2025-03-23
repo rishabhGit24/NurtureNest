@@ -1,10 +1,10 @@
 import axios from "axios";
-import React, { useCallback, useState } from "react";
-import Particles from "react-particles";
+import $ from "jquery"; // Added jQuery
+import "jquery.ripples"; // Added ripples plugin
+import React, { useEffect, useRef, useState } from "react"; // Added useEffect, useRef
 import { useNavigate } from "react-router-dom";
 import { Tilt } from "react-tilt";
 import styled, { keyframes } from "styled-components";
-import { loadSlim } from "tsparticles-slim";
 
 // Keyframes for animations
 const pulse = keyframes`
@@ -19,6 +19,15 @@ const glow = keyframes`
   100% { text-shadow: 0 0 5px #53AEC6, 0 0 10px #53AEC6, 0 0 15px #53AEC6; }
 `;
 
+const waterFlow = keyframes`
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 200px 200px;
+  }
+`;
+
 const Container = styled.div`
   height: 100vh;
   display: flex;
@@ -28,25 +37,26 @@ const Container = styled.div`
   position: relative;
   overflow: hidden;
 
-  /* Ensure the container takes full height on smaller screens */
   @media (max-width: 768px) {
     padding: 20px;
   }
 `;
 
-const ParticlesWrapper = styled.div`
+const RippleBackground = styled.div`
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   z-index: 0;
+  background: url("https://www.transparenttextures.com/patterns/water.jpg") repeat;
+  background-size: 200px 200px;
+  opacity: 0.3;
+  animation: ${waterFlow} 20s linear infinite;
+  will-change: background-position;
 
-  /* Adjust particle density on smaller screens */
   @media (max-width: 768px) {
-    & > canvas {
-      transform: scale(0.8); /* Slightly scale down particles for better performance */
-    }
+    transform: scale(0.8);
   }
 `;
 
@@ -55,9 +65,9 @@ const FormWrapper = styled.div`
   backdrop-filter: blur(15px);
   border-radius: 20px;
   padding: 40px;
-  width: 550px; /* Increased width for better layout */
-  max-height: 80vh; /* Set max-height to ensure header visibility */
-  overflow-y: auto; /* Enable vertical scrolling */
+  width: 550px;
+  max-height: 80vh;
+  overflow-y: auto;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 20px rgba(83, 174, 198, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.2);
   text-align: center;
@@ -65,7 +75,6 @@ const FormWrapper = styled.div`
   z-index: 1;
   animation: ${pulse} 2s infinite;
 
-  /* Custom scrollbar styling */
   &::-webkit-scrollbar {
     width: 8px;
   }
@@ -81,13 +90,12 @@ const FormWrapper = styled.div`
     background: #468FA5;
   }
 
-  /* Responsive styles */
   @media (max-width: 768px) {
     width: 90%;
     max-width: 350px;
     padding: 20px;
     border-radius: 15px;
-    max-height: 70vh; /* Slightly reduce max-height for smaller screens */
+    max-height: 70vh;
   }
 
   @media (max-width: 480px) {
@@ -112,7 +120,6 @@ const Title = styled.h1`
   padding: 10px 0;
   z-index: 2;
 
-  /* Responsive font sizes */
   @media (max-width: 768px) {
     font-size: 2rem;
     margin-bottom: 20px;
@@ -224,7 +231,7 @@ const Textarea = styled.textarea`
   @media (max-width: 768px) {
     padding: 10px;
     font-size: 0.9rem;
-    min-height: 80px; /* Reduce height for smaller screens */
+    min-height: 80px;
   }
 
   @media (max-width: 480px) {
@@ -336,47 +343,37 @@ const SignUp = () => {
   });
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const rippleRef = useRef(null); // Added ref for ripple effect
 
-  const particlesInit = useCallback(async (engine) => {
-    await loadSlim(engine);
+  // Removed particlesInit as we're no longer using particles
+  useEffect(() => {
+    if (rippleRef.current) {
+      $(rippleRef.current).ripples({
+        resolution: 512, // Reduced for better mobile performance
+        dropRadius: 25,
+        perturbance: 0.08,
+        interactive: true,
+        color: "rgba(199, 230, 239, 0.5)",
+      });
+
+      const addRandomRipple = () => {
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const x = Math.random() * width;
+        const y = Math.random() * height;
+        $(rippleRef.current).ripples("drop", x, y, 15, 0.03);
+      };
+
+      const interval = setInterval(addRandomRipple, Math.random() * 2000 + 2000);
+
+      return () => {
+        clearInterval(interval);
+        if (rippleRef.current) {
+          $(rippleRef.current).ripples("destroy");
+        }
+      };
+    }
   }, []);
-
-  const particlesOptions = {
-    particles: {
-      number: { value: 80, density: { enable: true, value_area: 800 } },
-      color: { value: "#53AEC6" },
-      shape: { type: "circle" },
-      opacity: { value: 0.5, random: true },
-      size: { value: 3, random: true },
-      move: {
-        enable: true,
-        speed: 2,
-        direction: "none",
-        random: false,
-        straight: false,
-        out_mode: "out",
-        bounce: false,
-      },
-      links: {
-        enable: true,
-        distance: 150,
-        color: "#53AEC6",
-        opacity: 0.4,
-        width: 1,
-      },
-    },
-    interactivity: {
-      events: {
-        onhover: { enable: true, mode: "repulse" },
-        onclick: { enable: true, mode: "push" },
-      },
-      modes: {
-        repulse: { distance: 100, duration: 0.4 },
-        push: { quantity: 4 },
-      },
-    },
-    retina_detect: true,
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -408,14 +405,7 @@ const SignUp = () => {
 
   return (
     <Container>
-      <ParticlesWrapper>
-        <Particles
-          id="tsparticles"
-          init={particlesInit}
-          options={particlesOptions}
-        />
-      </ParticlesWrapper>
-
+      <RippleBackground ref={rippleRef} />
       <Tilt options={{ max: 25, scale: 1.05, speed: 400 }}>
         <FormWrapper>
           <Title>Welcome to NurtureNest</Title>

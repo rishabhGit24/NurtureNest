@@ -1,0 +1,20 @@
+{
+  "name": "nurturenest",
+  "version": "1.0.0",
+  "description": "A donation mediator platform connecting donors with orphanages and NGOs",
+  "main": "server/index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm start",
+    "build": "cd client && npm run build",
+    "install-all": "npm install && cd server && npm install && cd ../client && npm install",
+    "start": "cd server && npm start"
+  },
+  "keywords": ["donation", "orphanage", "ngo", "charity", "platform"],
+  "author": "Rishabh Bharadwaj R. & Shashank",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

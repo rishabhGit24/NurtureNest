@@ -19,11 +19,13 @@ import nnLogo from '../assets/images/NN1.5.jpg';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
-    phone: "",
+    phoneNumber: "",
     password: "",
     confirmPassword: "",
+    address: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -56,15 +58,19 @@ const SignUp = () => {
       setError("Password must be at least 6 characters long");
       return false;
     }
-    if (!formData.name.trim()) {
-      setError("Name is required");
+    if (!formData.firstName.trim()) {
+      setError("First name is required");
+      return false;
+    }
+    if (!formData.lastName.trim()) {
+      setError("Last name is required");
       return false;
     }
     if (!formData.email.trim()) {
       setError("Email is required");
       return false;
     }
-    if (!formData.phone.trim()) {
+    if (!formData.phoneNumber.trim()) {
       setError("Phone number is required");
       return false;
     }
@@ -82,11 +88,13 @@ const SignUp = () => {
     setError("");
 
     try {
-      const response = await axios.post("http://localhost:5001/api/auth/register", {
-        name: formData.name,
+      const response = await axios.post("http://localhost:5001/api/auth/signup", {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
         email: formData.email,
-        phone: formData.phone,
+        phoneNumber: formData.phoneNumber,
         password: formData.password,
+        address: formData.address,
       });
 
       if (response.data.success) {
@@ -214,27 +222,53 @@ const SignUp = () => {
             className="bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl p-8 border border-[#C5E3EA]/30"
           >
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Name Field */}
+              {/* First Name Field */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.8 }}
                 whileHover={{ scale: 1.02 }}
               >
-                <label htmlFor="name" className="block text-sm font-semibold text-[#007290] mb-2">
-                  Full Name
+                <label htmlFor="firstName" className="block text-sm font-semibold text-[#007290] mb-2">
+                  First Name
                 </label>
                 <div className="relative group">
                   <UserIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-[#53AEC6] group-hover:text-[#007290] transition-colors duration-300" />
                   <input
-                    id="name"
-                    name="name"
+                    id="firstName"
+                    name="firstName"
                     type="text"
                     required
-                    value={formData.name}
+                    value={formData.firstName}
                     onChange={handleChange}
                     className="w-full pl-10 pr-4 py-4 border-2 border-[#C5E3EA] rounded-2xl focus:ring-2 focus:ring-[#53AEC6] focus:border-[#53AEC6] transition-all duration-300 bg-white/80 backdrop-blur-sm text-[#007290] placeholder-[#53AEC6]/60"
-                    placeholder="Enter your full name"
+                    placeholder="Enter your first name"
+                  />
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#C5E3EA]/0 via-[#ADE2ED]/0 to-[#53AEC6]/0 group-hover:from-[#C5E3EA]/5 group-hover:via-[#ADE2ED]/5 group-hover:to-[#53AEC6]/5 transition-all duration-300 pointer-events-none"></div>
+                </div>
+              </motion.div>
+
+              {/* Last Name Field */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 1.0 }}
+                whileHover={{ scale: 1.02 }}
+              >
+                <label htmlFor="lastName" className="block text-sm font-semibold text-[#007290] mb-2">
+                  Last Name
+                </label>
+                <div className="relative group">
+                  <UserIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-[#53AEC6] group-hover:text-[#007290] transition-colors duration-300" />
+                  <input
+                    id="lastName"
+                    name="lastName"
+                    type="text"
+                    required
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    className="w-full pl-10 pr-4 py-4 border-2 border-[#C5E3EA] rounded-2xl focus:ring-2 focus:ring-[#53AEC6] focus:border-[#53AEC6] transition-all duration-300 bg-white/80 backdrop-blur-sm text-[#007290] placeholder-[#53AEC6]/60"
+                    placeholder="Enter your last name"
                   />
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#C5E3EA]/0 via-[#ADE2ED]/0 to-[#53AEC6]/0 group-hover:from-[#C5E3EA]/5 group-hover:via-[#ADE2ED]/5 group-hover:to-[#53AEC6]/5 transition-all duration-300 pointer-events-none"></div>
                 </div>
@@ -244,7 +278,7 @@ const SignUp = () => {
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 1.0 }}
+                transition={{ duration: 0.6, delay: 1.2 }}
                 whileHover={{ scale: 1.02 }}
               >
                 <label htmlFor="email" className="block text-sm font-semibold text-[#007290] mb-2">
@@ -266,24 +300,24 @@ const SignUp = () => {
                 </div>
               </motion.div>
 
-              {/* Phone Field */}
+              {/* Phone Number Field */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 1.2 }}
+                transition={{ duration: 0.6, delay: 1.4 }}
                 whileHover={{ scale: 1.02 }}
               >
-                <label htmlFor="phone" className="block text-sm font-semibold text-[#007290] mb-2">
+                <label htmlFor="phoneNumber" className="block text-sm font-semibold text-[#007290] mb-2">
                   Phone Number
                 </label>
                 <div className="relative group">
                   <PhoneIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-[#53AEC6] group-hover:text-[#007290] transition-colors duration-300" />
                   <input
-                    id="phone"
-                    name="phone"
+                    id="phoneNumber"
+                    name="phoneNumber"
                     type="tel"
                     required
-                    value={formData.phone}
+                    value={formData.phoneNumber}
                     onChange={handleChange}
                     className="w-full pl-10 pr-4 py-4 border-2 border-[#C5E3EA] rounded-2xl focus:ring-2 focus:ring-[#53AEC6] focus:border-[#53AEC6] transition-all duration-300 bg-white/80 backdrop-blur-sm text-[#007290] placeholder-[#53AEC6]/60"
                     placeholder="Enter your phone number"
@@ -296,7 +330,7 @@ const SignUp = () => {
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 1.4 }}
+                transition={{ duration: 0.6, delay: 1.6 }}
                 whileHover={{ scale: 1.02 }}
               >
                 <label htmlFor="password" className="block text-sm font-semibold text-[#007290] mb-2">
@@ -333,7 +367,7 @@ const SignUp = () => {
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 1.6 }}
+                transition={{ duration: 0.6, delay: 1.8 }}
                 whileHover={{ scale: 1.02 }}
               >
                 <label htmlFor="confirmPassword" className="block text-sm font-semibold text-[#007290] mb-2">
@@ -362,6 +396,31 @@ const SignUp = () => {
                       <EyeIcon className="w-5 h-5" />
                     )}
                   </button>
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#C5E3EA]/0 via-[#ADE2ED]/0 to-[#53AEC6]/0 group-hover:from-[#C5E3EA]/5 group-hover:via-[#ADE2ED]/5 group-hover:to-[#53AEC6]/5 transition-all duration-300 pointer-events-none"></div>
+                </div>
+              </motion.div>
+
+              {/* Address Field */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 2.0 }}
+                whileHover={{ scale: 1.02 }}
+              >
+                <label htmlFor="address" className="block text-sm font-semibold text-[#007290] mb-2">
+                  Address
+                </label>
+                <div className="relative group">
+                  <UserIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-[#53AEC6] group-hover:text-[#007290] transition-colors duration-300" />
+                  <input
+                    id="address"
+                    name="address"
+                    type="text"
+                    value={formData.address}
+                    onChange={handleChange}
+                    className="w-full pl-10 pr-4 py-4 border-2 border-[#C5E3EA] rounded-2xl focus:ring-2 focus:ring-[#53AEC6] focus:border-[#53AEC6] transition-all duration-300 bg-white/80 backdrop-blur-sm text-[#007290] placeholder-[#53AEC6]/60"
+                    placeholder="Enter your address"
+                  />
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#C5E3EA]/0 via-[#ADE2ED]/0 to-[#53AEC6]/0 group-hover:from-[#C5E3EA]/5 group-hover:via-[#ADE2ED]/5 group-hover:to-[#53AEC6]/5 transition-all duration-300 pointer-events-none"></div>
                 </div>
               </motion.div>
@@ -427,7 +486,7 @@ const SignUp = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.8 }}
+              transition={{ duration: 0.6, delay: 2.2 }}
               className="mt-8 text-center"
             >
               <p className="text-sm text-[#53AEC6]">
@@ -446,11 +505,11 @@ const SignUp = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 2.0 }}
+            transition={{ duration: 0.6, delay: 2.4 }}
             className="text-center"
           >
             <p className="text-sm text-[#53AEC6]">
-              © 2024 NurtureNest. All rights reserved.
+              © 2025 NurtureNest. All rights reserved.
             </p>
             <p className="text-xs text-[#53AEC6]/80 mt-1">
               Donation Mediator Platform

@@ -147,7 +147,7 @@ const DonationRequestForm = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-8"
         >
-          <div className="mx-auto w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mb-4 overflow-hidden shadow-lg">
+          <div className="mx-auto w-16 h-16 bg-gradient-to-br from-[#53AEC6] to-[#007290] rounded-2xl flex items-center justify-center mb-4 overflow-hidden shadow-lg">
             <img 
               src={nnLogo} 
               alt="NurtureNest Logo" 
@@ -173,7 +173,7 @@ const DonationRequestForm = () => {
         >
           <button
             onClick={() => navigate(-1)}
-            className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200"
+            className="inline-flex items-center text-[#53AEC6] hover:text-[#007290] font-medium transition-colors duration-200"
           >
             <ArrowLeftIcon className="w-4 h-4 mr-2" />
             Back to Home
@@ -191,7 +191,7 @@ const DonationRequestForm = () => {
             {/* Personal Information Section */}
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <UserIcon className="w-5 h-5 mr-2 text-blue-600" />
+                <UserIcon className="w-5 h-5 mr-2 text-[#53AEC6]" />
                 Personal Information
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -206,7 +206,7 @@ const DonationRequestForm = () => {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#53AEC6] focus:border-transparent transition-all duration-200"
                     placeholder="Enter your full name"
                   />
                 </div>
@@ -221,7 +221,7 @@ const DonationRequestForm = () => {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#53AEC6] focus:border-transparent transition-all duration-200"
                     placeholder="Enter your email"
                   />
                 </div>
@@ -236,7 +236,7 @@ const DonationRequestForm = () => {
                     required
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#53AEC6] focus:border-transparent transition-all duration-200"
                     placeholder="Enter your phone number"
                   />
                 </div>
@@ -251,7 +251,7 @@ const DonationRequestForm = () => {
                     required
                     value={formData.address}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#53AEC6] focus:border-transparent transition-all duration-200"
                     placeholder="Enter your address"
                   />
                 </div>
@@ -261,7 +261,7 @@ const DonationRequestForm = () => {
             {/* Donation Details Section */}
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <DocumentTextIcon className="w-5 h-5 mr-2 text-blue-600" />
+                <DocumentTextIcon className="w-5 h-5 mr-2 text-[#53AEC6]" />
                 Donation Details
               </h3>
               <div className="space-y-4">
@@ -275,7 +275,7 @@ const DonationRequestForm = () => {
                     required
                     value={formData.donationType}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#53AEC6] focus:border-transparent transition-all duration-200"
                   >
                     <option value="">Select donation type</option>
                     {donationTypes.map((type) => (
@@ -296,7 +296,7 @@ const DonationRequestForm = () => {
                     rows={4}
                     value={formData.description}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#53AEC6] focus:border-transparent transition-all duration-200 resize-none"
                     placeholder="Please describe what you're donating, including quantity, condition, and any special notes..."
                   />
                 </div>
@@ -306,7 +306,7 @@ const DonationRequestForm = () => {
             {/* Pickup Preferences Section */}
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <CalendarIcon className="w-5 h-5 mr-2 text-blue-600" />
+                <CalendarIcon className="w-5 h-5 mr-2 text-[#53AEC6]" />
                 Pickup Preferences
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -322,7 +322,7 @@ const DonationRequestForm = () => {
                     value={formData.preferredDate}
                     onChange={handleChange}
                     min={new Date().toISOString().split('T')[0]}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#53AEC6] focus:border-transparent transition-all duration-200"
                   />
                 </div>
                 <div>
@@ -335,7 +335,7 @@ const DonationRequestForm = () => {
                     required
                     value={formData.preferredTime}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#53AEC6] focus:border-transparent transition-all duration-200"
                   >
                     <option value="">Select time</option>
                     <option value="morning">Morning (9:00 AM - 12:00 PM)</option>
@@ -380,7 +380,7 @@ const DonationRequestForm = () => {
               disabled={isLoading}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium py-4 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full bg-gradient-to-r from-[#53AEC6] to-[#007290] text-white font-medium py-4 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#53AEC6] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <>

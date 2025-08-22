@@ -84,7 +84,7 @@ const Feedback = () => {
             <p className="text-gray-600 mb-8">Your feedback has been submitted successfully.</p>
             <button
               onClick={() => setSubmitted(false)}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200"
+              className="bg-[#53AEC6] hover:bg-[#007290] text-white font-medium py-3 px-6 rounded-lg transition-all duration-200"
             >
               Submit Another Feedback
             </button>
@@ -96,7 +96,7 @@ const Feedback = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#C5E3EA] via-[#ADE2ED] to-[#53AEC6]">
+    <div className="min-h-screen bg-gradient-to-br from-[#C5E3EA] to-[#ADE2ED]">
       <Header />
       
       {/* Back Button */}
@@ -166,7 +166,13 @@ const Feedback = () => {
                           : "text-gray-300 hover:text-yellow-400"
                       }`}
                     >
-                      <StarIcon className="w-8 h-8" />
+                      {star <= rating ? (
+                        <svg className="w-8 h-8 fill-current" viewBox="0 0 24 24">
+                          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                        </svg>
+                      ) : (
+                        <StarIcon className="w-8 h-8" />
+                      )}
                     </button>
                   ))}
                 </div>
@@ -196,7 +202,7 @@ const Feedback = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200"
+                className="bg-[#53AEC6] hover:bg-[#007290] text-white font-medium py-3 px-6 rounded-lg transition-all duration-200"
               >
                 {isSubmitting ? (
                   <>

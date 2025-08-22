@@ -3,6 +3,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const authRoutes = require("./routes/auth");
+const feedbackRoutes = require("./routes/feedback");
+const bookingRoutes = require("./routes/bookings");
+const orphanageAdminRoutes = require("./routes/orphanageAdmin");
+const webhookRoutes = require("./routes/webhooks");
 const authMiddleware = require("./middleware/auth");
 const app = express();
 
@@ -29,6 +33,10 @@ mongoose
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/feedback", feedbackRoutes);
+app.use("/api/bookings", bookingRoutes);
+app.use("/api/orphanage-admin", orphanageAdminRoutes);
+app.use("/api/webhooks", webhookRoutes);
 
 // Example of a protected route
 app.get("/api/home", authMiddleware, (req, res) => {

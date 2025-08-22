@@ -322,7 +322,7 @@ const Medical = () => {
       title: "Medications",
       description: "Over-the-counter medicines and supplements",
       icon: HeartIcon,
-      color: "from-blue-500 to-indigo-500",
+      color: "from-[#53AEC6] to-[#007290]",
     },
     {
       title: "Medical Equipment",
@@ -421,9 +421,12 @@ const Medical = () => {
                     {category.description}
                   </p>
                   <div className="mt-6 pt-4 border-t border-gray-100">
-                    <span className="text-red-600 font-medium group-hover:text-red-700 transition-colors duration-300">
+                    <button
+                      onClick={() => navigate('/donation/medical')}
+                      className="text-red-600 font-medium group-hover:text-red-700 transition-colors duration-300 cursor-pointer"
+                    >
                       Click to donate →
-                    </span>
+                    </button>
                   </div>
                 </div>
               </motion.div>

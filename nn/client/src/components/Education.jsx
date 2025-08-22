@@ -316,7 +316,7 @@ const Education = () => {
       title: "School Supplies",
       description: "Books, notebooks, pens, and stationery",
       icon: AcademicCapIcon,
-      color: "from-blue-500 to-indigo-500",
+      color: "from-[#53AEC6] to-[#007290]",
     },
     {
       title: "Educational Toys",
@@ -360,7 +360,7 @@ const Education = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6 }}
-            className="mx-auto w-24 h-24 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-3xl flex items-center justify-center mb-6"
+            className="mx-auto w-24 h-24 bg-gradient-to-br from-[#53AEC6] to-[#007290] rounded-3xl flex items-center justify-center mb-6"
           >
             <AcademicCapIcon className="w-12 h-12 text-white" />
           </motion.div>
@@ -421,9 +421,12 @@ const Education = () => {
                     {category.description}
                   </p>
                   <div className="mt-6 pt-4 border-t border-gray-100">
-                    <span className="text-purple-600 font-medium group-hover:text-purple-700 transition-colors duration-300">
+                    <button
+                      onClick={() => navigate('/donation/education')}
+                      className="text-purple-600 font-medium group-hover:text-purple-700 transition-colors duration-300 cursor-pointer"
+                    >
                       Click to donate →
-                    </span>
+                    </button>
                   </div>
                 </div>
               </motion.div>
@@ -462,7 +465,7 @@ const Education = () => {
               </div>
               <button
                 onClick={handleSearch}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="bg-gradient-to-r from-[#53AEC6] to-[#007290] text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#53AEC6] focus:ring-offset-2"
               >
                 Search
               </button>

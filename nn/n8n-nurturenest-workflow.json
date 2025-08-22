@@ -1,0 +1,155 @@
+{
+  "name": "NurtureNest WhatsApp Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "nurturenest-booking",
+        "responseMode": "responseNode"
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "nurturenest-booking-webhook"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.type }}",
+              "operation": "equal",
+              "value2": "new_booking"
+            }
+          ]
+        }
+      },
+      "id": "check-notification-type",
+      "name": "Check Notification Type",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://api.callmebot.com/whatsapp.php",
+        "options": {
+          "qs": {
+            "phone": "={{ $json.booking.orphanage.phone.replace(/[+\\s-]/g, '') }}",
+            "text": "🆕 NEW DONATION BOOKING\\n\\nDonor: {{ $json.booking.donor.name }}\\nCategory: {{ $json.booking.donation.category }}\\nItems:\\n{{ $json.booking.donation.items.map(item => `• ${item.name}: ${item.quantity} ${item.unit}`).join('\\n') }}\\n\\nContact: {{ $json.booking.donor.phone }}\\nEmail: {{ $json.booking.donor.email }}\\n\\nPlease log into NurtureNest admin dashboard to accept/reject this donation.\\n\\nNurtureNest Team\\n📱 +91 7259197398",
+            "apikey": "YOUR_CALLMEBOT_API_KEY"
+          }
+        }
+      },
+      "id": "send-whatsapp-new-booking",
+      "name": "Send WhatsApp - New Booking",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [680, 200]
+    },
+    {
+      "parameters": {
+        "url": "https://api.callmebot.com/whatsapp.php",
+        "options": {
+          "qs": {
+            "phone": "={{ $json.booking.donor.phone.replace(/[+\\s-]/g, '') }}",
+            "text": "📋 DONATION BOOKING UPDATE\\n\\nOrphanage: {{ $json.booking.orphanage.name }}\\nStatus: {{ $json.booking.status.toUpperCase() }}\\nCategory: {{ $json.booking.donation.category }}\\n\\n{{ $json.booking.status === 'accepted' ? '🎉 Your donation has been accepted!\\nPlease contact the orphanage to arrange delivery.\\nOrphanage Contact: ' + $json.booking.orphanage.phone : '😔 Your donation was not accepted at this time.\\nPlease try another orphanage or contact us for assistance.' }}\\n\\nNurtureNest Team\\n📱 +91 7259197398",
+            "apikey": "YOUR_CALLMEBOT_API_KEY"
+          }
+        }
+      },
+      "id": "send-whatsapp-status-update",
+      "name": "Send WhatsApp - Status Update",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [680, 400]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": true, \"message\": \"WhatsApp notification sent\", \"timestamp\": new Date().toISOString() } }}"
+      },
+      "id": "response-success",
+      "name": "Response - Success",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [900, 300]
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Check Notification Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Notification Type": {
+      "main": [
+        [
+          {
+            "node": "Send WhatsApp - New Booking",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send WhatsApp - Status Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send WhatsApp - New Booking": {
+      "main": [
+        [
+          {
+            "node": "Response - Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send WhatsApp - Status Update": {
+      "main": [
+        [
+          {
+            "node": "Response - Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "versionId": "1",
+  "id": "nurturenest-whatsapp-automation",
+  "meta": {
+    "instanceId": "local-development"
+  },
+  "tags": [
+    {
+      "id": "nurturenest",
+      "name": "NurtureNest"
+    },
+    {
+      "id": "whatsapp",
+      "name": "WhatsApp"
+    },
+    {
+      "id": "automation",
+      "name": "Automation"
+    }
+  ]
+}

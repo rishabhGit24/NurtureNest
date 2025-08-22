@@ -45,6 +45,7 @@ const Header = () => {
     { name: "Locations", href: "/locations", current: location.pathname === "/locations" },
     { name: "Feedback", href: "/feedback", current: location.pathname === "/feedback" },
     { name: "About Us", href: "/about-us", current: location.pathname === "/about-us" },
+    { name: "Admin", href: "/orphanage-login", current: location.pathname.includes("/orphanage") },
   ];
 
   const handleLogout = () => {
@@ -65,7 +66,7 @@ const Header = () => {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link to="/home" className="flex items-center space-x-3 group">
-            <motion.div
+            {/* <motion.div
               whileHover={{ scale: 1.1, rotate: 5 }}
               whileTap={{ scale: 0.9 }}
               className="w-12 h-12 rounded-2xl overflow-hidden shadow-xl ring-4 ring-[#53AEC6]/30 group-hover:ring-[#007290]/50 transition-all duration-300"
@@ -75,7 +76,7 @@ const Header = () => {
                 alt="NurtureNest Logo" 
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
               />
-            </motion.div>
+            </motion.div> */}
             <div className="hidden sm:block">
               <motion.h1 
                 className="text-xl font-bold text-[#007290] group-hover:text-[#53AEC6] transition-colors duration-300"

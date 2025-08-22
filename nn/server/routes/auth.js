@@ -195,6 +195,58 @@ router.get("/users", async (req, res) => {
   }
 });
 
+// Update user profile
+router.put("/profile", authMiddleware, async (req, res) => {
+  try {
+    const { firstName, lastName, phoneNumber, address } = req.body;
+    
+    // Validate required fields
+    if (!firstName || !lastName || !phoneNumber || !address) {
+      return res.status(400).json({ 
+        success: false,
+        error: "All fields are required" 
+      });
+    }
+
+    // Find and update user
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user.userId,
+      { firstName, lastName, phoneNumber, address },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ 
+        success: false,
+        error: "User not found" 
+      });
+    }
+
+    res.json({ 
+      success: true,
+      message: "Profile updated successfully",
+      user: updatedUser.getPublicProfile()
+    });
+
+  } catch (err) {
+    console.error('Update profile error:', err);
+    
+    // Handle validation errors
+    if (err.name === 'ValidationError') {
+      const errors = Object.values(err.errors).map(error => error.message);
+      return res.status(400).json({ 
+        success: false,
+        error: errors.join(', ') 
+      });
+    }
+
+    res.status(500).json({ 
+      success: false,
+      error: "Internal server error during profile update" 
+    });
+  }
+});
+
 // Protected route example
 router.get("/protected", authMiddleware, (req, res) => {
   res.json({ 

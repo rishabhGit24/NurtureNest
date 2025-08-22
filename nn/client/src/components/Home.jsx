@@ -17,7 +17,7 @@ import {
 } from '@heroicons/react/24/outline';
 import Header from "./Header";
 import Footer from "./Footer";
-import nnLogo from '../assets/images/NN1.5.jpg';
+import nnLogo from '../assets/images/nn_small_2.png';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -27,6 +27,8 @@ const Home = () => {
   const relocateBtnRef = useRef(null);
   const [locations, setLocations] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
 
   useEffect(() => {
     const loginCheck = async () => {
@@ -39,14 +41,32 @@ const Home = () => {
       try {
         const response = await axios.get(
           "http://localhost:5001/api/auth/me",
-          { headers: { Authorization: `Bearer ${token}` } }
+          { 
+            headers: { Authorization: `Bearer ${token}` },
+            timeout: 5000 // 5 second timeout
+          }
         );
         if (!response.data.success) {
+          localStorage.removeItem("token");
           navigate("/");
         }
       } catch (error) {
         console.error("Error checking token:", error);
-        navigate("/");
+        
+        // Handle different types of errors
+        if (error.response) {
+          // Server responded with error status
+          if (error.response.status === 401 || error.response.status === 403) {
+            localStorage.removeItem("token");
+            navigate("/");
+          }
+        } else if (error.code === 'ECONNABORTED') {
+          // Request timeout
+          console.warn("Request timeout - server might be down");
+        } else if (error.code === 'ERR_NETWORK') {
+          // Network error (server not running)
+          console.warn("Network error - server might not be running");
+        }
       }
     };
 
@@ -111,8 +131,10 @@ const Home = () => {
         const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupContent);
 
         markerElement.addEventListener("mouseenter", () => {
-          popup.addTo(mapRef.current);
-          popup.setLngLat([location.longitude, location.latitude]);
+          if (mapRef.current) {
+            popup.addTo(mapRef.current);
+            popup.setLngLat([location.longitude, location.latitude]);
+          }
         });
 
         markerElement.addEventListener("mouseleave", () => {
@@ -134,6 +156,16 @@ const Home = () => {
       });
 
       mapRef.current = map;
+
+      // Wait for map to load before calling getUserLocation
+      map.on('load', () => {
+        getUserLocation();
+        
+        // Add event listener for relocate button after map is loaded
+        if (relocateBtnRef.current) {
+          relocateBtnRef.current.addEventListener("click", getUserLocation);
+        }
+      });
 
       const initialLocations = [
         {
@@ -247,43 +279,57 @@ const Home = () => {
 
       map.on("load", () => {
         addMarkers(initialLocations);
-      });
+        
+        // Check if there's a location to center on from Location page
+        const centerOnLocation = localStorage.getItem('centerOnLocation');
+        if (centerOnLocation) {
+          try {
+            const location = JSON.parse(centerOnLocation);
+            if (mapRef.current) {
+              // Center the map on the selected orphanage
+              mapRef.current.setCenter([location.longitude, location.latitude]);
+              mapRef.current.setZoom(15);
+              
+              // Add a special highlighted marker for this location
+              const markerEl = document.createElement('div');
+              markerEl.className = 'center-location-marker';
+              markerEl.innerHTML = `
+                <div class="w-10 h-10 bg-gradient-to-br from-red-500 to-pink-500 rounded-full border-4 border-white shadow-xl flex items-center justify-center animate-pulse">
+                  <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                  </svg>
+                </div>
+              `;
 
-      const getUserLocation = () => {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-              const { latitude, longitude } = position.coords;
-              const userLocation = [longitude, latitude];
+              const popup = new mapboxgl.Popup({
+                offset: 25,
+                className: 'center-location-popup'
+              }).setHTML(`
+                <div class="p-4 min-w-[250px]">
+                  <div class="text-center">
+                    <h3 class="font-bold text-lg text-[#007290] mb-2">${location.name}</h3>
+                    <p class="text-gray-600 text-sm">📍 Selected Location</p>
+                  </div>
+                </div>
+              `);
 
-              mapRef.current.setCenter(userLocation);
-              mapRef.current.setZoom(13);
-
-              const userMarkerElement = document.createElement("div");
-              userMarkerElement.className = "user-marker";
-              userMarkerElement.style.backgroundImage = `url(https://maps.google.com/mapfiles/ms/icons/red-dot.png)`;
-              userMarkerElement.style.width = "30px";
-              userMarkerElement.style.height = "30px";
-              userMarkerElement.style.backgroundSize = "100%";
-
-              new mapboxgl.Marker(userMarkerElement)
-                .setLngLat(userLocation)
+              new mapboxgl.Marker(markerEl)
+                .setLngLat([location.longitude, location.latitude])
+                .setPopup(popup)
                 .addTo(mapRef.current);
-            },
-            () => {
-              console.error("Error getting location.");
+              
+              // Show success notification
+              // showLocationNotification(location.name);
+              
+              // Clear the localStorage
+              localStorage.removeItem('centerOnLocation');
             }
-          );
-        } else {
-          console.error("Geolocation is not supported by this browser.");
+          } catch (error) {
+            console.error('Error centering on location:', error);
+            localStorage.removeItem('centerOnLocation');
+          }
         }
-      };
-
-      if (relocateBtnRef.current) {
-        relocateBtnRef.current.addEventListener("click", getUserLocation);
-      }
-
-      getUserLocation();
+      });
 
       return () => {
         if (mapRef.current) {
@@ -308,7 +354,7 @@ const Home = () => {
 
     addMarkers(filteredLocations);
 
-    if (filteredLocations.length > 0) {
+    if (filteredLocations.length > 0 && mapRef.current) {
       const bounds = new mapboxgl.LngLatBounds();
       filteredLocations.forEach((location) => {
         bounds.extend([location.longitude, location.latitude]);
@@ -362,44 +408,76 @@ const Home = () => {
     },
   ];
 
+  const getUserLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          const userLocation = [longitude, latitude];
+
+          // Check if map is initialized before calling setCenter
+          if (mapRef.current) {
+            mapRef.current.setCenter(userLocation);
+            mapRef.current.setZoom(13);
+
+            const userMarkerElement = document.createElement("div");
+            userMarkerElement.className = "user-marker";
+            userMarkerElement.style.backgroundImage = `url(https://maps.google.com/mapfiles/ms/icons/red-dot.png)`;
+            userMarkerElement.style.width = "30px";
+            userMarkerElement.style.height = "30px";
+            userMarkerElement.style.backgroundSize = "100%";
+
+            new mapboxgl.Marker(userMarkerElement)
+              .setLngLat(userLocation)
+              .addTo(mapRef.current);
+          }
+        },
+        () => {
+          console.error("Error getting location.");
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#C5E3EA] via-[#ADE2ED] to-[#53AEC6]">
       <Header />
       
+      {/* Location Notification */}
+      {showNotification && (
+        <motion.div
+          initial={{ opacity: 0, y: -50, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -50, scale: 0.9 }}
+          className="fixed top-24 left-1/2 transform -translate-x-1/2 z-50 bg-gradient-to-r from-[#53AEC6] to-[#007290] text-white px-6 py-3 rounded-full shadow-2xl border-2 border-white"
+        >
+          <div className="flex items-center gap-2">
+            <span className="text-lg">📍</span>
+            <span className="font-semibold">{notificationMessage}</span>
+          </div>
+        </motion.div>
+      )}
+      
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
+        <div className="max-w-xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6 }}
-            className="mx-auto w-24 h-24 bg-gradient-to-br from-[#53AEC6] to-[#007290] rounded-3xl flex items-center justify-center mb-6 overflow-hidden shadow-2xl ring-4 ring-[#ADE2ED]/50"
+            className="rounded-3xl flex items-center justify-center mb-6 overflow-hidden "
           >
-            <img 
-              src={nnLogo} 
-              alt="NurtureNest Logo" 
-              className="w-14 h-14 object-cover rounded-xl"
-            />
+            <div>
+              <img 
+                src={nnLogo} 
+                alt="NurtureNest Logo" 
+                className="object-cover rounded-xl"
+              />
+            </div>
           </motion.div>
-          
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-5xl sm:text-6xl lg:text-7xl font-bold text-[#007290] mb-6 drop-shadow-lg"
-          >
-            Welcome to <span className="text-gradient bg-gradient-to-r from-[#53AEC6] to-[#007290] bg-clip-text text-transparent">NurtureNest</span>
-          </motion.h1>
-          
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-xl lg:text-2xl text-[#007290] max-w-4xl mx-auto mb-8 leading-relaxed font-medium"
-          >
-            The revolutionary donation mediator platform that connects generous donors with orphanages and NGOs in need.
-          </motion.p>
-          
+
 z̧
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -410,6 +488,7 @@ z̧
             <motion.button
               whileHover={{ scale: 1.05, y: -3 }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => navigate('/location')}
               className="px-8 py-4 bg-gradient-to-r from-[#53AEC6] to-[#007290] text-white font-semibold text-lg rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
             >
               Find Orphanages
@@ -417,6 +496,7 @@ z̧
             <motion.button
               whileHover={{ scale: 1.05, y: -3 }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => navigate('/about')}
               className="px-8 py-4 bg-white/80 backdrop-blur-sm text-[#007290] font-semibold text-lg rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border-2 border-[#53AEC6]/30 hover:border-[#007290]"
             >
               Learn More
@@ -548,7 +628,7 @@ z̧
       </section>
 
       {/* Map Section */}
-      <section className="px-4 sm:px-6 lg:px-8 mb-20">
+      <section className="px-4 sm:px-6 lg:px-8 mb-20" data-map-section>
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

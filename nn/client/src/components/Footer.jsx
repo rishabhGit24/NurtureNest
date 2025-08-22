@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { MapPinIcon } from "@heroicons/react/24/outline";
-import nnLogo from '../assets/images/NN1.5.jpg';
+import nnLogo from '../assets/images/nn_small.png';
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -20,11 +20,11 @@ const Footer = () => {
           {/* Company Info */}
           <div className="lg:col-span-2">
             <div className="flex items-center space-x-4 mb-8">
-              <div className="w-20 h-20 bg-gradient-to-br from-[#C5E3EA] to-[#ADE2ED] rounded-3xl flex items-center justify-center shadow-2xl ring-4 ring-white/20 overflow-hidden">
+              <div className="rounded-3xl flex items-center justify-center shadow-2xl overflow-hidden">
                 <img 
                   src={nnLogo} 
                   alt="NurtureNest Logo" 
-                  className="w-12 h-12 object-cover rounded-2xl"
+                  className="w-50 h-20 object-cover rounded-2xl"
                 />
               </div>
               <div>

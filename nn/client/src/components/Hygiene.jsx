@@ -316,7 +316,7 @@ const Hygiene = () => {
       title: "Personal Care",
       description: "Soap, shampoo, toothpaste, and brushes",
       icon: SparklesIcon,
-      color: "from-blue-500 to-indigo-500",
+      color: "from-[#53AEC6] to-[#007290]",
     },
     {
       title: "Hair Care",
@@ -360,7 +360,7 @@ const Hygiene = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6 }}
-            className="mx-auto w-24 h-24 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-3xl flex items-center justify-center mb-6"
+            className="mx-auto w-24 h-24 bg-gradient-to-br from-[#53AEC6] to-[#007290] rounded-3xl flex items-center justify-center mb-6"
           >
             <SparklesIcon className="w-12 h-12 text-white" />
           </motion.div>
@@ -410,20 +410,24 @@ const Hygiene = () => {
                 whileHover={{ y: -8 }}
                 className="group cursor-pointer"
               >
-                <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 lg:p-8 border border-gray-100 group-hover:border-blue-200">
+                <div className="bg-white rounded-3xl shadow-2xl p-8 border border-[#C5E3EA] group-hover:border-[#53AEC6] transition-all duration-300 group-hover:shadow-3xl transform group-hover:-translate-y-2"
+                >
                   <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${category.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
                     <category.icon className="w-8 h-8 text-white" />
                   </div>
-                  <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors duration-300">
+                  <h3 className="text-xl lg:text-2xl font-bold text-[#007290] mb-3 group-hover:text-[#53AEC6] transition-colors duration-300">
                     {category.title}
                   </h3>
                   <p className="text-gray-600 mb-4 leading-relaxed">
                     {category.description}
                   </p>
                   <div className="mt-6 pt-4 border-t border-gray-100">
-                    <span className="text-blue-600 font-medium group-hover:text-blue-700 transition-colors duration-300">
+                    <button
+                      onClick={() => navigate('/donation/hygiene')}
+                      className="text-[#53AEC6] font-medium group-hover:text-[#007290] transition-colors duration-300 cursor-pointer"
+                    >
                       Click to donate →
-                    </span>
+                    </button>
                   </div>
                 </div>
               </motion.div>
@@ -457,12 +461,12 @@ const Hygiene = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search orphanages..."
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#53AEC6] focus:border-transparent transition-all duration-200"
                 />
               </div>
               <button
                 onClick={handleSearch}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="bg-gradient-to-r from-[#53AEC6] to-[#007290] text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#53AEC6] focus:ring-offset-2"
               >
                 Search
               </button>

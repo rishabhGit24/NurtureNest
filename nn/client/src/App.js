@@ -15,6 +15,10 @@ import Medical from "./components/Medical";
 import Money from "./components/Money";
 import Profile from "./components/Profile";
 import SignUp from "./components/SignUp";
+import DonationCategoryForm from "./components/DonationCategoryForm";
+import OrphanageAdminLogin from "./components/OrphanageAdminLogin";
+import OrphanageAdminRegister from "./components/OrphanageAdminRegister";
+import OrphanageAdminDashboard from "./components/OrphanageAdminDashboard";
 
 function App() {
   return (
@@ -34,6 +38,10 @@ function App() {
           <Route path="/money" element={<Money />} />
           <Route path="/education" element={<Education />} />
           <Route path="/clothes" element={<Clothes />} />
+          <Route path="/donation/:category" element={<DonationCategoryForm />} />
+          <Route path="/orphanage-login" element={<OrphanageAdminLogin />} />
+          <Route path="/orphanage-register" element={<OrphanageAdminRegister />} />
+          <Route path="/orphanage-dashboard" element={<OrphanageAdminDashboard />} />
         </Routes>
       </div>
     </Router>

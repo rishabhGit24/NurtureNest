@@ -4,44 +4,356 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  html {
-    font-family: 'Inter', system-ui, sans-serif;
+/* Custom CSS */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Line clamp utilities */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.line-clamp-4 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.line-clamp-5 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+}
+
+.line-clamp-6 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+}
+
+/* Button styles */
+.btn-primary {
+  @apply bg-gradient-to-r from-[#53AEC6] to-[#007290] text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#53AEC6] focus:ring-offset-2 shadow-lg hover:shadow-xl;
+}
+
+.btn-secondary {
+  @apply bg-gray-500 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 shadow-lg hover:shadow-xl;
+}
+
+/* Input field styles */
+.input-field {
+  @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#53AEC6] focus:border-transparent transition-all duration-200;
+}
+
+/* Gradient backgrounds */
+.gradient-bg {
+  @apply bg-gradient-to-br from-[#C5E3EA] to-[#ADE2ED];
+}
+
+.gradient-bg-alt {
+  @apply bg-gradient-to-br from-[#53AEC6] to-[#007290];
+}
+
+/* Text gradients */
+.text-gradient {
+  @apply bg-gradient-to-r from-[#53AEC6] to-[#007290] bg-clip-text text-transparent;
+}
+
+
+
+/* Custom marker styles */
+.custom-marker {
+  transition: transform 0.2s ease-in-out;
+}
+
+.custom-marker:hover {
+  transform: scale(1.1);
+}
+
+/* User location marker */
+.user-location-marker {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
   }
-  
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Poppins', system-ui, sans-serif;
+  70% {
+    box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
   }
 }
 
-@layer components {
-  .btn-primary {
-    @apply bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+/* Map container enhancements */
+.map-container {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Enhanced search input */
+.search-input-enhanced {
+  @apply w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#53AEC6] focus:border-transparent transition-all duration-200;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.search-input-enhanced:focus {
+  box-shadow: 0 0 0 3px rgba(83, 174, 198, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+
+
+/* Custom marker animations */
+.custom-marker {
+  transition: all 0.3s ease-in-out;
+}
+
+.custom-marker:hover {
+  transform: scale(1.1) translateY(-2px);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+
+
+
+
+/* Enhanced marker animations */
+.custom-marker {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+.custom-marker:hover {
+  transform: scale(1.15) translateY(-3px);
+  filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.2));
+}
+
+/* User location marker enhancement */
+.user-location-marker {
+  animation: pulse 2s infinite;
+  filter: drop-shadow(0 4px 8px rgba(239, 68, 68, 0.4));
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+    transform: scale(1);
   }
-  
-  .btn-secondary {
-    @apply bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2;
+  50% {
+    box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+    transform: scale(1.05);
   }
-  
-  .input-field {
-    @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200;
-  }
-  
-  .card {
-    @apply bg-white rounded-2xl shadow-xl p-6 lg:p-8;
-  }
-  
-  .gradient-bg {
-    @apply bg-gradient-to-br from-blue-50 to-indigo-100;
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+    transform: scale(1);
   }
 }
 
-@layer utilities {
-  .text-gradient {
-    @apply bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent;
+/* Map container enhancements */
+.map-container {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(229, 231, 235, 0.5);
+}
+
+
+
+/* Enhanced search input */
+.search-input-enhanced {
+  @apply w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#53AEC6] focus:border-transparent transition-all duration-200;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.search-input-enhanced:focus {
+  box-shadow: 0 0 0 3px rgba(83, 174, 198, 0.1), 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Enhanced Mapbox Map Styling */
+.mapboxgl-map {
+  font-family: inherit !important;
+  background: #f8fafc !important;
+}
+
+/* Custom marker styling */
+.custom-marker {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.custom-marker:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.center-location-marker {
+  cursor: pointer;
+  animation: pulse 2s infinite;
+  z-index: 1000;
+  filter: drop-shadow(0 8px 16px rgba(239, 68, 68, 0.4));
+}
+
+.center-location-marker .animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.user-location-marker {
+  cursor: pointer;
+  animation: bounce 1s infinite;
+}
+
+/* Custom popup styling */
+.mapboxgl-popup {
+  max-width: 300px;
+}
+
+.mapboxgl-popup-content {
+  padding: 0 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+  border: none !important;
+  overflow: hidden !important;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+  font-family: inherit !important;
+}
+
+.mapboxgl-popup-tip {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+}
+
+.center-location-popup .mapboxgl-popup-content {
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%) !important;
+  border: 2px solid #ef4444 !important;
+  box-shadow: 0 25px 50px -5px rgba(239, 68, 68, 0.25), 0 10px 10px -5px rgba(239, 68, 68, 0.1) !important;
+}
+
+.center-location-popup .mapboxgl-popup-tip {
+  background: #fef2f2 !important;
+  border: 2px solid #ef4444 !important;
+}
+
+.user-popup .mapboxgl-popup-content {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+}
+
+.user-popup .mapboxgl-popup-tip {
+  background: #f0f9ff !important;
+}
+
+/* Map controls styling */
+.mapboxgl-ctrl-group {
+  border-radius: 8px !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+.mapboxgl-ctrl-group button {
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+}
+
+.mapboxgl-ctrl-group button:hover {
+  background-color: rgba(83, 174, 198, 0.1) !important;
+  color: #53AEC6 !important;
+}
+
+.mapboxgl-ctrl-group button:active {
+  background-color: rgba(83, 174, 198, 0.2) !important;
+}
+
+/* Attribution styling */
+.mapboxgl-ctrl-attrib {
+  background: rgba(255, 255, 255, 0.9) !important;
+  color: #6b7280 !important;
+  font-size: 11px !important;
+  padding: 4px 8px !important;
+  border-radius: 4px !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+/* Map container enhancements */
+.mapboxgl-canvas-container {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* Map section highlight effect */
+[data-map-section] {
+  transition: all 0.3s ease;
+}
+
+/* Custom animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
   }
-  
-  .shadow-soft {
-    box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+/* Enhanced pulse animation for center location marker */
+@keyframes enhanced-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.1);
+    box-shadow: 0 0 0 20px rgba(239, 68, 68, 0);
+  }
+}
+
+.center-location-marker .animate-pulse {
+  animation: enhanced-pulse 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  40%, 43% {
+    transform: translate3d(0, -8px, 0);
+  }
+  70% {
+    transform: translate3d(0, -4px, 0);
+  }
+  90% {
+    transform: translate3d(0, -2px, 0);
   }
 }

@@ -9,10 +9,13 @@ import {
   ChartBarIcon,
   ShieldCheckIcon,
   ArrowLeftIcon,
+  UserGroupIcon,
+  GiftIcon,
+  AcademicCapIcon,
 } from "@heroicons/react/24/outline";
 import Header from "./Header";
 import Footer from "./Footer";
-import nnLogo from '../assets/images/NN1.5.jpg';
+import nnLogo from '../assets/images/nn_about_us.png';
 
 const AboutUS = () => {
   const navigate = useNavigate();
@@ -49,10 +52,11 @@ const AboutUS = () => {
       color: "from-purple-500 to-violet-500",
     },
     {
-      icon: ShieldCheckIcon,
-      title: "Trust & Security",
-      description: "Verified orphanages and secure donation processes ensure your contributions reach those who need them most.",
-      color: "from-indigo-500 to-blue-500",
+      title: "Education & Learning",
+      description: "Support children's education with books, stationery, and learning materials.",
+      icon: AcademicCapIcon,
+      color: "from-[#ADE2ED] to-[#53AEC6]",
+      href: "/education",
     },
   ];
 
@@ -100,11 +104,10 @@ const AboutUS = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6 }}
-            className="mx-auto w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mb-6 overflow-hidden shadow-2xl">
+            className="mx-auto w-60 h-20  rounded-2xl flex items-center justify-center mb-6 overflow-hidden ">
             <img 
               src={nnLogo} 
               alt="NurtureNest Logo" 
-              className="w-12 h-12 object-cover rounded-lg"
             />
           </motion.div>
           
@@ -223,11 +226,11 @@ const AboutUS = () => {
                 whileHover={{ y: -8 }}
                 className="group cursor-pointer"
               >
-                <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 lg:p-8 border border-gray-100 group-hover:border-blue-200">
+                <div className="bg-white rounded-3xl shadow-2xl p-8 border border-[#C5E3EA] group-hover:border-[#53AEC6] transition-all duration-300 group-hover:shadow-3xl transform group-hover:-translate-y-2">
                   <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
                     <feature.icon className="w-8 h-8 text-white" />
                   </div>
-                  <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors duration-300">
+                  <h3 className="text-xl lg:text-2xl font-bold text-[#007290] mb-4 group-hover:text-[#53AEC6] transition-colors duration-300">
                     {feature.title}
                   </h3>
                   <p className="text-gray-600 leading-relaxed">
@@ -269,7 +272,7 @@ const AboutUS = () => {
                 whileHover={{ y: -8 }}
                 className="group cursor-pointer"
               >
-                <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 lg:p-8 border border-gray-100 group-hover:border-blue-200 text-center">
+                <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 p-6 lg:p-8 border border-[#C5E3EA] group-hover:border-[#53AEC6] text-center">
                   <div className="w-24 h-24 mx-auto mb-6 rounded-full overflow-hidden group-hover:scale-105 transition-transform duration-300">
                     <img
                       src={member.image}
@@ -277,10 +280,10 @@ const AboutUS = () => {
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-300">
+                  <h3 className="text-xl lg:text-2xl font-bold text-[#007290] mb-2 group-hover:text-[#53AEC6] transition-colors duration-300">
                     {member.name}
                   </h3>
-                  <p className="text-blue-600 font-medium mb-4">{member.role}</p>
+                  <p className="text-[#53AEC6] font-medium mb-4">{member.role}</p>
                   <p className="text-gray-600 leading-relaxed">
                     {member.description}
                   </p>
@@ -299,7 +302,7 @@ const AboutUS = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-8 lg:p-12 text-center text-white"
+            className="bg-gradient-to-br from-[#53AEC6] to-[#007290] rounded-3xl p-8 lg:p-12 text-center text-white"
           >
             <h2 className="text-3xl lg:text-4xl font-bold mb-12">
               NurtureNest by the Numbers
@@ -315,7 +318,7 @@ const AboutUS = () => {
                   className="text-center"
                 >
                   <div className="text-3xl lg:text-4xl font-bold mb-2">{stat.number}</div>
-                  <div className="text-blue-100">{stat.label}</div>
+                  <div className="text-[#C5E3EA]">{stat.label}</div>
                 </motion.div>
               ))}
             </div>
@@ -342,7 +345,7 @@ const AboutUS = () => {
               those who want to help and those who need help.
             </p>
             <div className="bg-white/10 rounded-2xl p-6 lg:p-8 max-w-3xl mx-auto">
-              <p className="text-lg text-blue-200 italic">
+              <p className="text-lg text-[#ADE2ED] italic">
                 "NurtureNest is more than a platform—it's a movement towards a more compassionate and connected world. 
                 We're building the infrastructure for kindness, one donation at a time."
               </p>

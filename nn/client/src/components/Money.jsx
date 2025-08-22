@@ -322,7 +322,7 @@ const Money = () => {
       title: "Monthly Sponsorships",
       description: "Recurring monthly support",
       icon: CurrencyDollarIcon,
-      color: "from-blue-500 to-indigo-500",
+      color: "from-[#53AEC6] to-[#007290]",
     },
     {
       title: "Emergency Funds",
@@ -421,9 +421,12 @@ const Money = () => {
                     {category.description}
                   </p>
                   <div className="mt-6 pt-4 border-t border-gray-100">
-                    <span className="text-green-600 font-medium group-hover:text-green-700 transition-colors duration-300">
+                    <button
+                      onClick={() => navigate('/donation/financial')}
+                      className="text-green-600 font-medium group-hover:text-green-700 transition-colors duration-300 cursor-pointer"
+                    >
                       Click to donate →
-                    </span>
+                    </button>
                   </div>
                 </div>
               </motion.div>

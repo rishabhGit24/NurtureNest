@@ -13,6 +13,7 @@ import {
 import Header from "./Header";
 import Footer from "./Footer";
 
+
 const Food = () => {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
@@ -21,6 +22,7 @@ const Food = () => {
   const relocateBtnRef = useRef(null);
   const [locations, setLocations] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+
 
   useEffect(() => {
     const loginCheck = async () => {
@@ -316,7 +318,7 @@ const Food = () => {
       title: "Plate Meals",
       description: "Ready-to-eat nutritious meals",
       icon: GiftIcon,
-      color: "from-orange-500 to-red-500",
+      color: "from-[#53AEC6] to-[#007290]",
     },
     {
       title: "Bulk Items",
@@ -421,9 +423,12 @@ const Food = () => {
                     {category.description}
                   </p>
                   <div className="mt-6 pt-4 border-t border-gray-100">
-                    <span className="text-orange-600 font-medium group-hover:text-orange-700 transition-colors duration-300">
+                    <button
+                      onClick={() => navigate('/donation/food')}
+                      className="text-orange-600 font-medium group-hover:text-orange-700 transition-colors duration-300 cursor-pointer"
+                    >
                       Click to donate →
-                    </span>
+                    </button>
                   </div>
                 </div>
               </motion.div>
@@ -506,6 +511,8 @@ const Food = () => {
           </motion.div>
         </div>
       </section>
+
+
 
       <Footer />
     </div>

@@ -11,7 +11,8 @@ import {
   CheckIcon,
   XMarkIcon,
   ArrowLeftIcon,
-  GiftIcon
+  GiftIcon,
+  ChatBubbleLeftRightIcon
 } from '@heroicons/react/24/outline';
 import Header from "./Header";
 import Footer from "./Footer";
@@ -360,45 +361,201 @@ const Profile = () => {
                   </div>
                 ) : (
                   <div className="space-y-4">
-                    {bookings.map((booking) => (
-                      <div
-                        key={booking._id}
-                        className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow"
-                      >
-                        <div className="flex items-start justify-between">
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-2">
-                              <span className="text-sm font-medium text-gray-900 capitalize">
-                                {booking.category}
-                              </span>
-                              <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                                booking.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                                booking.status === 'accepted' ? 'bg-green-100 text-green-800' :
-                                booking.status === 'rejected' ? 'bg-red-100 text-red-800' :
-                                'bg-gray-100 text-gray-800'
-                              }`}>
-                                {booking.status}
-                              </span>
-                            </div>
-                            <p className="text-sm text-gray-600 mb-2">
-                              <strong>Orphanage:</strong> {booking.orphanageId?.name || 'Unknown'}
-                            </p>
-                            <div className="text-sm text-gray-600">
-                              <strong>Items:</strong>
-                              {booking.items?.map((item, index) => (
-                                <span key={index} className="ml-1">
-                                  {item.name} ({item.quantity} {item.unit})
-                                  {index < booking.items.length - 1 ? ', ' : ''}
+                    {bookings.map((booking) => {
+                      const getStatusIcon = (status) => {
+                        switch (status) {
+                          case 'accepted': return '✅';
+                          case 'rejected': return '❌';
+                          case 'pending': return '⏳';
+                          case 'completed': return '🎉';
+                          case 'cancelled': return '🚫';
+                          default: return '❓';
+                        }
+                      };
+                      
+                      const getStatusColor = (status) => {
+                        switch (status) {
+                          case 'accepted': return 'bg-green-100 text-green-800 border-green-200';
+                          case 'rejected': return 'bg-red-100 text-red-800 border-red-200';
+                          case 'pending': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+                          case 'completed': return 'bg-blue-100 text-blue-800 border-blue-200';
+                          case 'cancelled': return 'bg-gray-100 text-gray-800 border-gray-200';
+                          default: return 'bg-gray-100 text-gray-800 border-gray-200';
+                        }
+                      };
+                      
+                      const handleContactOrphanage = (orphanage) => {
+                        if (!orphanage?.whatsappNumber) return;
+                        
+                        const message = `Hello ${orphanage.name}!\n\nI have a donation booking with you:\n\n` +
+                          `Category: ${booking.category.toUpperCase()}\n` +
+                          `Items: ${booking.items?.map(item => `${item.name} (${item.quantity} ${item.unit})`).join(', ')}\n\n` +
+                          `I wanted to follow up on the delivery arrangements.\n\n` +
+                          `Thank you!\n` +
+                          `${user.firstName} ${user.lastName}\n` +
+                          `📱 ${user.phoneNumber}`;
+                        
+                        const cleanPhone = orphanage.whatsappNumber.replace(/[+\s-]/g, '');
+                        const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
+                        window.open(whatsappUrl, '_blank');
+                      };
+                      
+                      return (
+                        <div
+                          key={booking._id}
+                          className="bg-gradient-to-r from-white to-gray-50 rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-all duration-300 hover:border-[#53AEC6]"
+                        >
+                          <div className="flex items-start justify-between mb-4">
+                            <div className="flex items-center gap-3">
+                              <div className="text-2xl">
+                                {getStatusIcon(booking.status)}
+                              </div>
+                              <div>
+                                <h4 className="text-lg font-semibold text-gray-900 capitalize">
+                                  {booking.category} Donation
+                                </h4>
+                                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(booking.status)}`}>
+                                  {booking.status.toUpperCase()}
                                 </span>
-                              ))}
+                              </div>
                             </div>
-                            <p className="text-xs text-gray-500 mt-2">
-                              Booked on: {new Date(booking.createdAt).toLocaleDateString()}
-                            </p>
+                            
+                            {booking.status === 'accepted' && booking.orphanageId?.whatsappNumber && (
+                              <button
+                                onClick={() => handleContactOrphanage(booking.orphanageId)}
+                                className="bg-[#25D366] text-white px-4 py-2 rounded-lg hover:bg-[#128C7E] transition-colors flex items-center gap-2 text-sm"
+                                title="Contact orphanage via WhatsApp"
+                              >
+                                <span className="text-sm">📱</span>
+                                Contact
+                              </button>
+                            )}
                           </div>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                              <p className="text-sm text-gray-600 mb-2">
+                                <strong className="text-gray-900">🏠 Orphanage:</strong><br />
+                                {booking.orphanageId?.name || 'Unknown'}
+                              </p>
+                              
+                              <div className="text-sm text-gray-600">
+                                <strong className="text-gray-900">🎁 Items:</strong><br />
+                                <ul className="mt-1 space-y-1">
+                                  {booking.items?.map((item, index) => (
+                                    <li key={index} className="flex items-center gap-2">
+                                      <span className="w-2 h-2 bg-[#53AEC6] rounded-full"></span>
+                                      <span>{item.name}: <strong>{item.quantity} {item.unit}</strong></span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            </div>
+                            
+                            <div>
+                              <p className="text-sm text-gray-600 mb-2">
+                                <strong className="text-gray-900">📅 Booked:</strong><br />
+                                {new Date(booking.createdAt).toLocaleDateString('en-IN', {
+                                  weekday: 'short',
+                                  year: 'numeric',
+                                  month: 'short',
+                                  day: 'numeric'
+                                })}
+                              </p>
+                              
+                              {booking.preferredDate && (
+                                <p className="text-sm text-gray-600 mb-2">
+                                  <strong className="text-gray-900">🗓️ Preferred Date:</strong><br />
+                                  {new Date(booking.preferredDate).toLocaleDateString('en-IN', {
+                                    weekday: 'long',
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
+                                  })}
+                                </p>
+                              )}
+                              
+                              {booking.orphanageResponse?.respondedAt && (
+                                <p className="text-sm text-gray-600">
+                                  <strong className="text-gray-900">📝 Response:</strong><br />
+                                  {new Date(booking.orphanageResponse.respondedAt).toLocaleDateString('en-IN', {
+                                    weekday: 'short',
+                                    year: 'numeric',
+                                    month: 'short',
+                                    day: 'numeric',
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                  })}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                          
+                          {booking.specialInstructions && (
+                            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+                              <p className="text-sm">
+                                <strong className="text-blue-900">💬 Special Instructions:</strong><br />
+                                <span className="text-blue-800">{booking.specialInstructions}</span>
+                              </p>
+                            </div>
+                          )}
+                          
+                          {booking.orphanageResponse?.message && (
+                            <div className={`border rounded-lg p-3 ${
+                              booking.status === 'accepted' 
+                                ? 'bg-green-50 border-green-200' 
+                                : 'bg-red-50 border-red-200'
+                            }`}>
+                              <p className="text-sm">
+                                <strong className={booking.status === 'accepted' ? 'text-green-900' : 'text-red-900'}>
+                                  💬 Orphanage Response:
+                                </strong><br />
+                                <span className={booking.status === 'accepted' ? 'text-green-800' : 'text-red-800'}>
+                                  {booking.orphanageResponse.message}
+                                </span>
+                              </p>
+                            </div>
+                          )}
+                          
+                          {/* Status-specific Messages */}
+                          {booking.status === 'pending' && (
+                            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mt-3">
+                              <p className="text-sm text-yellow-800">
+                                ⏳ <strong>Waiting for orphanage response...</strong><br />
+                                <span className="text-yellow-700">
+                                  Your donation request has been sent via WhatsApp. 
+                                  The orphanage will respond directly to you on WhatsApp.
+                                </span>
+                              </p>
+                            </div>
+                          )}
+                          
+                          {booking.status === 'accepted' && (
+                            <div className="bg-green-50 border border-green-200 rounded-lg p-3 mt-3">
+                              <p className="text-sm text-green-800">
+                                🎉 <strong>Donation Accepted!</strong><br />
+                                <span className="text-green-700">
+                                  Great! Contact the orphanage to arrange delivery. 
+                                  Use the "Contact" button above to reach them on WhatsApp.
+                                </span>
+                              </p>
+                            </div>
+                          )}
+                          
+                          {booking.status === 'rejected' && (
+                            <div className="bg-red-50 border border-red-200 rounded-lg p-3 mt-3">
+                              <p className="text-sm text-red-800">
+                                😔 <strong>Donation Declined</strong><br />
+                                <span className="text-red-700">
+                                  Don't worry! You can try other orphanages or different items. 
+                                  Keep making a difference! 💪
+                                </span>
+                              </p>
+                            </div>
+                          )}
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
               </motion.div>

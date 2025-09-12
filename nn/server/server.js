@@ -15,9 +15,9 @@ const PORT = process.env.PORT || 5001;
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/nn";
 const CORS_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:3000";
 
-// CORS configuration
+// CORS configuration - Allow mobile access
 app.use(cors({ 
-  origin: CORS_ORIGIN,
+  origin: process.env.NODE_ENV === 'production' ? CORS_ORIGIN : true, // Allow all origins in development
   credentials: true 
 }));
 
@@ -69,11 +69,15 @@ app.use('*', (req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
 
-// Start server
-app.listen(PORT, () => {
+// Start server - Listen on all interfaces for mobile access
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 NurtureNest server running on port ${PORT}`);
   console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`🔗 CORS Origin: ${CORS_ORIGIN}`);
   console.log(`🗄️  Database: Local MongoDB (mongodb://localhost:27017/nn/nurturenest)`);
+  console.log(`\n📱 MOBILE ACCESS:`);
+  console.log(`   Local: http://localhost:${PORT}`);
+  console.log(`   Mobile: http://YOUR_IP_ADDRESS:${PORT}`);
+  console.log(`   (Replace YOUR_IP_ADDRESS with your actual IP)\n`);
 });
 

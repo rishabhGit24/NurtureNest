@@ -100,7 +100,8 @@ const DonationCategoryForm = () => {
         return;
       }
 
-      const response = await axios.get('http://localhost:5001/api/orphanage-admin/orphanages', {
+      const apiBase = process.env.REACT_APP_API_BASE_URL || `http://${window.location.hostname}:5001`;
+      const response = await axios.get(`${apiBase}/api/orphanage-admin/orphanages`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -161,6 +162,28 @@ const DonationCategoryForm = () => {
         return;
       }
 
+      // Get user details for WhatsApp message
+      const apiBase = process.env.REACT_APP_API_BASE_URL || `http://${window.location.hostname}:5001`;
+      const userResponse = await axios.get(`${apiBase}/api/auth/me`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      if (!userResponse.data.success) {
+        setError('Failed to get user details');
+        setLoading(false);
+        return;
+      }
+
+      const user = userResponse.data.user;
+      const selectedOrphanage = orphanages.find(org => org._id === formData.orphanageId);
+      
+      if (!selectedOrphanage) {
+        setError('Selected orphanage not found');
+        setLoading(false);
+        return;
+      }
+
+      // Create booking in database first to get booking ID
       const bookingData = {
         orphanageId: formData.orphanageId,
         category,
@@ -170,12 +193,55 @@ const DonationCategoryForm = () => {
       };
 
       const response = await axios.post(
-        'http://localhost:5001/api/bookings',
+        `${apiBase}/api/bookings/whatsapp`,
         bookingData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
       if (response.data.success) {
+        const booking = response.data.booking;
+        
+        // Generate WhatsApp message
+        const itemsList = validItems.map(item => 
+          `• ${item.name}: ${item.quantity} ${item.unit}`
+        ).join('\n');
+        
+        const preferredDateText = formData.preferredDate 
+          ? new Date(formData.preferredDate).toLocaleDateString('en-IN', {
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })
+          : 'Not specified';
+
+        const whatsappMessage = `🏠 *New Donation Request from NurtureNest*\n\n` +
+          `*Donor Details:*\n` +
+          `Name: ${user.firstName} ${user.lastName}\n` +
+          `Phone: ${user.phoneNumber}\n` +
+          `Email: ${user.email}\n\n` +
+          `*Donation Details:*\n` +
+          `Category: ${category.toUpperCase()}\n` +
+          `Items:\n${itemsList}\n\n` +
+          `*Preferred Date:* ${preferredDateText}\n\n` +
+          `${formData.specialInstructions ? `*Special Instructions:*\n${formData.specialInstructions}\n\n` : ''}` +
+          `*Quick Response:*\n` +
+          `✅ Accept: http://${window.location.hostname}:5001/api/bookings/response?bookingId=${booking.id}&status=accepted\n` +
+          `❌ Decline: http://${window.location.hostname}:5001/api/bookings/response?bookingId=${booking.id}&status=rejected\n\n` +
+          `Thank you for supporting our children! 🙏\n\n` +
+          `*NurtureNest Team*\n` +
+          `📱 +91 7259197398`;
+
+        // Clean phone number for WhatsApp (remove + and spaces)
+        const cleanPhoneNumber = selectedOrphanage.whatsappNumber.replace(/[+\s-]/g, '');
+        
+        // Generate WhatsApp deep link
+        const whatsappUrl = `https://wa.me/${cleanPhoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+        
+        // Open WhatsApp
+        window.open(whatsappUrl, '_blank');
+        
+        // Show success message and redirect
         setSuccess(true);
         setTimeout(() => {
           navigate('/profile');
@@ -198,9 +264,9 @@ const DonationCategoryForm = () => {
           className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-center"
         >
           <CheckCircleIcon className="w-16 h-16 text-green-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">Booking Successful!</h2>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Booking Sent via WhatsApp!</h2>
           <p className="text-gray-600 mb-4">
-            Your donation booking has been created successfully. The orphanage will be notified and will respond shortly.
+            Your donation request has been sent to the orphanage via WhatsApp. They will respond directly to you on WhatsApp, and you can track the status in your profile.
           </p>
           <p className="text-sm text-gray-500">
             Redirecting to your profile...
@@ -414,7 +480,7 @@ const DonationCategoryForm = () => {
                   loading ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
               >
-                {loading ? 'Creating Booking...' : 'Create Donation Booking'}
+                {loading ? 'Preparing WhatsApp...' : '📱 Send via WhatsApp'}
               </button>
             </div>
           </form>

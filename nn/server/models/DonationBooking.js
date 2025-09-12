@@ -58,7 +58,30 @@ const donationBookingSchema = new mongoose.Schema({
     },
     message: String,
     respondedAt: Date,
-    respondedBy: String // orphanage owner name
+    respondedBy: String, // orphanage owner name
+    responseMethod: {
+      type: String,
+      enum: ['whatsapp_link', 'admin_dashboard', 'manual'],
+      default: 'whatsapp_link'
+    }
+  },
+  
+  // WhatsApp integration fields
+  whatsappDetails: {
+    messageSent: {
+      type: Boolean,
+      default: false
+    },
+    sentAt: Date,
+    donorNotified: {
+      type: Boolean,
+      default: false
+    },
+    donorNotifiedAt: Date,
+    responseLinks: {
+      accept: String,
+      reject: String
+    }
   },
   
   // Timestamps
@@ -90,5 +113,7 @@ donationBookingSchema.index({ userId: 1, status: 1 });
 donationBookingSchema.index({ orphanageId: 1, status: 1 });
 donationBookingSchema.index({ category: 1, status: 1 });
 donationBookingSchema.index({ createdAt: -1 });
+donationBookingSchema.index({ 'orphanageResponse.status': 1 });
+donationBookingSchema.index({ 'whatsappDetails.messageSent': 1 });
 
 module.exports = mongoose.model('DonationBooking', donationBookingSchema);
